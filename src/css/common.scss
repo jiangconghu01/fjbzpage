@@ -1,0 +1,52 @@
+// 公用mixin定义
+@mixin center() {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-50%);
+}
+@mixin Ycenter() {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+@mixin Xcenter(){
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+$selectbg :rgb(16, 163, 249);
+
+
+
+.bg_title{
+    // z-index: 9998; 
+       border: solid 1px rgba(1,139,205,.2);
+    //   box-shadow: 1px 1px 2px 2px rgba(8, 110, 211, 0.521);
+    //    padding: 5px;
+    //    padding-top:0; 
+       position:relative;
+   }
+   .bg_title:before{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      content: "";
+      border-left: 1px solid #00EAFF;
+      border-top: 1px solid #00EAFF;
+      opacity: .8;
+   }
+   .bg_title:after{
+       position: absolute;
+       bottom: 0;
+       right: 0;
+       width: 10px;
+       height: 10px;
+       content: "";
+       border-right: 1px solid #00EAFF;
+       border-bottom: 1px solid #00EAFF;
+       opacity: .8;
+   }
+ 
