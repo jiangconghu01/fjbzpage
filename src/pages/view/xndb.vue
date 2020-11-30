@@ -8,9 +8,7 @@
             <img src="../../static/icon_qd.png" alt="" />
             <div class="text city">{{ orgCode.orgName }}</div>
             <div class="text dsc">社会渠道总量</div>
-            <div class="text data">
-              {{ view_1_obj[0] ? format(Number(view_1_obj[0].idxValue)) : 0 }}个
-            </div>
+            <div class="text data">{{ view_1_obj[0] ? format(Number(view_1_obj[0].idxValue)) : 0 }}个</div>
           </div>
         </div>
         <div class="icon-item">
@@ -18,17 +16,7 @@
             <img src="../../static/icon_ywl.png" alt="" />
             <div class="text city">{{ orgCode.orgName }}</div>
             <div class="text dsc">业务量及环比增长率</div>
-            <div class="text data">
-              {{
-                view_1_obj[1]
-                  ? format(Number(view_1_obj[1].idxValue).toFixed(0))
-                  : 0
-              }}笔/{{
-                view_1_obj[2]
-                  ? Number(view_1_obj[2].idxValue * 100).toFixed(2)
-                  : 0
-              }}%
-            </div>
+            <div class="text data">{{ view_1_obj[1] ? format(Number(view_1_obj[1].idxValue).toFixed(0)) : 0 }}笔/{{ view_1_obj[2] ? Number(view_1_obj[2].idxValue * 100).toFixed(2) : 0 }}%</div>
           </div>
         </div>
         <div class="icon-item">
@@ -37,15 +25,7 @@
             <div class="text city">{{ orgCode.orgName }}</div>
             <div class="text dsc">业务收入及环比增长率</div>
             <div class="text data">
-              {{
-                view_1_obj[3]
-                  ? format((Number(view_1_obj[3].idxValue) / 10000).toFixed(2))
-                  : 0
-              }}万元/{{
-                view_1_obj[4]
-                  ? Number(view_1_obj[4].idxValue * 100).toFixed(2)
-                  : 0
-              }}%
+              {{ view_1_obj[3] ? format((Number(view_1_obj[3].idxValue) / 10000).toFixed(2)) : 0 }}万元/{{ view_1_obj[4] ? Number(view_1_obj[4].idxValue * 100).toFixed(2) : 0 }}%
             </div>
           </div>
         </div>
@@ -55,15 +35,7 @@
             <div class="text city">{{ orgCode.orgName }}</div>
             <div class="text dsc">酬金及环比增长率</div>
             <div class="text data">
-              {{
-                view_1_obj[5]
-                  ? format((Number(view_1_obj[5].idxValue) / 10000).toFixed(2))
-                  : 0
-              }}万元/{{
-                view_1_obj[6]
-                  ? Number(view_1_obj[6].idxValue * 100).toFixed(2)
-                  : 0
-              }}%
+              {{ view_1_obj[5] ? format((Number(view_1_obj[5].idxValue) / 10000).toFixed(2)) : 0 }}万元/{{ view_1_obj[6] ? Number(view_1_obj[6].idxValue * 100).toFixed(2) : 0 }}%
             </div>
           </div>
         </div>
@@ -72,15 +44,7 @@
             <img src="../../static/icon_xyb.png" alt="" />
             <div class="text city">{{ orgCode.orgName }}</div>
             <div class="text dsc">效益及效益比</div>
-            <div class="text data">
-              {{
-                view_1_obj[7]
-                  ? format((Number(view_1_obj[7].idxValue) / 10000).toFixed(0))
-                  : 0
-              }}万元/{{
-                view_1_obj[8] ? Number(view_1_obj[8].idxValue).toFixed(2) : 0
-              }}
-            </div>
+            <div class="text data">{{ view_1_obj[7] ? format((Number(view_1_obj[7].idxValue) / 10000).toFixed(0)) : 0 }}万元/{{ view_1_obj[8] ? Number(view_1_obj[8].idxValue).toFixed(2) : 0 }}</div>
           </div>
         </div>
       </div>
@@ -88,18 +52,10 @@
     <div class="left view_2 bg_title">
       <!-- <img class="bg" src="../../static/divBg.png" alt="" /> -->
       <div id="view_left_top" class="chart-box"></div>
-      <div
-        :class="[v2Status == 'zb' ? 'current' : '']"
-        class="title l"
-        @click="toZbView()"
-      >
+      <div :class="[v2Status == 'zb' ? 'current' : '']" class="title l" @click="toZbView()">
         <Title>酬金占收比分析</Title>
       </div>
-      <div
-        :class="[v2Status == 'date' ? 'current' : '']"
-        class="title r"
-        @click="toDateView()"
-      >
+      <div :class="[v2Status == 'date' ? 'current' : '']" class="title r" @click="toDateView()">
         <Title>酬金及收入时序分析</Title>
       </div>
     </div>
@@ -116,9 +72,7 @@
       <Title class="title">效益分布</Title>
       <div id="view-map" class="chart-box map-box"></div>
       <p v-show="!isTopMapView" class="back">
-        <i-button type="primary" size="small" @click="backtoTop">
-          返回
-        </i-button>
+        <i-button type="primary" size="small" @click="backtoTop"> 返回 </i-button>
       </p>
       <p class="link-text">
         <span @click="linkToPage(1)">查看明细</span>
@@ -146,11 +100,7 @@
             backgroundImage: 'url(' + require('../../static/btn.png') + ')',
           }"
         >
-          <p
-            v-for="(item, index) in top3"
-            :key="item.orgName + 'top'"
-            class="item"
-          >
+          <p v-for="(item, index) in top3" :key="item.orgName + 'top'" class="item">
             <i class="num">{{ index + 1 }}</i>
             <i class="name">{{ item.orgName }}</i>
             <i class="data">{{ (item.value * 100).toFixed(2) }}%</i>
@@ -177,10 +127,7 @@
 import map_config from '@/chartconfig/map.js'
 import { view9_1 as bar_config } from '@/chartconfig/bar.js'
 import line_config from '@/chartconfig/line.js'
-import {
-  circleOption1 as pie_config1,
-  circleOption2 as pie_config2,
-} from '@/chartconfig/pie2.js'
+import { circleOption1 as pie_config1, circleOption2 as pie_config2 } from '@/chartconfig/pie2.js'
 import Title from '@/components/title.vue'
 // import json from '@/chartconfig/mapjson/530000.json'
 import {
@@ -259,12 +206,7 @@ export default {
     this.isTopMapView = this.orgCode.orgCode == '59'
   },
   methods: {
-    ...mapMutations([
-      'setChartArr',
-      'setOrgCode',
-      'setIsloading',
-      'setUpdateTime',
-    ]),
+    ...mapMutations(['setChartArr', 'setOrgCode', 'setIsloading', 'setUpdateTime']),
     format(num) {
       return formatNumberRgx(num)
     },
@@ -275,9 +217,7 @@ export default {
     },
     linkToPage(type) {
       if (type == 1) {
-        window.open(
-          `/customquery/customQueryInit/${this.outLinkId}?orgCode=${this.orgCode.orgCode}&periodDate=${this.month}`
-        )
+        window.open(`/customquery/customQueryInit/${this.outLinkId}?orgCode=${this.orgCode.orgCode}&periodDate=${this.month}`)
       }
       if (type == 2) {
         window.open(`/help/useCaseDetail/show?modelCode=bigScren9`)
@@ -286,18 +226,14 @@ export default {
     },
     toZbView() {
       this.v2Status = 'zb'
-      const bar_box = this.$echarts.init(
-        document.getElementById('view_left_top')
-      )
+      const bar_box = this.$echarts.init(document.getElementById('view_left_top'))
       bar_box.clear()
       bar_box.setOption(bar_config)
       this.initPie(this.orgCode.orgCode, this.orgCode.orgName)
     },
     toDateView() {
       this.v2Status = 'date'
-      const bar_box = this.$echarts.init(
-        document.getElementById('view_left_top')
-      )
+      const bar_box = this.$echarts.init(document.getElementById('view_left_top'))
       bar_box.clear()
       bar_box.setOption(line_config)
     },
@@ -307,13 +243,7 @@ export default {
       const map_box = this.$echarts.init(document.getElementById('view-map'))
       this.mapBox = map_box
       this.setChartArr({ name: 'chart4', val: map_box })
-      const parms = getDatesParams(
-        [this.month],
-        orgCodesArr,
-        view9encodes_6,
-        chartCode,
-        this.type.value
-      )
+      const parms = getDatesParams([this.month], orgCodesArr, view9encodes_6, chartCode, this.type.value)
       Promise.all([
         this.$http.post('/channelBigScreen/modIdxVOList', JSON.parse(parms)),
         this.$http.post('/channel/map/assembleJsonObject', {
@@ -412,61 +342,28 @@ export default {
       const chartCode = view9.data.data[0].chartCode
       const orgCodes = [orgCode]
       const type = this.type.value
-      const parms_view9_chart_2 = getDatesParams(
-        dates,
-        orgCodes,
-        view9encodes_4,
-        chartCode,
-        type
+      const parms_view9_chart_2 = getDatesParams(dates, orgCodes, view9encodes_4, chartCode, type)
+      const parms_view9_chart_3 = getDatesParams(dates, orgCodes, view9encodes_5, chartCode, type)
+      Promise.all([this.$http.post('/channelBigScreen/modIdxVOList', JSON.parse(parms_view9_chart_2)), this.$http.post('/channelBigScreen/modIdxVOList', JSON.parse(parms_view9_chart_3))]).then(
+        ([res1, res2]) => {
+          this.view_4_obj = handleArrdata(res1.data.data, 2)
+          const sum1 = eval(this.view_4_obj.map((ele) => ele.value).join('+'))
+
+          this.view_5_obj = handleArrdata(res2.data.data, 2)
+          const sum2 = eval(this.view_5_obj.map((ele) => ele.value).join('+'))
+
+          const sum = sum1 + sum2
+          pie_config1.title.text = '{a|' + '基础酬金' + '}\n{c|' + formatNumberRgx((sum1 / 10000).toFixed(2)) + '万}\n{c|' + (sum == 0 ? 0 : ((sum1 / sum) * 100).toFixed(2)) + '%}'
+          pie_config1.series[0].data = this.view_4_obj
+          view9_chart_2.setOption(pie_config1)
+          view9_chart_2.resize()
+
+          pie_config2.title.text = '{a|' + '激励酬金' + '}\n{c|' + formatNumberRgx((sum2 / 10000).toFixed(2)) + '万}\n{c|' + (sum == 0 ? 0 : ((sum2 / sum) * 100).toFixed(2)) + '%}'
+          pie_config2.series[0].data = this.view_5_obj
+          view9_chart_3.setOption(pie_config2)
+          view9_chart_3.resize()
+        }
       )
-      const parms_view9_chart_3 = getDatesParams(
-        dates,
-        orgCodes,
-        view9encodes_5,
-        chartCode,
-        type
-      )
-      Promise.all([
-        this.$http.post(
-          '/channelBigScreen/modIdxVOList',
-          JSON.parse(parms_view9_chart_2)
-        ),
-        this.$http.post(
-          '/channelBigScreen/modIdxVOList',
-          JSON.parse(parms_view9_chart_3)
-        ),
-      ]).then(([res1, res2]) => {
-        this.view_4_obj = handleArrdata(res1.data.data, 2)
-        const sum1 = eval(this.view_4_obj.map((ele) => ele.value).join('+'))
-
-        this.view_5_obj = handleArrdata(res2.data.data, 2)
-        const sum2 = eval(this.view_5_obj.map((ele) => ele.value).join('+'))
-
-        const sum = sum1 + sum2
-        pie_config1.title.text =
-          '{a|' +
-          '基础酬金' +
-          '}\n{c|' +
-          formatNumberRgx((sum1 / 10000).toFixed(2)) +
-          '万}\n{c|' +
-          (sum == 0 ? 0 : ((sum1 / sum) * 100).toFixed(2)) +
-          '%}'
-        pie_config1.series[0].data = this.view_4_obj
-        view9_chart_2.setOption(pie_config1)
-        view9_chart_2.resize()
-
-        pie_config2.title.text =
-          '{a|' +
-          '激励酬金' +
-          '}\n{c|' +
-          formatNumberRgx((sum2 / 10000).toFixed(2)) +
-          '万}\n{c|' +
-          (sum == 0 ? 0 : ((sum2 / sum) * 100).toFixed(2)) +
-          '%}'
-        pie_config2.series[0].data = this.view_5_obj
-        view9_chart_3.setOption(pie_config2)
-        view9_chart_3.resize()
-      })
 
       //   let parms = getDatesParams(
       //     dates,
@@ -528,94 +425,66 @@ export default {
       let dates = [this.month]
       let orgCodes = [this.orgCode.orgCode]
       const type = this.type.value
-      let parms = getDatesParams(
-        dates,
-        orgCodes,
-        view9encodes_1,
-        chartCode,
-        type
-      )
+      let parms = getDatesParams(dates, orgCodes, view9encodes_1, chartCode, type)
       //设置view_1值
-      this.$http
-        .post('/channelBigScreen/modIdxVOList', JSON.parse(parms))
-        .then((res) => {
-          this.view_1_obj = res.data.data
-        })
+      this.$http.post('/channelBigScreen/modIdxVOList', JSON.parse(parms)).then((res) => {
+        this.view_1_obj = res.data.data
+      })
 
       //设置view_2&3 的值
-      const view9_chart_1 = this.$echarts.init(
-        document.getElementById('view_left_top')
-      )
+      const view9_chart_1 = this.$echarts.init(document.getElementById('view_left_top'))
       //   const view9_chart_2 = this.$echarts.init(document.getElementById('pie1'))
       //   const view9_chart_3 = this.$echarts.init(document.getElementById('pie2'))
       this.setChartArr({ name: 'chart1', val: view9_chart_1 })
       //   this.setChartArr({ name: 'chart2', val: view9_chart_2 })
       //   this.setChartArr({ name: 'chart3', val: view9_chart_3 })
-      const subOrg = await this.$http.post(
-        '/channelBigScreen/common/orgInfoList',
-        {
-          viewCode: '9',
-          orgCode: this.orgCode.orgCode,
-        }
-      )
+      const subOrg = await this.$http.post('/channelBigScreen/common/orgInfoList', {
+        viewCode: '9',
+        orgCode: this.orgCode.orgCode,
+      })
       const orgCodesArr = subOrg.data.data.map((ele) => ele.orgCode)
       const orgNames = subOrg.data.data.map((ele) => ele.orgName)
       //添加本级选中单位
       orgCodesArr.unshift(this.orgCode.orgCode)
       orgNames.unshift(this.orgCode.orgName)
-      const view9encodes_2 =
-        view9.data.data[1].idxs.length > 0
-          ? view9.data.data[1].idxs.map((e) => e.idxCde)
-          : []
-      parms = getDatesParams(
-        dates,
-        orgCodesArr,
-        view9encodes_2,
-        chartCode,
-        type
-      )
+      const view9encodes_2 = view9.data.data[1].idxs.length > 0 ? view9.data.data[1].idxs.map((e) => e.idxCde) : []
+      parms = getDatesParams(dates, orgCodesArr, view9encodes_2, chartCode, type)
       //地域分布图
-      this.$http
-        .post('/channelBigScreen/modIdxVOList', JSON.parse(parms))
-        .then((res) => {
-          this.view_2_obj = handleDataEncode2Arr(
-            res.data.data,
-            view9encodes_2,
-            4
-          )[view9encodes_2[0]].map((item, index) => {
-            item.orgName = orgNames[index]
-            item.orgCode = orgCodesArr[index]
-            item.index = index
-            return item
-          })
-
-          bar_config.xAxis[0].data = orgNames
-          const data = this.view_2_obj
-          data[0].itemStyle = {
-            color: new this.$echarts.graphic.LinearGradient(
-              0,
-              0,
-              0,
-              1,
-              [
-                {
-                  offset: 0,
-                  color: '#FF5722',
-                },
-                {
-                  offset: 1,
-
-                  color: '#FFB800',
-                },
-              ],
-              false
-            ),
-          }
-          bar_config.series[0].data = data
-          if (this.v2Status == 'zb') {
-            view9_chart_1.setOption(bar_config)
-          }
+      this.$http.post('/channelBigScreen/modIdxVOList', JSON.parse(parms)).then((res) => {
+        this.view_2_obj = handleDataEncode2Arr(res.data.data, view9encodes_2, 4)[view9encodes_2[0]].map((item, index) => {
+          item.orgName = orgNames[index]
+          item.orgCode = orgCodesArr[index]
+          item.index = index
+          return item
         })
+
+        bar_config.xAxis[0].data = orgNames
+        const data = this.view_2_obj
+        data[0].itemStyle = {
+          color: new this.$echarts.graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            [
+              {
+                offset: 0,
+                color: '#FF5722',
+              },
+              {
+                offset: 1,
+
+                color: '#FFB800',
+              },
+            ],
+            false
+          ),
+        }
+        bar_config.series[0].data = data
+        if (this.v2Status == 'zb') {
+          view9_chart_1.setOption(bar_config)
+        }
+      })
       view9_chart_1.off('click')
       view9_chart_1.on('click', (ele) => {
         const t_code = ele.data.orgCode
@@ -623,38 +492,19 @@ export default {
         this.initPie(t_code, t_name)
       })
       //时序图
-      const view9encodes_3 =
-        view9.data.data[2].idxs.length > 0
-          ? view9.data.data[2].idxs.map((e) => e.idxCde)
-          : []
+      const view9encodes_3 = view9.data.data[2].idxs.length > 0 ? view9.data.data[2].idxs.map((e) => e.idxCde) : []
       orgCodes = [this.orgCode.orgCode]
-      dates = getMonthsArr(
-        this.month.split('-')[0],
-        this.month.split('-')[1],
-        13,
-        '-'
-      )
+      dates = getMonthsArr(this.month.split('-')[0], this.month.split('-')[1], 13, '-')
       parms = getDatesParams(dates, orgCodes, view9encodes_3, chartCode, type)
-      this.$http
-        .post('/channelBigScreen/modIdxVOList', JSON.parse(parms))
-        .then((res) => {
-          this.view_3_obj = handleDataEncode2Arr(
-            res.data.data,
-            view9encodes_3,
-            2
-          )
-          line_config.xAxis.data = getMonthsArr(
-            this.month.split('-')[0],
-            this.month.split('-')[1],
-            13,
-            '/'
-          )
-          line_config.series[0].data = this.view_3_obj[view9encodes_3[0]]
-          line_config.series[1].data = this.view_3_obj[view9encodes_3[1]]
-          if (this.v2Status == 'date') {
-            view9_chart_1.setOption(line_config)
-          }
-        })
+      this.$http.post('/channelBigScreen/modIdxVOList', JSON.parse(parms)).then((res) => {
+        this.view_3_obj = handleDataEncode2Arr(res.data.data, view9encodes_3, 2)
+        line_config.xAxis.data = getMonthsArr(this.month.split('-')[0], this.month.split('-')[1], 13, '/')
+        line_config.series[0].data = this.view_3_obj[view9encodes_3[0]]
+        line_config.series[1].data = this.view_3_obj[view9encodes_3[1]]
+        if (this.v2Status == 'date') {
+          view9_chart_1.setOption(line_config)
+        }
+      })
 
       //view_4饼图的数据设置
       this.initPie(this.orgCode.orgCode, this.orgCode.orgName)
@@ -665,20 +515,12 @@ export default {
 
       //更新时间
       const view9encodes_7 = ['CJXN_0000_7_1']
-      parms = getDatesParams(
-        [this.month],
-        [this.orgCode.orgCode],
-        view9encodes_7,
-        chartCode,
-        type
-      )
-      this.$http
-        .post('/channelBigScreen/modIdxVOList', JSON.parse(parms))
-        .then((res) => {
-          const data = res.data.data
-          const time = data[0]['idxValue']
-          this.setUpdateTime(time)
-        })
+      parms = getDatesParams([this.month], [this.orgCode.orgCode], view9encodes_7, chartCode, type)
+      this.$http.post('/channelBigScreen/modIdxVOList', JSON.parse(parms)).then((res) => {
+        const data = res.data.data
+        const time = data[0]['idxValue']
+        this.setUpdateTime(time)
+      })
     },
   },
 }
@@ -835,8 +677,7 @@ export default {
         padding-left: 32px;
         text-align: center;
         background-color: rgba(16, 163, 249, 0.231);
-        box-shadow: 0 0 3px 3px rgba(36, 114, 240, 0.4) inset,
-          0 0 4px 4px rgba(36, 114, 240, 0.3);
+        box-shadow: 0 0 3px 3px rgba(36, 114, 240, 0.4) inset, 0 0 4px 4px rgba(36, 114, 240, 0.3);
       }
       .circle {
         z-index: 101;
@@ -844,8 +685,7 @@ export default {
         height: 60px;
         border-radius: 50%;
         border: 2px solid rgba(36, 114, 240, 0.7);
-        box-shadow: 0 0 10px 10px rgba(36, 114, 240, 0.4) inset,
-          0 0 6px 6px rgba(36, 114, 240, 0.3);
+        box-shadow: 0 0 10px 10px rgba(36, 114, 240, 0.4) inset, 0 0 6px 6px rgba(36, 114, 240, 0.3);
         .name {
           @include center;
           font-size: 14px;
@@ -878,8 +718,7 @@ export default {
         }
         .inset_up {
           background-color: rgba(16, 163, 249, 0.231);
-          box-shadow: 0 0 3px 3px rgba(36, 114, 240, 0.4) inset,
-            0 0 8px 8px rgba(36, 114, 240, 0.3);
+          box-shadow: 0 0 3px 3px rgba(36, 114, 240, 0.4) inset, 0 0 8px 8px rgba(36, 114, 240, 0.3);
         }
       }
     }

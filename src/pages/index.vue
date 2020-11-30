@@ -21,12 +21,8 @@
     </div>
     <div class="nav_1 nav">
       <p class="nav-title">酬金效能评估应用</p>
-      <p class="link link1" route-link="xndb">
-        多维酬金评估应用
-      </p>
-      <p class="link link2" route-link="zczc">
-        辅助酬金决策支持
-      </p>
+      <p class="link link1" route-link="xndb">多维酬金评估应用</p>
+      <p class="link link2" route-link="zczc">辅助酬金决策支持</p>
     </div>
     <div class="nav_2 nav">
       <p class="nav-title">渠道效能评估应用</p>

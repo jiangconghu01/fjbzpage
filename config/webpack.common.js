@@ -87,10 +87,7 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: [
-          isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader',
-        ],
+        use: [isDev ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.scss$/,
@@ -150,10 +147,7 @@ module.exports = {
                   },
                 ],
               ],
-              plugins: [
-                '@babel/plugin-transform-runtime',
-                '@babel/plugin-syntax-dynamic-import',
-              ],
+              plugins: ['@babel/plugin-transform-runtime', '@babel/plugin-syntax-dynamic-import'],
             },
           },
         ],

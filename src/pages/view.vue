@@ -28,15 +28,7 @@
             style="width: 145px;"
             @on-change="setTime"
           ></Date-picker> -->
-          <el-date-picker
-            v-model="dateVal"
-            format="yyyy年MM月"
-            value-format="yyyy-MM"
-            type="month"
-            placeholder="选择月"
-            @change="setTime"
-          >
-          </el-date-picker>
+          <el-date-picker v-model="dateVal" format="yyyy年MM月" value-format="yyyy-MM" type="month" placeholder="选择月" @change="setTime"> </el-date-picker>
         </div>
         <div class="city-box">
           <img class="bk" src="../static/selectbk.jpg" alt="" />
@@ -45,25 +37,13 @@
             :dataArr="cityList"
             :defaultPrentval="sctp"
           ></Sm-cascader> -->
-          <el-cascader
-            ref="refHandle"
-            v-model="value"
-            :options="options"
-            :props="{ expandTrigger: 'hover', checkStrictly: true }"
-            @change="handleChange"
-          ></el-cascader>
+          <el-cascader ref="refHandle" v-model="value" :options="options" :props="{ expandTrigger: 'hover', checkStrictly: true }" @change="handleChange"></el-cascader>
         </div>
         <div class="type-box">
           <img class="bk" src="../static/selectbk.jpg" alt="" />
           <!-- <Sm-select v-model="st" :data="stypeList"></Sm-select> -->
           <el-select v-model="typeValue" placeholder="请选择">
-            <el-option
-              v-for="item in typeOoptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
+            <el-option v-for="item in typeOoptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
           </el-select>
         </div>
       </div>
@@ -79,12 +59,7 @@
 const routerArr = ['xndb', 'zczc']
 import SmSelect from '@/components/sm.select.vue'
 import SmCascader from '@/components/sm.cascader.vue'
-import {
-  beforeMonth,
-  findeUpCityObj,
-  getOrgLevel,
-  getDatesParams,
-} from './page.util'
+import { beforeMonth, findeUpCityObj, getOrgLevel, getDatesParams } from './page.util'
 import { mapGetters, mapMutations } from 'vuex'
 export default {
   components: { SmSelect, SmCascader },
@@ -105,19 +80,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'month',
-      'orgCode',
-      'type',
-      'isloading',
-      'muLabel',
-      'authCityLevel',
-      'updateTime',
-    ]),
+    ...mapGetters(['month', 'orgCode', 'type', 'isloading', 'muLabel', 'authCityLevel', 'updateTime']),
     titleText() {
-      return this.currentPage == 'xndb'
-        ? '多维酬金效能对标'
-        : '辅助酬金政策支持'
+      return this.currentPage == 'xndb' ? '多维酬金效能对标' : '辅助酬金政策支持'
     },
   },
   watch: {
@@ -145,30 +110,18 @@ export default {
     this.getOutLinkId()
   },
   mounted() {
-    document
-      .getElementsByClassName('el-input__inner')[0]
-      .setAttribute('readonly', 'readonly')
+    document.getElementsByClassName('el-input__inner')[0].setAttribute('readonly', 'readonly')
     setInterval(function () {
-      ;[...document.querySelectorAll('.el-cascader-node__label')].forEach(
-        (el) => {
-          el.onclick = function () {
-            if (this.previousElementSibling) this.previousElementSibling.click()
-          }
+      ;[...document.querySelectorAll('.el-cascader-node__label')].forEach((el) => {
+        el.onclick = function () {
+          if (this.previousElementSibling) this.previousElementSibling.click()
         }
-      )
+      })
     }, 500)
     // this.value = ['zujian', 'form', 'radio']
   },
   methods: {
-    ...mapMutations([
-      'setMonth',
-      'setOrgCode',
-      'setType',
-      'setOutLinkId',
-      'setIsloading',
-      'setMuLabel',
-      'setAuthCityLevel',
-    ]),
+    ...mapMutations(['setMonth', 'setOrgCode', 'setType', 'setOutLinkId', 'setIsloading', 'setMuLabel', 'setAuthCityLevel']),
     asyncCascaderValue(newval) {
       const t = findeUpCityObj(this.authCityLevel, newval.orgCode)
       let cityLevelArr = []
@@ -197,8 +150,7 @@ export default {
     prePage() {
       this.setIsloading(true)
       const index = routerArr.indexOf(this.currentPage) - 1
-      const name =
-        index > -1 ? routerArr[index] : routerArr[routerArr.length - 1]
+      const name = index > -1 ? routerArr[index] : routerArr[routerArr.length - 1]
       this.currentPage = name
       this.$router.push({ name })
     },
@@ -211,11 +163,9 @@ export default {
     },
     //获取效能对标页面外链跳转ID
     getOutLinkId() {
-      this.$http
-        .post('/bigScreen/common/getCustomReportId', { viewCode: '9' })
-        .then((res) => {
-          this.setOutLinkId(res.data.data.customReportId)
-        })
+      this.$http.post('/bigScreen/common/getCustomReportId', { viewCode: '9' }).then((res) => {
+        this.setOutLinkId(res.data.data.customReportId)
+      })
     },
     //加载下拉选类型
     getTypeList() {
@@ -243,12 +193,9 @@ export default {
       const viewCode = this.currentPage == 'xndb' ? '9' : '10'
       let userDefaultValue = null
       try {
-        userDefaultValue = await this.$http.post(
-          '/bigScreen/common/getDefaultValue',
-          {
-            viewCode: viewCode,
-          }
-        )
+        userDefaultValue = await this.$http.post('/bigScreen/common/getDefaultValue', {
+          viewCode: viewCode,
+        })
       } catch (error) {
         this.$Message.error('用户默认授权信息加载失败，无法获取数据！')
       }
@@ -312,10 +259,7 @@ export default {
       //   this.setAuthCityLevel(orgLevelObj)
 
       let flag = false
-      const allInfor = await this.$http.post(
-        '/channelBigScreen/common/orgInfoAuthorizedAll',
-        { viewCode: viewCode, orgCode: '59' }
-      )
+      const allInfor = await this.$http.post('/channelBigScreen/common/orgInfoAuthorizedAll', { viewCode: viewCode, orgCode: '59' })
       const allInforList = allInfor.data.data
       const authLevel = getOrgLevel(allInforList)
       orgLevelObj = authLevel.level

@@ -5,13 +5,7 @@
       {{ defaultVal.label }}
     </span>
     <ul v-show="view" class="options">
-      <li
-        v-for="item in data"
-        :key="item.label"
-        :data-value="item.value"
-        class="option"
-        @click="handle(item)"
-      >
+      <li v-for="item in data" :key="item.label" :data-value="item.value" class="option" @click="handle(item)">
         {{ item.label }}
       </li>
     </ul>
@@ -37,11 +31,7 @@ export default {
   },
   computed: {
     defaultVal() {
-      return this.value && this.value.value
-        ? this.value
-        : this.data.length > 0
-        ? this.data[0]
-        : { label: '无数据', value: 'null' }
+      return this.value && this.value.value ? this.value : this.data.length > 0 ? this.data[0] : { label: '无数据', value: 'null' }
     },
   },
   created() {},

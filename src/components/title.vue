@@ -36,11 +36,6 @@ export default {
   padding: 2px 10px;
   background-repeat: no-repeat;
   background-size: cover;
-  background: linear-gradient(
-    to right,
-    rgba(82, 157, 228, 0.445) 40%,
-    rgba(124, 90, 218, 0.466),
-    rgba(255, 255, 255, 0.02)
-  );
+  background: linear-gradient(to right, rgba(82, 157, 228, 0.445) 40%, rgba(124, 90, 218, 0.466), rgba(255, 255, 255, 0.02));
 }
 </style>

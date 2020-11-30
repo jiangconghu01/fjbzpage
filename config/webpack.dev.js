@@ -40,8 +40,5 @@ module.exports = merge(common, {
     },
   },
   devtool: 'cheap-module-eval-source-map',
-  plugins: [
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-  ],
+  plugins: [new webpack.NamedModulesPlugin(), new webpack.HotModuleReplacementPlugin()],
 })

@@ -5,38 +5,17 @@
       <i class="city-mu-label">{{ muLabel }}</i>
     </span>
     <ul v-show="view" class="options option1">
-      <li
-        v-for="item in level1"
-        :key="item.orgName"
-        :data-value="item.orgCode"
-        :cityname="item.orgName"
-        @click="handleL1(item)"
-        @mouseenter="enterL1(item)"
-      >
+      <li v-for="item in level1" :key="item.orgName" :data-value="item.orgCode" :cityname="item.orgName" @click="handleL1(item)" @mouseenter="enterL1(item)">
         {{ item.orgName }}
       </li>
     </ul>
     <ul v-show="view2" class="options option2">
-      <li
-        v-for="item in level2.children"
-        :key="item.orgName"
-        :data-value="item.orgCode"
-        :cityname="item.orgName"
-        @click="handleL2(item)"
-        @mouseenter="enterL2(item)"
-      >
+      <li v-for="item in level2.children" :key="item.orgName" :data-value="item.orgCode" :cityname="item.orgName" @click="handleL2(item)" @mouseenter="enterL2(item)">
         {{ item.orgName }}
       </li>
     </ul>
     <ul v-show="view3" class="options option3">
-      <li
-        v-for="item in level3.children"
-        :key="item.label"
-        :data-value="item.orgCode"
-        :cityname="item.orgName"
-        :class="item.classname"
-        @click="handleL3(item)"
-      >
+      <li v-for="item in level3.children" :key="item.label" :data-value="item.orgCode" :cityname="item.orgName" :class="item.classname" @click="handleL3(item)">
         {{ item.orgName }}
       </li>
     </ul>
@@ -75,11 +54,7 @@ export default {
   computed: {
     ...mapGetters(['orgCode', 'muLabel']),
     defaultVal() {
-      return this.value && this.value.orgCode
-        ? this.value
-        : this.dataArr.length > 0
-        ? this.dataArr[0]
-        : { orgName: '无数据', orgCode: 'null' }
+      return this.value && this.value.orgCode ? this.value : this.dataArr.length > 0 ? this.dataArr[0] : { orgName: '无数据', orgCode: 'null' }
     },
     level1() {
       return this.dataArr

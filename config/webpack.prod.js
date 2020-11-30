@@ -3,8 +3,7 @@ const merge = require('webpack-merge')
 const common = require('./webpack.common.js')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const chalk = require('chalk')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
@@ -16,11 +15,7 @@ module.exports = merge(common, {
     new CleanWebpackPlugin(),
     new ProgressBarPlugin({
       // 显示进度
-      format:
-        chalk.green('Progressing') +
-        '[:bar]' +
-        chalk.green(':percent') +
-        '(:elapsed seconds)',
+      format: chalk.green('Progressing') + '[:bar]' + chalk.green(':percent') + '(:elapsed seconds)',
       clear: false,
     }),
     new MiniCssExtractPlugin({
