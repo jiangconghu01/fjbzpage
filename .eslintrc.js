@@ -10,11 +10,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:vue/recommended',
-    'plugin:prettier/recommended',
-  ],
+  extends: ['eslint:recommended', 'plugin:vue/recommended', 'plugin:prettier/recommended'],
   plugins: ['vue', 'prettier'],
   // add your custom rules here
   rules: {
@@ -24,10 +20,7 @@ module.exports = {
     'prettier/prettier': 'warn',
     'vue/no-unused-components': 'off',
     'vue/attribute-hyphenation': 0, // 忽略属性连字
-    'vue/max-attributes-per-line': [
-      2,
-      { singleline: 10, multiline: { max: 1, allowFirstLine: false } },
-    ], // 每行最大属性
+    'vue/max-attributes-per-line': [2, { singleline: 10, multiline: { max: 1, allowFirstLine: false } }], // 每行最大属性
     'vue/singleline-html-element-content-newline': 'off', // 单行html元素内容在新的一行
     'vue/multiline-html-element-content-newline': 'off', // 多行html元素内容在新的一行
     'vue/html-closing-bracket-newline': 'off', // html右括号在新的一行
@@ -39,6 +32,7 @@ module.exports = {
     'vue/require-prop-types': 0, // 不检查默认类型
     // eslint-disable-next-line no-dupe-keys
     'vue/max-attributes-per-line': 0,
+    'no-irregular-whitespace': 0,
     // 'comma-dangle': [2, 'never'], //对象字面量项尾不能有逗号
   },
 }

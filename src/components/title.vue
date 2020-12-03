@@ -1,14 +1,12 @@
 <template>
-  <!-- <span
-    class="sub-title"
-    :style="{ background: 'url(' + require('../static/title.png') + ')' }"
-  > -->
-  <span v-if="!title" class="sub-title">
-    <slot>TITLE</slot>
-  </span>
-  <span v-else class="sub-title">
-    {{ title }}
-  </span>
+  <div class="title-box-layout">
+    <span v-if="!title" class="title-box">
+      <slot>TITLE</slot>
+    </span>
+    <span v-else class="title-box">
+      {{ title }}
+    </span>
+  </div>
 </template>
 <script>
 export default {
@@ -29,13 +27,49 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.sub-title {
-  color: #fff;
-  font-size: 15px;
+.title-box-layout {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  z-index: 1;
+}
+.title-box {
+  position: relative;
   display: inline-block;
-  padding: 2px 10px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background: linear-gradient(to right, rgba(82, 157, 228, 0.445) 40%, rgba(124, 90, 218, 0.466), rgba(255, 255, 255, 0.02));
+  min-width: 120px;
+  height: 32px;
+  //   line-height: 32px;
+  font-size: 16px;
+  text-align: center;
+  font-weight: bold;
+  padding: 0 20px 2px 20px;
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: url('../static/income/bt.png') no-repeat;
+    // z-index: -1;
+  }
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: url('../static/income/bt.png') no-repeat;
+    background-position-x: right;
+    // z-index: -1;
+  }
+  &::before,
+  &::after {
+    background-size: cover;
+  }
 }
 </style>
