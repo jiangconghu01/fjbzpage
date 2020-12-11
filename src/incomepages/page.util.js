@@ -1,5 +1,3 @@
-import citys from '../chartconfig/citycode'
-
 /**
  * @description 多个数组对应位置相加得出新的数组
  * @param {Array} rest 任意多个数组
@@ -174,11 +172,11 @@ function beforeMonth() {
   let date = new Date()
   let year = date.getFullYear()
   let month = date.getMonth() + 1
-  if (month < 3) {
+  if (month < 2) {
     year -= 1
-    month = 10 + month
+    month = 12
   } else {
-    month = month - 2
+    month -= 1
   }
   return month < 10 ? `${year}-0${month}` : `${year}-${month}`
 }
@@ -225,4 +223,41 @@ function getOrgLevel(array) {
     allArr: data,
   }
 }
-export { sumAarrays, getMonthsArr, getDatesParams, handleArrdata, handleDataEncode2Arr, findeUpCityObj, handleMapdata, formatNumberRgx, getOrgLevel, getBeforeMothStr, findMapCode, beforeMonth }
+function insertStr(str, n, t_str) {
+  const arr = str.split('')
+  arr.splice(n, 0, t_str)
+  return arr.join('') //ab-cdef
+}
+function round(number, precision) {
+  return Math.round(+number + 'e' + precision) / Math.pow(10, precision)
+  //same as:
+  //return Number(Math.round(+number + 'e' + precision) + 'e-' + precision);
+}
+function addNumberUnit(number) {
+  if (!Number(number)) {
+    return 0
+  }
+  if (number > 99999999) {
+    return round(number / 100000000, 3) + '亿'
+  }
+  if (number > 9999) {
+    return round(number / 10000, 1) + '万'
+  }
+  return number
+}
+export {
+  sumAarrays,
+  getMonthsArr,
+  getDatesParams,
+  handleArrdata,
+  handleDataEncode2Arr,
+  findeUpCityObj,
+  handleMapdata,
+  formatNumberRgx,
+  getOrgLevel,
+  getBeforeMothStr,
+  findMapCode,
+  beforeMonth,
+  insertStr,
+  addNumberUnit,
+}

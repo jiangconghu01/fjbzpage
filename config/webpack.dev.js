@@ -6,7 +6,9 @@ const webpack = require('webpack')
 // const baseTestUrl = 'http://192.168.0.107:8750/'
 // const baseTestUrl = 'http://192.168.0.108:8750/'
 // const baseTestUrl = 'http://localhost:8750/'
-const baseTestUrl = 'http://192.168.1.93:8750/'
+// const baseTestUrl = 'http://192.168.1.118:8750/'
+const baseTestUrl = 'http://192.168.1.167:8750/'
+// const baseTestUrl = 'http://10.168.1.107:8750/'
 module.exports = merge(common, {
   mode: 'development',
   devServer: {

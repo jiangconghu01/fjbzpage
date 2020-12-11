@@ -80,6 +80,9 @@ const actions = {
   monthAction(context, param) {
     context.commit('setMonth', param)
   },
+  actIsloading(context, param) {
+    context.commit('setIsloading', param)
+  },
 }
 var vuexStore = new Vuex.Store({
   state,
@@ -89,14 +92,14 @@ var vuexStore = new Vuex.Store({
 })
 
 function beforeMonth() {
-  const date = new Date()
+  let date = new Date()
   let year = date.getFullYear()
   let month = date.getMonth() + 1
-  if (month < 3) {
+  if (month < 2) {
     year -= 1
-    month = 10 + month
+    month = 12
   } else {
-    month = month - 2
+    month -= 1
   }
   return month < 10 ? `${year}-0${month}` : `${year}-${month}`
 }

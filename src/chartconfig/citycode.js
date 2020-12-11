@@ -163,6 +163,7 @@ const citys = {
     },
   ],
   cityArr: [],
+  cityCodeArr: [],
   cityNameMap: {},
   cityCodeMap: {},
   cityOrgMap: {},
@@ -188,6 +189,7 @@ level.children = citys.children.map((ele) => {
 citys.level = [level]
 citys.children.forEach((ele, index) => {
   citys.cityArr[index] = ele.name
+  citys.cityCodeArr[index] = ele.orgCode
   citys.cityNameMap[ele.code] = ele.name
   citys.cityOrgMap[ele.orgCode] = ele.name
   citys.cityCodeMap[ele.name] = ele.code

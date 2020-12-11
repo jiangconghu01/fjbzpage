@@ -13,8 +13,13 @@ export default new VueRouter({
       path: '/view',
       name: 'view',
       component: () => import('@/incomepages/view.vue'),
-      redirect: '/view/zqsc',
+      redirect: '/view/zl',
       children: [
+        {
+          path: '/view/zl',
+          name: 'zl',
+          component: () => import('@/incomepages/view/zl.vue'),
+        },
         {
           path: '/view/chn',
           name: 'chn',

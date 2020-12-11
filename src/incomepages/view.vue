@@ -15,27 +15,41 @@
       <div class="right">
         <div class="date">
           <img class="bk" src="../static/selectbk.jpg" alt="" />
-          <el-date-picker v-model="dateVal" format="yyyy-MM" value-format="yyyy-MM" type="month" placeholder="选择月" @change="setTime"> </el-date-picker>
+          <el-date-picker v-model="dateVal" format="yyyy年MM月" value-format="yyyy-MM" type="month" placeholder="选择月" @change="setTime"> </el-date-picker>
         </div>
         <div class="city-box">
           <img class="bk" src="../static/selectbk.jpg" alt="" />
           <el-cascader ref="refHandle" v-model="value" :options="options" :props="{ expandTrigger: 'hover', checkStrictly: true }" @change="handleChange"></el-cascader>
         </div>
         <div class="text-box">
-          <p>金　额：234234万元</p>
-          <p>客户数：234234万户</p>
+          <p>金　额：万元</p>
+          <p>客户数：万户</p>
+          <div class="ic">
+            <svg t="1607672170486" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2080">
+              <path
+                d="M512 936.746667c234.581333 0 424.746667-190.165333 424.746667-424.746667S746.581333 87.253333 512 87.253333 87.253333 277.418667 87.253333 512 277.418667 936.746667 512 936.746667z m0 64C242.090667 1000.746667 23.253333 781.909333 23.253333 512 23.253333 242.090667 242.090667 23.253333 512 23.253333 781.909333 23.253333 1000.746667 242.090667 1000.746667 512c0 269.909333-218.837333 488.746667-488.746667 488.746667z"
+                p-id="2081"
+                fill="#4CC3F8"
+              ></path>
+              <path
+                d="M422.826667 436.266667v0.682666a32 32 0 1 1-64-1.28 11.306667 11.306667 0 0 1-0.042667-1.408c0-47.274667 13.269333-86.186667 39.552-116.864 28.8-33.109333 68.48-49.322667 118.741333-49.322666 44.714667 0 80.938667 12.970667 108.544 39.125333 26.453333 24.917333 39.594667 58.624 39.594667 100.352 0 30.293333-9.386667 58.112-27.733333 82.389333-7.68 9.685333-24.234667 25.813333-54.229334 52.949334-14.506667 12.672-24.746667 24.490667-31.146666 35.285333-8.405333 14.506667-12.458667 29.269333-12.501334 45.141333l1.152 19.370667a11.178667 11.178667 0 0 1-11.178666 11.861333h-41.898667a11.178667 11.178667 0 0 1-11.221333-11.178666v-19.370667c0-21.162667 4.437333-40.917333 13.098666-58.197333 10.496-22.485333 32.213333-48.512 63.701334-75.989334 19.584-19.626667 25.728-25.941333 29.781333-31.018666 12.8-16.469333 19.029333-32.810667 19.029333-49.92 0-25.472-7.381333-45.568-21.418666-60.202667-14.762667-14.762667-36.352-22.144-65.578667-22.144-32.64 0-56.021333 10.496-72.106667 31.872-13.525333 16.938667-19.968 41.685333-19.968 75.861333a11.264 11.264 0 0 1-0.170666 2.005334zM512 763.648a32 32 0 1 1 0-64 32 32 0 0 1 0 64z"
+                p-id="2082"
+                fill="#4CC3F8"
+              ></path>
+            </svg>
+          </div>
         </div>
       </div>
     </div>
     <router-view class="child-page" />
-    <Spin v-show="false" fix>
+    <Spin v-show="isloading" fix>
       <Icon type="load-c" size="18" class="demo-spin-icon-load"></Icon>
       <div>loading...</div>
     </Spin>
   </div>
 </template>
 <script>
-const routerArr = ['xndb', 'zczc']
+const routerArr = ['zl', 'chn', 'zqsc']
 import SmSelect from '@/components/sm.select.vue'
 import SmCascader from '@/components/sm.cascader.vue'
 import { beforeMonth, findeUpCityObj, getOrgLevel, getDatesParams } from './page.util'
@@ -46,21 +60,37 @@ export default {
     return {
       currentPage: this.$route.name,
       dateVal: beforeMonth(),
-      level: this.$cityLevel.level,
       sctp: '',
       sct: null,
       st: null,
       stypeList: [],
       cityList: [],
-      value: [],
+      value: ['59'],
       //   options: [],
-      options: this.$cityLevel.level,
     }
   },
   computed: {
-    ...mapGetters(['month', 'orgCode', 'type', 'isloading', 'muLabel', 'authCityLevel', 'updateTime']),
+    ...mapGetters(['month', 'orgCode', 'isloading', 'muLabel', 'authCityLevel']),
+    options() {
+      const level = JSON.parse(JSON.stringify(this.$cityLevel))
+      level.label = level.name
+      level.value = level.orgCode + ''
+      level.children = level.children.map((item) => {
+        return {
+          label: item.name,
+          value: item.orgCode + '',
+        }
+      })
+      this.setOrgCode(level)
+      return [level]
+    },
     titleText() {
-      return this.currentPage == 'chn' ? 'CHN市场非账单收入' : '政企市场(B)收入情况'
+      const pageMap = {
+        chn: 'CHN市场非账单收入',
+        zqsc: '政企市场(B)收入情况',
+        zl: '通信服务收入总览',
+      }
+      return pageMap[this.currentPage]
     },
   },
   watch: {
@@ -68,12 +98,13 @@ export default {
       this.setType(newval)
     },
     currentPage(newval) {
-      this.getCityList()
+      //   this.getCityList()
     },
-    orgCode(newval) {
-      this.asyncCascaderValue(newval)
-    },
-    value() {
+    // orgCode(newval) {
+    //   this.asyncCascaderValue(newval)
+    // },
+    value(nv) {
+      console.log(nv)
       if (this.$refs.refHandle) {
         this.$refs.refHandle.dropDownVisible = false //监听值发生变化就关闭它
       }
@@ -85,6 +116,9 @@ export default {
     // this.getOutLinkId()
   },
   mounted() {
+    // this.$http.post('/channelBigScreen/common/orgInfoAuthorizedAll', { viewCode: '106', orgCode: '59' }).then((res) => {
+    //   console.log(res)
+    // })
     document.getElementsByClassName('el-input__inner')[0].setAttribute('readonly', 'readonly')
     setInterval(function () {
       ;[...document.querySelectorAll('.el-cascader-node__label')].forEach((el) => {
@@ -93,49 +127,47 @@ export default {
         }
       })
     }, 500)
-    // this.value = ['zujian', 'form', 'radio']
   },
   methods: {
-    ...mapMutations(['setMonth', 'setOrgCode', 'setType', 'setOutLinkId', 'setIsloading', 'setMuLabel', 'setAuthCityLevel']),
-    asyncCascaderValue(newval) {
-      const t = findeUpCityObj(this.authCityLevel, newval.orgCode)
-      let cityLevelArr = []
-      if (t.self.orgLevel == '1') {
-        cityLevelArr = [t.self.orgCode]
-      }
-      if (t.self.orgLevel == '2') {
-        cityLevelArr = [t.parent.orgCode, t.self.orgCode]
-      }
-      if (t.self.orgLevel == '3') {
-        cityLevelArr = ['59', t.parent.orgCode, t.self.orgCode]
-      }
-      this.value = cityLevelArr
-    },
+    ...mapMutations(['setMonth', 'setOrgCode']),
+    // asyncCascaderValue(newval) {
+    //   const t = findeUpCityObj(this.authCityLevel, newval.orgCode)
+    //   let cityLevelArr = []
+    //   if (t.self.orgLevel == '1') {
+    //     cityLevelArr = [t.self.orgCode]
+    //   }
+    //   if (t.self.orgLevel == '2') {
+    //     cityLevelArr = [t.parent.orgCode, t.self.orgCode]
+    //   }
+    //   if (t.self.orgLevel == '3') {
+    //     cityLevelArr = ['59', t.parent.orgCode, t.self.orgCode]
+    //   }
+    //   this.value = cityLevelArr
+    // },
     handleChange() {
       const node = this.$refs.refHandle.getCheckedNodes()
       const currentNode = node[0].data
       this.setOrgCode(currentNode)
     },
     indexPage() {
-      console.log('back')
-      //   this.$router.push({ name: 'index' })
+      this.$router.push({ name: 'zl' })
     },
     setTime(newval) {
       this.setMonth(newval)
     },
     prePage() {
-      //   this.setIsloading(true)
-      //   const index = routerArr.indexOf(this.currentPage) - 1
-      //   const name = index > -1 ? routerArr[index] : routerArr[routerArr.length - 1]
-      //   this.currentPage = name
-      //   this.$router.push({ name })
+      const name = this.$route.name
+      const index = routerArr.indexOf(name) - 1
+      const t_name = index > -1 ? routerArr[index] : routerArr[routerArr.length - 1]
+      this.currentPage = t_name
+      this.$router.push({ name: t_name })
     },
     nextPage() {
-      //   this.setIsloading(true)
-      //   const index = routerArr.indexOf(this.currentPage) + 1
-      //   const name = index < routerArr.length ? routerArr[index] : routerArr[0]
-      //   this.currentPage = name
-      //   this.$router.push({ name })
+      const name = this.$route.name
+      const index = routerArr.indexOf(name) + 1
+      const t_name = index < routerArr.length ? routerArr[index] : routerArr[0]
+      this.currentPage = t_name
+      this.$router.push({ name: t_name })
     },
     //获取效能对标页面外链跳转ID
     getOutLinkId() {
@@ -259,7 +291,7 @@ export default {
       }
     }
     .right {
-      right: 1%;
+      right: 1.3%;
       //   width: 24.5%;
       bottom: -10px;
       width: 320px;
@@ -275,10 +307,10 @@ export default {
       }
       .date {
         display: inline-block;
-        width: 75px;
+        width: 100px;
         img.bk {
           top: 5px;
-          width: 75px;
+          width: 100px;
         }
       }
 
@@ -296,15 +328,25 @@ export default {
         height: 30px;
         position: absolute;
         bottom: 3px;
-        right: 0;
+        padding-left: 5px;
+        padding-right: 30px;
         p {
           height: 15px;
           line-height: 15px;
+          width: 80px;
+        }
+        .ic {
+          cursor: pointer;
+          width: 18px;
+          height: 18px;
+          position: absolute;
+          left: 80px;
+          top: 4px;
         }
       }
     }
     .big-title {
-      font-size: 22px;
+      font-size: 26px;
       font-weight: bold;
       left: 50%;
       bottom: 25%;
@@ -357,7 +399,7 @@ export default {
 .ivu-spin-fix {
   background-color: rgba(2, 2, 2, 0.6);
   font-size: 16px;
-  z-index: 99999999;
+  z-index: 99;
   .demo-spin-icon-load {
     width: 20px;
     height: 20px;
@@ -501,10 +543,10 @@ export default {
   display: none;
 }
 .el-input--prefix .el-input__inner {
-  padding-left: 0px;
+  padding-left: 7px;
 }
 .el-date-editor.el-input {
-  width: 80px;
+  width: 100px;
 }
 .date .el-input__inner {
   background-color: rgba(240, 248, 255, 0);
