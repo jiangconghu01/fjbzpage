@@ -1,5 +1,5 @@
 <template>
-  <div class="view">
+  <div ref="viewBox" class="view">
     <img class="bkimg" src="../static/bg.jpg" alt="" />
     <div class="header">
       <div class="left">
@@ -41,7 +41,7 @@
         </div>
       </div>
     </div>
-    <div class="top-mu" :class="!isShowMu ? '' : 'open_mu'">
+    <div id="top-mu-box" class="top-mu" :class="!isShowMu ? '' : 'open_mu'">
       <svg class="mu-svg mu" viewBox="0 0 928 253" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <g id="桌面端" transform="translate(-201.000000, -137.000000)" stroke="rgba(55, 178, 255, 0.7)">
           <g id="svg-lines" transform="translate(202.013952, 138.146694)" fill="none">
@@ -168,6 +168,7 @@ export default {
   mounted() {
     this.setOrgCode(this.authCityLevel[0])
     this.setCurrentMuStatus()
+    this.risezeMu()
     document.getElementsByClassName('el-input__inner')[0].setAttribute('readonly', 'readonly')
     setInterval(function () {
       ;[...document.querySelectorAll('.el-cascader-node__label')].forEach((el) => {
@@ -193,7 +194,15 @@ export default {
     //   }
     //   this.value = cityLevelArr
     // },
-
+    risezeMu() {
+      const box_h = this.$refs['viewBox'].offsetHeight
+      const mu_h = box_h * 0.4
+      const scale = (mu_h - 30) / 253
+      if (scale < 1 || scale > 1.2) {
+        const dom = document.getElementById('top-mu-box')
+        dom.style.transform = `scale(${scale})`
+      }
+    },
     hlayer() {
       timer && clearTimeout(timer)
     },
@@ -224,6 +233,7 @@ export default {
       const line_id = mu.split(',')[1]
       if (p_mu === 'mu2') {
         // this.$Message.warning('暂时不能跳转！')
+        console.log(this.orgCode)
         const month = this.month
         const code = this.orgCode.value
         const viewCode = '10' + line_id.split('-')[1]
@@ -301,10 +311,11 @@ export default {
     top: 9%;
     height: 40%;
     // transform: scale(0.9);
+    transform-origin: center top;
     opacity: 0;
     z-index: -1;
-    // top: -29%;
-    transition: all 0.1s;
+    top: -29%;
+    // transition: all 0.1s;
     &.open_mu {
       top: 9%;
       opacity: 1;
@@ -393,7 +404,7 @@ export default {
     top: 10%;
     height: 90%;
     width: 100%;
-    transition: all 0.25s;
+    // transition: all 0.25s;
     &.is_open_mu {
       overflow: hidden;
       top: 50%;
