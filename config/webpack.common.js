@@ -31,7 +31,7 @@ module.exports = {
   output: {
     filename: isDev ? '[name].[hash].js' : '[name].[chunkhash].js',
     path: path.resolve(__dirname, '../dist'),
-    // publicPath: isDev ? '/' : '/dist/',
+    publicPath: isDev ? '/' : './',
   },
   resolve: {
     extensions: ['.json', '.js', '.jsx', '.vue'],
@@ -87,12 +87,29 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: [isDev ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader'],
+        use: [
+          isDev
+            ? 'style-loader'
+            : {
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  publicPath: '../',
+                },
+              },
+          'css-loader',
+        ],
       },
       {
         test: /\.scss$/,
         use: [
-          isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
+          isDev
+            ? 'style-loader'
+            : {
+                loader: MiniCssExtractPlugin.loader,
+                options: {
+                  publicPath: '../',
+                },
+              },
           //   'cache-loader',
           'css-loader',
           {

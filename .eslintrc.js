@@ -33,6 +33,7 @@ module.exports = {
     // eslint-disable-next-line no-dupe-keys
     'vue/max-attributes-per-line': 0,
     'no-irregular-whitespace': 0,
+    'Vue/no-deprecated-v-on-native-modifier': 0,
     // 'comma-dangle': [2, 'never'], //对象字面量项尾不能有逗号
   },
 }

@@ -130,7 +130,7 @@ const option = {
       },
     },
   ],
-  color: colors,
+  color: ['#0798E2'],
   series: [
     {
       name: '累计非账单收入',

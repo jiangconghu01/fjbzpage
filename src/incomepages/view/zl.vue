@@ -8,12 +8,12 @@
     <div class="right">
       <div class="top chart bg_boder_box">
         <Title>累计通信服务收入分析</Title>
-        <div class="bg_boder_inner_box"></div>
+        <div class="bg_boder_inner_box"><span></span></div>
         <div id="zl_right_top_chart" class="chart_container"></div>
       </div>
       <div class="bottom chart bg_boder_box">
         <Title>月度四轮收入时序分析</Title>
-        <div class="bg_boder_inner_box"></div>
+        <div class="bg_boder_inner_box"><span></span></div>
         <div id="zl_right_bottom_chart" class="chart_container"></div>
       </div>
     </div>
@@ -66,9 +66,9 @@ export default {
       this.setChartArr({ name: 'chart1', val: box })
       let encode = []
       let chartCode = ''
-      if (this.encodes[4] && this.encodes[4].idxs.length) {
-        encode = this.encodes[4].idxs.map((ele) => ele.idxCde)
-        chartCode = this.encodes[4].chartCode
+      if (this.encodes[2] && this.encodes[2].idxs.length) {
+        encode = this.encodes[2].idxs.map((ele) => ele.idxCde)
+        chartCode = this.encodes[2].chartCode
       } else {
         encode = ['TFSR_0000_3_1', 'TFSR_0000_3_2', 'TFSR_0000_3_3', 'TFSR_0000_3_4']
         chartCode = 'TFSR_0000_3'
@@ -105,9 +105,9 @@ export default {
 
       let encode = []
       let chartCode = ''
-      if (this.encodes[6] && this.encodes[6].idxs.length) {
-        encode = this.encodes[6].idxs.map((ele) => ele.idxCde)
-        chartCode = this.encodes[6].chartCode
+      if (this.encodes[3] && this.encodes[3].idxs.length) {
+        encode = this.encodes[3].idxs.map((ele) => ele.idxCde)
+        chartCode = this.encodes[3].chartCode
       } else {
         encode = ['TFSR_0000_4_1', 'TFSR_0000_4_2', 'TFSR_0000_4_3', 'TFSR_0000_4_4']
         chartCode = 'TFSR_0000_4'

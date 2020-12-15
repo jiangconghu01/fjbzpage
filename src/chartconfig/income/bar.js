@@ -91,6 +91,7 @@ const option = {
         show: true,
         position: 'top',
         fontWeight: 'bold',
+        color: '#fff',
       },
     },
   ],

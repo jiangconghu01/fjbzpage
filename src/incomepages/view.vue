@@ -4,13 +4,13 @@
     <div class="header">
       <div class="left">
         <img class="logo-img" src="../static/income/logo.png" alt="" />
-        <div class="back" @click="indexPage">
+        <div v-if="currentPage !== 'zl'" class="back" @click="indexPage">
           <img src="../static/income/fh.png" alt="" />
           <span>返回首页</span>
         </div>
       </div>
       <div class="pre btn center" @click="prePage">上一页</div>
-      <div class="big-title center">{{ titleText }}</div>
+      <div class="big-title center" v-on="{ mouseenter: hoverTitle, mouseleave: hoverTitle }">{{ titleText }}</div>
       <div class="next btn center" @click="nextPage">下一页</div>
       <div class="right">
         <div class="date">
@@ -19,7 +19,7 @@
         </div>
         <div class="city-box">
           <img class="bk" src="../static/selectbk.jpg" alt="" />
-          <el-cascader ref="refHandle" v-model="value" :options="options" :props="{ expandTrigger: 'hover', checkStrictly: true }" @change="handleChange"></el-cascader>
+          <el-cascader ref="refHandle" v-model="value" :options="authCityLevel" :props="{ expandTrigger: 'hover', checkStrictly: true }" @change="handleChange"></el-cascader>
         </div>
         <div class="text-box">
           <p>金　额：万元</p>
@@ -41,8 +41,58 @@
         </div>
       </div>
     </div>
-    <router-view class="child-page" />
-    <Spin v-show="isloading" fix>
+    <div class="top-mu" :class="!isShowMu ? '' : 'open_mu'">
+      <svg class="mu-svg mu" viewBox="0 0 928 253" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <g id="桌面端" transform="translate(-201.000000, -137.000000)" stroke="rgba(55, 178, 255, 0.7)">
+          <g id="svg-lines" transform="translate(202.013952, 138.146694)" fill="none">
+            <polyline id="line-1-1" class="line" points="-1.42108547e-14 48.1458964 -1.42108547e-14 93.6180144 21.2147748 93.6180144"></polyline>
+            <polyline id="路径-2" points="95.1358414 13.6793283 95.1358414 7.10542736e-15 925.718426 7.10542736e-15 925.718426 12.6216662"></polyline>
+            <line id="路径-3" x1="374.924749" y1="-7.10542736e-15" x2="374.924749" y2="12.6369853"></line>
+            <line id="路径-4" x1="643.300636" y1="7.10542736e-15" x2="643.300636" y2="13.6793283"></line>
+            <polyline id="line-4-1" class="line" points="827.471579 48.0602965 827.471579 93.7239253 847.047429 93.7239253"></polyline>
+            <polyline id="line-3-1" class="line" points="547.523138 47.822244 547.523138 93.4024759 567.71827 93.4024759"></polyline>
+            <line id="路径-7" x1="276.946783" y1="48.0665259" x2="276.486048" y2="249.353306"></line>
+            <line id="路径-8" x1="276.486048" y1="249.353306" x2="297.090748" y2="249.353306"></line>
+            <line id="路径-9" x1="276.946783" y1="210.441915" x2="297.090748" y2="210.441915"></line>
+            <line id="路径-10" x1="276.946783" y1="170.932317" x2="297.090748" y2="170.932317"></line>
+            <line id="路径-11" x1="276.946783" y1="92.9673432" x2="297.090748" y2="92.9673432"></line>
+            <line id="路径-12" x1="276.946783" y1="132.760481" x2="297.090748" y2="132.760481"></line>
+          </g>
+        </g>
+      </svg>
+      <div class="mu-layer mu" v-on="{ mouseenter: hoverMu, mouseleave: hoverMu }">
+        <div class="mu1 mu-item zl">
+          <p class="mu-1 current">通信服务收入总览</p>
+          <ul class="mu-2">
+            <li class="current" muid="1-1" @click="handleMuClick('mu1,1-1', 'zl')">通信服务收入(当月/累计)</li>
+          </ul>
+        </div>
+        <div class="mu2 mu-item xx">
+          <p class="mu-1">CHN市场账单收入</p>
+          <ul class="mu-2">
+            <li muid="2-1" @click="handleMuClick('mu2,2-1', 'xx')">当月收入总览</li>
+            <li muid="2-2" @click="handleMuClick('mu2,2-2', 'xx')">收入变动历史趋势分析</li>
+            <li muid="2-3" @click="handleMuClick('mu2,2-3', 'xx')">新增/离网分析</li>
+            <li muid="2-4" @click="handleMuClick('mu2,2-4', 'xx')">存量客户升档/降档分析</li>
+            <li muid="2-5" @click="handleMuClick('mu2,2-5', 'xx')">当月折后收入总览</li>
+          </ul>
+        </div>
+        <div class="mu3 mu-item chn">
+          <p class="mu-1">CHN市场非账单收入</p>
+          <ul class="mu-2">
+            <li muid="3-1" class="" @click="handleMuClick('mu3,3-1', 'chn')">CHN市场非账单收入(当月/累计)</li>
+          </ul>
+        </div>
+        <div class="mu4 mu-item zqsc">
+          <p class="mu-1">政企市场收入</p>
+          <ul class="mu-2">
+            <li muid="4-1" @click="handleMuClick('mu4,4-1', 'zqsc')">政企市场(B)收入(当月/累计)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <router-view :class="['child-page', isShowMu ? 'is_open_mu' : '']" />
+    <Spin v-show="isloading" fix @mouseenter.native="hlayer">
       <Icon type="load-c" size="18" class="demo-spin-icon-load"></Icon>
       <div>loading...</div>
     </Spin>
@@ -52,17 +102,18 @@
 const routerArr = ['zl', 'chn', 'zqsc']
 import SmSelect from '@/components/sm.select.vue'
 import SmCascader from '@/components/sm.cascader.vue'
-import { beforeMonth, findeUpCityObj, getOrgLevel, getDatesParams } from './page.util'
+import { beforeMonth } from './page.util'
 import { mapGetters, mapMutations } from 'vuex'
+let timer = null
 export default {
   components: { SmSelect, SmCascader },
   data() {
     return {
       currentPage: this.$route.name,
+      currentMuNode: '1-1',
       dateVal: beforeMonth(),
-      sctp: '',
-      sct: null,
-      st: null,
+      isShowMu: false,
+      leaveTimeOut: false,
       stypeList: [],
       cityList: [],
       value: ['59'],
@@ -97,8 +148,11 @@ export default {
     typeValue(newval, oldval) {
       this.setType(newval)
     },
-    currentPage(newval) {
-      //   this.getCityList()
+    currentPage: {
+      handler(newval) {
+        this.setCurrentMuStatus()
+      },
+      //   immediate: true,
     },
     // orgCode(newval) {
     //   this.asyncCascaderValue(newval)
@@ -110,15 +164,10 @@ export default {
       }
     },
   },
-  created() {
-    // this.getTypeList()
-    // this.getCityList()
-    // this.getOutLinkId()
-  },
+  created() {},
   mounted() {
-    // this.$http.post('/channelBigScreen/common/orgInfoAuthorizedAll', { viewCode: '106', orgCode: '59' }).then((res) => {
-    //   console.log(res)
-    // })
+    this.setOrgCode(this.authCityLevel[0])
+    this.setCurrentMuStatus()
     document.getElementsByClassName('el-input__inner')[0].setAttribute('readonly', 'readonly')
     setInterval(function () {
       ;[...document.querySelectorAll('.el-cascader-node__label')].forEach((el) => {
@@ -144,6 +193,68 @@ export default {
     //   }
     //   this.value = cityLevelArr
     // },
+
+    hlayer() {
+      timer && clearTimeout(timer)
+    },
+    hoverMu(e) {
+      if (e.type === 'mouseenter') {
+        timer && clearTimeout(timer)
+        this.isShowMu = true
+      }
+      if (e.type === 'mouseleave') {
+        timer = setTimeout(() => {
+          this.isShowMu = false
+        }, 500)
+      }
+    },
+    hoverTitle(e) {
+      if (e.type === 'mouseenter') {
+        timer && clearTimeout(timer)
+        this.isShowMu = true
+      }
+      if (e.type === 'mouseleave') {
+        timer = setTimeout(() => {
+          this.isShowMu = false
+        }, 500)
+      }
+    },
+    handleMuClick(mu, page) {
+      const p_mu = mu.split(',')[0]
+      const line_id = mu.split(',')[1]
+      if (p_mu === 'mu2') {
+        // this.$Message.warning('暂时不能跳转！')
+        const month = this.month
+        const code = this.orgCode.value
+        const viewCode = '10' + line_id.split('-')[1]
+        window.open(`/bigScreen/income/gotoScheme?viewCode=${viewCode}&date=${month}&orgCode=${code}`)
+        return
+      }
+
+      this.currentMuNode = line_id
+      this.currentPage = page
+      this.$router.push({ name: page })
+    },
+    setCurrentMuStatus() {
+      const mus = document.querySelectorAll('.mu-layer .mu-1')
+      Array.prototype.forEach.call(mus, function (val) {
+        val.setAttribute('class', 'mu-1')
+      })
+      const t_mu = document.querySelector('.' + this.currentPage + ' .mu-1')
+      t_mu.setAttribute('class', 'mu-1 current')
+      const lis = document.querySelectorAll('.mu-layer .mu-2 li')
+      Array.prototype.forEach.call(lis, function (val) {
+        val.setAttribute('class', '')
+      })
+      const t_li = document.querySelector('.' + this.currentPage + ' li')
+      t_li.setAttribute('class', 'current')
+      const lines = document.querySelectorAll('#svg-lines .line')
+      Array.prototype.forEach.call(lines, function (val) {
+        val.setAttribute('stroke', 'rgba(55, 178, 255, 0.7)')
+      })
+      const t = document.querySelector('#line-' + t_li.getAttribute('muid'))
+      t.setAttribute('stroke', '#E7941C')
+    },
     handleChange() {
       const node = this.$refs.refHandle.getCheckedNodes()
       const currentNode = node[0].data
@@ -151,6 +262,7 @@ export default {
     },
     indexPage() {
       this.$router.push({ name: 'zl' })
+      this.currentPage = 'zl'
     },
     setTime(newval) {
       this.setMonth(newval)
@@ -175,41 +287,6 @@ export default {
         this.setOutLinkId(res.data.data.customReportId)
       })
     },
-    //同步加载地市级联Level选择框数据--权限控制
-    async getCityList() {
-      const viewCode = this.currentPage == 'xndb' ? '9' : '10'
-      let userDefaultValue = null
-      try {
-        userDefaultValue = await this.$http.post('/bigScreen/common/getDefaultValue', {
-          viewCode: viewCode,
-        })
-      } catch (error) {
-        this.$Message.error('用户默认授权信息加载失败，无法获取数据！')
-      }
-
-      let orgLevelObj = []
-
-      let flag = false
-      const allInfor = await this.$http.post('/channelBigScreen/common/orgInfoAuthorizedAll', { viewCode: viewCode, orgCode: '59' })
-      const allInforList = allInfor.data.data
-      const authLevel = getOrgLevel(allInforList)
-      orgLevelObj = authLevel.level
-      this.options = orgLevelObj
-      this.setAuthCityLevel(orgLevelObj)
-      allInforList.forEach((val) => {
-        if (val.orgCode == this.orgCode.orgCode) {
-          flag = true
-        }
-      })
-      if (!this.orgCode.orgCode || !flag) {
-        this.setOrgCode(orgLevelObj[0])
-      } else {
-        this.asyncCascaderValue(this.orgCode)
-      }
-
-      this.cityList = []
-      this.cityList = orgLevelObj
-    },
   },
 }
 </script>
@@ -218,11 +295,111 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
+  .top-mu {
+    position: absolute;
+    width: 100%;
+    top: 9%;
+    height: 40%;
+    // transform: scale(0.9);
+    opacity: 0;
+    z-index: -1;
+    // top: -29%;
+    transition: all 0.1s;
+    &.open_mu {
+      top: 9%;
+      opacity: 1;
+      z-index: 1;
+    }
+    .mu {
+      position: absolute;
+      left: calc(50% - 48px);
+      width: 928px;
+      height: 253px;
+      transform: translateX(-50%);
+      display: flex;
+      flex-wrap: nowrap;
+      .mu-item {
+        width: 232px;
+        height: 253px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        .mu-1 {
+          //   width: 243px;
+          width: 223px;
+          height: 37px;
+          line-height: 35px;
+          text-align: center;
+          font-size: 19px;
+          font-weight: bold;
+          background: url('../static/income/blue1.png') no-repeat;
+          background-size: contain;
+          position: absolute;
+          left: -15px;
+          top: 14px;
+          //   cursor: pointer;
+          &.current {
+            background: url('../static/income/yellow1.png') no-repeat;
+            background-size: contain;
+          }
+        }
+        .mu-2 {
+          height: 200px;
+          position: absolute;
+          left: 21px;
+          top: 78px;
+          li {
+            &:nth-child(1) {
+              margin-top: 0px;
+            }
+            min-width: 200px;
+            height: 30px;
+            line-height: 28px;
+            padding-left: 5px;
+            padding-right: 5px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: bold;
+            background: url('../static/income/blue2.png') no-repeat;
+            background-size: contain;
+            margin-top: 9px;
+            cursor: pointer;
+            &.current {
+              background: url('../static/income/yellow2.png') no-repeat;
+              background-size: contain;
+              height: 31px;
+              line-height: 28px;
+            }
+          }
+        }
+      }
+      .mu2 {
+        left: 276px;
+      }
+      .mu3 {
+        left: 546px;
+      }
+      .mu4 {
+        left: 826px;
+      }
+    }
+    .mu-svg {
+      display: inline-block;
+    }
+    // background-color: rgb(0, 255, 157);
+  }
   .child-page {
     position: absolute;
     top: 10%;
     height: 90%;
     width: 100%;
+    transition: all 0.25s;
+    &.is_open_mu {
+      overflow: hidden;
+      top: 50%;
+      transform-origin: left top;
+      transform: scale(1, 0.55);
+    }
   }
   .bkimg {
     position: absolute;
@@ -554,5 +731,17 @@ export default {
   color: #00e0ff;
   cursor: pointer;
   text-align: center;
+}
+.bg_boder_inner_box {
+  //   overflow: hidden;
+  span {
+    position: absolute;
+    left: -1%;
+    top: -1%;
+    width: 102%;
+    height: 102%;
+    background: url('../static/income/chart_bg.png') no-repeat;
+    background-size: cover;
+  }
 }
 </style>

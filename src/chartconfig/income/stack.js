@@ -76,6 +76,13 @@ const option = {
   ],
   yAxis: [
     {
+      name: '单位（%）',
+
+      nameTextStyle: {
+        color: '#fff',
+        fontWeight: '600',
+      },
+      max: 100,
       axisLabel: {
         formatter: function (p) {
           return addNumberUnit(p)

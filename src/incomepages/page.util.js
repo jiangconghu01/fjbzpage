@@ -208,15 +208,15 @@ function getOrgLevel(array) {
     val.label = val.orgName
     val.orgLevel == '1' && l1.push(val)
     val.orgLevel == '2' && l2.push(val)
-    val.orgLevel == '3' && l3.push(val)
+    // val.orgLevel == '3' && l3.push(val)
     return val
   })
-  l2.length > 0 &&
-    l2.forEach((val, index) => {
-      l2[index].children = l3.filter((ele) => {
-        return ele.orgCity == val.orgCode
-      })
-    })
+  //   l2.length > 0 &&
+  //     l2.forEach((val, index) => {
+  //       l2[index].children = l3.filter((ele) => {
+  //         return ele.orgCity == val.orgCode
+  //       })
+  //     })
   l1[0].children = l2
   return {
     level: l1,
@@ -241,7 +241,7 @@ function addNumberUnit(number) {
     return round(number / 100000000, 3) + '亿'
   }
   if (number > 9999) {
-    return round(number / 10000, 1) + '万'
+    return round(number / 10000, 2)
   }
   return number
 }

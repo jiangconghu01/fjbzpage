@@ -1,5 +1,5 @@
 <template>
-  <div class="chn">
+  <!-- <div class="chn">
     <div class="top chart bg_boder_box">
       <Title>非账单收入结构分析</Title>
       <Button-group size="small" class="btn-switch">
@@ -21,6 +21,29 @@
         <div id="chn_bottom_right_chart" class="chart_container"></div>
       </div>
     </div>
+  </div> -->
+  <div class="chn">
+    <div class="top chart bg_boder_box">
+      <Title>非账单收入结构分析</Title>
+      <Button-group size="small" class="btn-switch">
+        <i-button type="primary" :class="[topChartStatus === 'current_month' ? 'current' : '']" @click="switchView('current_month')"> 当月 </i-button>
+        <i-button type="primary" :class="[topChartStatus === 'accmulate_num' ? 'current' : '']" @click="switchView('accmulate_num')"> 累计 </i-button>
+      </Button-group>
+      <div class="bg_boder_inner_box"><span></span></div>
+      <div id="chn_top_chart" class="chart_container"></div>
+    </div>
+    <div class="bottom">
+      <div class="left chart bg_boder_box">
+        <Title>累计非账单收入结构分析</Title>
+        <div class="bg_boder_inner_box"><span></span></div>
+        <div id="chn_bottom_left_chart" class="chart_container"></div>
+      </div>
+      <div class="right chart bg_boder_box">
+        <Title>全省-月度非账单收入时序分析</Title>
+        <div class="bg_boder_inner_box"><span></span></div>
+        <div id="chn_bottom_right_chart" class="chart_container"></div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -29,7 +52,7 @@ import stack from '@/chartconfig/income/stack.js'
 import barLine from '@/chartconfig/income/barline.js'
 import line from '@/chartconfig/income/line.js'
 import { mapGetters, mapMutations } from 'vuex'
-import { getDatesParams, getMonthsArr } from '../page.util'
+import { getDatesParams, getMonthsArr, sumAarrays } from '../page.util'
 export default {
   components: { Title },
   data() {
@@ -39,7 +62,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['month', 'orgCode']),
+    ...mapGetters(['month', 'orgCode', 'authCityLevel']),
   },
   watch: {
     month(nv, ov) {
@@ -98,13 +121,28 @@ export default {
           chartCode = 'FZDSR_0000_2'
         }
       }
-      const cityArr = [code, ...this.$cityLevel.cityCodeArr]
+      //   const cityArr = [code, ...this.$cityLevel.cityCodeArr]
+      const c_code = this.authCityLevel[0].children.map((val) => val.value)
+      const c_Name = this.authCityLevel[0].children.map((val) => val.orgName)
+      const cityArr = [code, ...c_code]
+      const xArr = ['全省', ...c_Name]
       const param = JSON.parse(getDatesParams([month], cityArr, encode, chartCode, type))
       const colors_light = ['#4EDBDF', '#FEBD60', '#51CCFF', '#C28DF5']
       const colors = ['#1AA4B9', '#BE8751', '#0798E2', '#8A5AD5']
       this.$http.post('/channelBigScreen/modIdxVOList', param).then((res) => {
         const chart_s = []
         const chart_legend = []
+        const array_arr = [] //堆积图二维数组
+        encode.forEach((v, i) => {
+          const arr = []
+          res.data.data.forEach((val) => {
+            if (val.idxCde == v) {
+              arr.push(Number(val.idxValue) ? Number(val.idxValue) : 0)
+            }
+          })
+          array_arr.push(arr)
+        })
+        const array_sum = sumAarrays(...array_arr) //堆积图二维数组和
         encode.forEach((ele, i) => {
           const s = {
             name: 'xxxxx',
@@ -128,9 +166,18 @@ export default {
                 s.data.push(val)
             }
           })
+          s.data = s.data.map((v, ind) => {
+            if (array_sum[ind]) {
+              v.value = ((v.value / array_sum[ind]) * 100).toFixed(2)
+            } else {
+              v.value = 0
+            }
+            return v
+          })
           chart_s.push(s)
           chart_legend.push(s.name)
         })
+        stack.xAxis[0].data = xArr
         stack.series = chart_s
         stack.legend.data = chart_legend
         box.setOption(stack)
@@ -150,7 +197,7 @@ export default {
             },
             {
               offset: 1,
-              color: '#3E36DD', // 100% 处的颜色
+              color: '#0798E2', // 100% 处的颜色
             },
           ],
           false
@@ -167,7 +214,10 @@ export default {
         encode = ['FZDSR_0000_3_1']
         chartCode = 'FZDSR_0000_3'
       }
-      const cityArr = [code, ...this.$cityLevel.cityCodeArr]
+      const c_code = this.authCityLevel[0].children.map((val) => val.value)
+      const c_Name = this.authCityLevel[0].children.map((val) => val.orgName)
+      const cityArr = [code, ...c_code]
+      const xArr = ['全省', ...c_Name]
       const dateArr = getMonthsArr(month.split('-')[0], month.split('-')[1], 13, '-')
       //   const xAxis_d = getMonthsArr(month.split('-')[0], month.split('-')[1], 13, '/')
       const param = JSON.parse(getDatesParams([dateArr[0], dateArr[12]], cityArr, encode, chartCode, type))
@@ -182,6 +232,7 @@ export default {
           val.value = val.idxValue
           return val
         })
+        barLine.xAxis[0].data = xArr
         barLine.series[0].data[0].itemStyle = oneBaritem
         barLine.series[1].name = '截止' + month.split('-')[1] + '月同比%'
         barLine.legend.data[1] = '截止' + month.split('-')[1] + '月同比%'
@@ -195,6 +246,14 @@ export default {
           return v
         })
         box.setOption(barLine)
+        const _this = this
+        // const orgcode = this.orgCode.value
+        box.off('click')
+        box.on('click', function (params) {
+          if (params.componentSubType === 'bar') {
+            _this.bottomRight(month, params.data.accountCode, type)
+          }
+        })
       })
     },
     bottomRight(month, code, type) {

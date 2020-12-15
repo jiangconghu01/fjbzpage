@@ -32,6 +32,7 @@ export default {
   position: absolute;
   width: 100%;
   left: 0;
+  top: 1px;
   z-index: 1;
 }
 .title-box {

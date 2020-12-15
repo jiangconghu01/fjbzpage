@@ -10,7 +10,7 @@
         <div class="sum">
           <span class="text">合计</span><span class="number">{{ leftTopSum }}</span>
         </div>
-        <div class="bg_boder_inner_box"></div>
+        <div class="bg_boder_inner_box"><span></span></div>
         <div id="left_top_chart" class="chart_container"></div>
       </div>
       <div class="bottom chart bg_boder_box">
@@ -22,19 +22,19 @@
         <div class="sum">
           <span class="text">合计</span><span class="number">{{ leftBottomSum }}</span>
         </div>
-        <div class="bg_boder_inner_box"></div>
+        <div class="bg_boder_inner_box"><span></span></div>
         <div id="left_bottom_chart" class="chart_container"></div>
       </div>
     </div>
     <div class="right">
       <div class="top chart bg_boder_box">
         <Title :title="rightTopTitle">产品出账时序分析-集团电话</Title>
-        <div class="bg_boder_inner_box"></div>
+        <div class="bg_boder_inner_box"><span></span></div>
         <div id="right_top_chart" class="chart_container"></div>
       </div>
       <div class="bottom chart bg_boder_box">
         <Title :title="rightBottomTitle">产品折扣时序分析-互联网专线</Title>
-        <div class="bg_boder_inner_box"></div>
+        <div class="bg_boder_inner_box"><span></span></div>
         <div id="right_bottom_chart" class="chart_container"></div>
       </div>
     </div>
@@ -147,8 +147,9 @@ export default {
         const _this = this
         box.off('click')
         box.on('click', function (params) {
-          type === '1' && _this.rightTop(month, code, params.data)
-          type === '2' && _this.rightBottom(month, code, params.data)
+          console.log(params)
+          type === '1' && _this.rightTop(month, code, params.data, params.color)
+          type === '2' && _this.rightBottom(month, code, params.data, params.color)
         })
       })
     },
@@ -164,7 +165,7 @@ export default {
       const status = TypeMap[this.leftBottomStatus]
       this.leftHandle(month, code, box, '2', status)
     },
-    rightTop(month, code, item) {
+    rightTop(month, code, item, itemcolor) {
       const box = this.$echarts.init(document.getElementById('right_top_chart'))
       this.setChartArr({ name: 'chart3', val: box })
       const status = TypeMap[this.leftTopStatus]
@@ -185,11 +186,11 @@ export default {
             })
             config.xAxis[0].data = xarr
             config.series[0].data = data
-            config.color = ['#18B8D4']
+            config.color = [itemcolor ? itemcolor : '#3E36DD']
             box.setOption(config)
           })
     },
-    rightBottom(month, code, item) {
+    rightBottom(month, code, item, itemcolor) {
       const box = this.$echarts.init(document.getElementById('right_bottom_chart'))
       this.setChartArr({ name: 'chart4', val: box })
       const status = TypeMap[this.leftBottomStatus]
@@ -210,7 +211,7 @@ export default {
             })
             config.xAxis[0].data = xarr
             config.series[0].data = data
-            config.color = ['#3769E7']
+            config.color = [itemcolor ? itemcolor : '#3E36DD']
             box.setOption(config)
           })
     },
