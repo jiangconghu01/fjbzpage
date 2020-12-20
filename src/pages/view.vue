@@ -404,6 +404,7 @@ export default {
       left: 50%;
       bottom: 25%;
       transform: translateX(-50%);
+      //   transition: all 0.5s;
     }
     .pre {
       left: 33%;

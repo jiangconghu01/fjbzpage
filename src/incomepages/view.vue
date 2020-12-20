@@ -1,6 +1,7 @@
 <template>
   <div ref="viewBox" class="view">
-    <img class="bkimg" src="../static/bg.jpg" alt="" />
+    <img class="bkimg" src="../static/income/bg.png" alt="" />
+    <img class="bkimg_h" src="../static/income/header.png" alt="" />
     <div class="header">
       <div class="left">
         <img class="logo-img" src="../static/income/logo.png" alt="" />
@@ -92,7 +93,8 @@
       </div>
     </div>
     <router-view :class="['child-page', isShowMu ? 'is_open_mu' : '']" />
-    <Spin v-show="isloading" fix @mouseenter.native="hlayer">
+    <!-- <Spin v-show="isloading" fix @mouseenter.native="hlayer"> -->
+    <Spin v-show="isloading" fix>
       <Icon type="load-c" size="18" class="demo-spin-icon-load"></Icon>
       <div>loading...</div>
     </Spin>
@@ -229,6 +231,7 @@ export default {
       }
     },
     handleMuClick(mu, page) {
+      this.isShowMu = false
       const p_mu = mu.split(',')[0]
       const line_id = mu.split(',')[1]
       if (p_mu === 'mu2') {
@@ -305,6 +308,7 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
+  overflow: hidden;
   .top-mu {
     position: absolute;
     width: 100%;
@@ -416,6 +420,13 @@ export default {
     position: absolute;
     width: 100%;
     height: 100%;
+  }
+  .bkimg_h {
+    position: absolute;
+    width: 96%;
+    height: 13%;
+    top: 0;
+    left: 2%;
   }
   .header {
     position: absolute;
@@ -537,7 +548,7 @@ export default {
       font-size: 26px;
       font-weight: bold;
       left: 50%;
-      bottom: 25%;
+      bottom: 20%;
       transform: translateX(-50%);
     }
     .pre {
