@@ -88,7 +88,7 @@
               <li v-show="levelCurrent === 'fzd'" class="zd_item">
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[20] ? leftViewData[20] : 0 }}</i> <i class="unit">万元</i>
+                    <i class="num">{{ leftViewData[20] ? leftViewData[20] : 0 }}</i> <i class="unit">元</i>
                   </p>
                   <p class="name">网内结算</p>
                 </div>
