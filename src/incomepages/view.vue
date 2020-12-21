@@ -150,12 +150,12 @@ export default {
     typeValue(newval, oldval) {
       this.setType(newval)
     },
-    currentPage: {
-      handler(newval) {
-        this.setCurrentMuStatus()
-      },
-      //   immediate: true,
-    },
+    // currentPage: {
+    //   handler(newval) {
+    //     this.setCurrentMuStatus()
+    //   },
+    //   //   immediate: true,
+    // },
     // orgCode(newval) {
     //   this.asyncCascaderValue(newval)
     // },
@@ -222,6 +222,7 @@ export default {
     hoverTitle(e) {
       if (e.type === 'mouseenter') {
         timer && clearTimeout(timer)
+        this.setCurrentMuStatus()
         this.isShowMu = true
       }
       if (e.type === 'mouseleave') {
@@ -249,17 +250,18 @@ export default {
       this.$router.push({ name: page })
     },
     setCurrentMuStatus() {
+      const name = this.$route.name
       const mus = document.querySelectorAll('.mu-layer .mu-1')
       Array.prototype.forEach.call(mus, function (val) {
         val.setAttribute('class', 'mu-1')
       })
-      const t_mu = document.querySelector('.' + this.currentPage + ' .mu-1')
+      const t_mu = document.querySelector('.' + name + ' .mu-1')
       t_mu.setAttribute('class', 'mu-1 current')
       const lis = document.querySelectorAll('.mu-layer .mu-2 li')
       Array.prototype.forEach.call(lis, function (val) {
         val.setAttribute('class', '')
       })
-      const t_li = document.querySelector('.' + this.currentPage + ' li')
+      const t_li = document.querySelector('.' + name + ' li')
       t_li.setAttribute('class', 'current')
       const lines = document.querySelectorAll('#svg-lines .line')
       Array.prototype.forEach.call(lines, function (val) {
