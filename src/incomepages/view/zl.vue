@@ -69,7 +69,7 @@
         <div class="bottom">
           <div class="layer">
             <ul class="level2" :class="[levelCurrent]">
-              <li v-if="levelCurrent === 'zd'" class="zd_item">
+              <li v-show="levelCurrent === 'zd'" class="zd_item">
                 <div class="text-content">
                   <p>
                     <i class="num">{{ leftViewData[6] ? leftViewData[6] : 0 }}</i> <i class="unit">万</i>
@@ -77,7 +77,7 @@
                   <p class="name">客户数</p>
                 </div>
               </li>
-              <li v-if="levelCurrent === 'zd'" class="zd_item calc">
+              <li v-show="levelCurrent === 'zd'" class="zd_item calc">
                 <div class="text-content">
                   <p>
                     <i class="num">{{ leftViewData[7] ? leftViewData[7] : 0 }}</i> <i class="unit">万元</i>
@@ -85,7 +85,7 @@
                   <p class="name">折后ARPU</p>
                 </div>
               </li>
-              <li v-if="levelCurrent === 'fzd'" class="zd_item">
+              <li v-show="levelCurrent === 'fzd'" class="zd_item">
                 <div class="text-content">
                   <p>
                     <i class="num">{{ leftViewData[20] ? leftViewData[20] : 0 }}</i> <i class="unit">万元</i>
@@ -93,7 +93,7 @@
                   <p class="name">网内结算</p>
                 </div>
               </li>
-              <li v-if="levelCurrent === 'fzd'" class="zd_item calc add">
+              <li v-show="levelCurrent === 'fzd'" class="zd_item calc add">
                 <div class="text-content">
                   <p>
                     <i class="num">{{ leftViewData[21] ? leftViewData[21] : 0 }}</i> <i class="unit">万元</i>
@@ -101,7 +101,7 @@
                   <p class="name">跨期包摊销</p>
                 </div>
               </li>
-              <li v-if="levelCurrent === 'fzd'" class="zd_item calc add">
+              <li v-show="levelCurrent === 'fzd'" class="zd_item calc add">
                 <div class="text-content">
                   <p>
                     <i class="num">{{ leftViewData[22] ? leftViewData[22] : 0 }}</i> <i class="unit">万元</i>
@@ -146,7 +146,7 @@
                 </div>
               </li>
             </ul>
-            <ul v-if="level4Status === 'left'" class="level4">
+            <ul v-show="level4Status === 'left'" class="level4">
               <li>
                 <div class="text-content">
                   <p>
@@ -180,7 +180,7 @@
                 </div>
               </li>
             </ul>
-            <ul v-if="level4Status === 'right'" class="level4 right">
+            <ul v-show="level4Status === 'right'" class="level4 right">
               <li>
                 <div class="text-content">
                   <p>
@@ -610,13 +610,13 @@ export default {
       .sw1 {
         left: 18%;
         bottom: 19%;
-        animation: bounce-in-top 2s infinite 0.3s;
+        animation: bounce-in-top 2s infinite 0s;
       }
       .sw2 {
         left: 30%;
         bottom: 40%;
-        transform: perspective(600px) translateX(-50%) translateZ(-120px);
-        animation: bounce-in-top2 2s infinite 0.7s;
+        // transform: perspective(600px) translateX(-50%) translateZ(-120px);
+        animation: bounce-in-top2 2.3s infinite 0s;
       }
       .sw3 {
         left: 50%;
@@ -626,13 +626,14 @@ export default {
       .sw4 {
         left: 75%;
         bottom: 32%;
-        transform: perspective(600px) translateX(-50%) translateZ(-20px);
-        animation: bounce-in-top4 2s infinite 0s;
+        // transform: perspective(600px) translateX(-50%) translateZ(-20px);
+        animation: bounce-in-top4 2.6s infinite 0s;
       }
       .row_img {
         width: 16px;
         position: absolute;
         left: calc(50% - 1px);
+        // left: 50%;
         bottom: -16px;
         animation: bounce-in-top 1.5s infinite 0s;
         transition: display 0.9s;
@@ -728,6 +729,7 @@ export default {
           bottom: -41px;
           left: -25px;
           display: flex;
+          width: 480px;
           &.right {
             left: 90px;
           }
@@ -756,12 +758,15 @@ export default {
       }
       .layer {
         position: relative;
+
         .level2 {
+          width: 100%;
           position: absolute;
           left: 50%;
           top: 10px;
           transform: translateX(-50%);
           display: flex;
+          justify-content: center;
           &.fzd {
             top: 25px;
           }
