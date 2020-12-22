@@ -557,7 +557,8 @@ export default {
           }
         }
         .circle-text-content {
-          padding-top: 125px;
+          left: 2px;
+          padding-top: 138px;
           .name {
             p {
               font-size: 30px;
@@ -567,7 +568,7 @@ export default {
           }
           .num {
             // transform: scale(0.8, 1) translateX(10%);
-            transform: scale(0.8, 1);
+            transform: scale(0.68, 1);
             height: 60px;
             line-height: 60px;
             font-size: 50px;
@@ -669,7 +670,7 @@ export default {
       }
       .circle-text-content {
         position: absolute;
-        left: 0;
+        left: 0px;
         top: 0;
         width: 200%;
         height: 200%;
@@ -691,6 +692,7 @@ export default {
           line-height: 40px;
           font-size: 38px;
           font-weight: bold;
+          transform: scale(0.9, 1);
         }
         .unit {
           margin-left: 5px;
