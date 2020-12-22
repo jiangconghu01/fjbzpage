@@ -244,12 +244,12 @@
     <div class="right">
       <div class="top chart bg_boder_box">
         <Title>累计通信服务收入分析</Title>
-        <div class="bg_boder_inner_box"><span></span></div>
+        <div class="bg_boder_inner_box"></div>
         <div id="zl_right_top_chart" class="chart_container"></div>
       </div>
       <div class="bottom chart bg_boder_box">
         <Title>月度四轮收入时序分析</Title>
-        <div class="bg_boder_inner_box"><span></span></div>
+        <div class="bg_boder_inner_box"></div>
         <div id="zl_right_bottom_chart" class="chart_container"></div>
       </div>
     </div>
@@ -260,7 +260,7 @@ import Title from '@/components/income.title'
 import zLstack from '@/chartconfig/income/zl.stack.js'
 import zLbar from '@/chartconfig/income/zl.bar.js'
 import { mapGetters, mapMutations } from 'vuex'
-import { getDatesParams, getMonthsArr } from '../page.util'
+import { getDatesParams, getMonthsArr, sumAarrays } from '../page.util'
 export default {
   components: { Title },
   data() {
@@ -345,7 +345,7 @@ export default {
           this.leftViewData = resdata.map((val) => {
             let value = '0.00'
             if (Number(val.idxValue)) {
-              if (val.idxCde === 'TFSR_0000_2_4' || val.idxCde === 'TFSR_0000_2_6') {
+              if (val.idxCde === 'TFSR_0000_2_4' || val.idxCde === 'TFSR_0000_2_6' || val.idxCde === 'TFSR_0000_2_2') {
                 value = Number(val.idxValue).toFixed(2)
               } else {
                 value = (val.idxValue / 10000).toFixed(2)
@@ -375,17 +375,32 @@ export default {
       this.$http.post('/channelBigScreen/modIdxVOList', param).then((res) => {
         const curr_d = []
         const before_d = []
+        let sum_curr = 0
+        let sum_before = 0
         res.data.data.forEach((ele) => {
           ele.value = ele.idxValue
           if (ele.periodDate == dateArr[12]) {
+            sum_curr += Number(ele.idxValue) ? Number(ele.idxValue) : 0
             curr_d.push(ele)
           }
           if (ele.periodDate == dateArr[0]) {
+            sum_before += Number(ele.idxValue) ? Number(ele.idxValue) : 0
             before_d.push(ele)
           }
         })
-        zLbar.series[0].data = before_d
-        zLbar.series[1].data = curr_d
+
+        zLbar.series[0].data = before_d.map((val) => {
+          if (sum_before) {
+            val.value = ((val.value / sum_before) * 100).toFixed(2)
+          }
+          return val
+        })
+        zLbar.series[1].data = curr_d.map((val) => {
+          if (sum_curr) {
+            val.value = ((val.value / sum_curr) * 100).toFixed(2)
+          }
+          return val
+        })
         zLbar.series[1].name = year + '年截止' + selectMonth + '月'
         zLbar.legend.data[1] = year + '年截止' + selectMonth + '月'
         box.setOption(zLbar)
@@ -409,14 +424,28 @@ export default {
       }
       const param = JSON.parse(getDatesParams(dateArr, [code], encode, chartCode, type))
       this.$http.post('/channelBigScreen/modIdxVOList', param).then((res) => {
-        const data1 = res.data.data.filter((val) => val.idxCde == encode[0])
-        const data2 = res.data.data.filter((val) => val.idxCde == encode[1])
-        const data3 = res.data.data.filter((val) => val.idxCde == encode[2])
-        const data4 = res.data.data.filter((val) => val.idxCde == encode[3])
-        zLstack.series[0].data = data1.map((val) => val.idxValue)
-        zLstack.series[1].data = data2.map((val) => val.idxValue)
-        zLstack.series[2].data = data3.map((val) => val.idxValue)
-        zLstack.series[3].data = data4.map((val) => val.idxValue)
+        const data1 = res.data.data.filter((val) => val.idxCde == encode[0]).map((val) => Number(val.idxValue).toFixed(2))
+        const data2 = res.data.data.filter((val) => val.idxCde == encode[1]).map((val) => Number(val.idxValue).toFixed(2))
+        const data3 = res.data.data.filter((val) => val.idxCde == encode[2]).map((val) => Number(val.idxValue).toFixed(2))
+        const data4 = res.data.data.filter((val) => val.idxCde == encode[3]).map((val) => Number(val.idxValue).toFixed(2))
+        const sum = sumAarrays(data1, data2, data3, data4)
+
+        zLstack.series[0].data = data1.map((val) => {
+          return (val / 100000000).toFixed(2)
+        })
+        zLstack.series[1].data = data2.map((val) => {
+          return (val / 100000000).toFixed(2)
+        })
+        zLstack.series[2].data = data3.map((val) => {
+          return (val / 100000000).toFixed(2)
+        })
+        zLstack.series[3].data = data4.map((val, index) => {
+          return {
+            name: '',
+            value: (val / 100000000).toFixed(2),
+            value2: (sum[index] / 100000000).toFixed(2),
+          }
+        })
         zLstack.xAxis[0].data = dateArr.map((val) => val.split('-')[1] + '月')
         box.setOption(zLstack)
       })
@@ -610,13 +639,13 @@ export default {
       .sw1 {
         left: 18%;
         bottom: 19%;
-        animation: bounce-in-top 2s infinite 0s;
+        // animation: bounce-in-top 2s infinite 0s;
       }
       .sw2 {
         left: 30%;
         bottom: 40%;
-        // transform: perspective(600px) translateX(-50%) translateZ(-120px);
-        animation: bounce-in-top2 2.3s infinite 0s;
+        transform: perspective(600px) translateX(-50%) translateZ(-120px);
+        // animation: bounce-in-top2 2.3s infinite 0s;
       }
       .sw3 {
         left: 50%;
@@ -626,8 +655,8 @@ export default {
       .sw4 {
         left: 75%;
         bottom: 32%;
-        // transform: perspective(600px) translateX(-50%) translateZ(-20px);
-        animation: bounce-in-top4 2.6s infinite 0s;
+        transform: perspective(600px) translateX(-50%) translateZ(-20px);
+        // animation: bounce-in-top4 2.6s infinite 0s;
       }
       .row_img {
         width: 16px;

@@ -10,7 +10,7 @@
         <div class="sum">
           <span class="text">合计</span><span class="number">{{ leftTopSum }}</span>
         </div>
-        <div class="bg_boder_inner_box"><span></span></div>
+        <div class="bg_boder_inner_box"></div>
         <div id="left_top_chart" class="chart_container"></div>
       </div>
       <div class="bottom chart bg_boder_box">
@@ -22,19 +22,19 @@
         <div class="sum">
           <span class="text">合计</span><span class="number">{{ leftBottomSum }}</span>
         </div>
-        <div class="bg_boder_inner_box"><span></span></div>
+        <div class="bg_boder_inner_box"></div>
         <div id="left_bottom_chart" class="chart_container"></div>
       </div>
     </div>
     <div class="right">
       <div class="top chart bg_boder_box">
         <Title :title="rightTopTitle">产品出账时序分析-集团电话</Title>
-        <div class="bg_boder_inner_box"><span></span></div>
+        <div class="bg_boder_inner_box"></div>
         <div id="right_top_chart" class="chart_container"></div>
       </div>
       <div class="bottom chart bg_boder_box">
         <Title :title="rightBottomTitle">产品折扣时序分析-互联网专线</Title>
-        <div class="bg_boder_inner_box"><span></span></div>
+        <div class="bg_boder_inner_box"></div>
         <div id="right_bottom_chart" class="chart_container"></div>
       </div>
     </div>

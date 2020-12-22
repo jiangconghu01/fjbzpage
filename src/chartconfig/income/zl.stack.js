@@ -13,7 +13,8 @@ function getData() {
   })
   return chartData
 }
-const labelData = ['CHN市场\n折后账单当月收入', 'CHN市场\n非账单当月收入', 'B市场当月收入(扣减\n商品销售和其他收入)', '网间结算\n及其他当月收入']
+// const labelData = ['CHN市场\n折后账单当月收入', 'CHN市场\n非账单当月收入', 'B市场当月收入(扣减\n商品销售和其他收入)', '网间结算\n及其他当月收入']
+const labelData = ['CHN市场折后账单当月收入', 'CHN市场非账单当月收入', 'B市场当月收入(扣减商品销售和其他收入)', '网间结算及其他当月收入']
 function getLinearGradientItem(color1, color2) {
   return {
     color: new echarts.graphic.LinearGradient(
@@ -84,6 +85,13 @@ const option = {
   ],
   yAxis: [
     {
+      name: '单位（亿）',
+
+      nameTextStyle: {
+        color: '#fff',
+        fontSize: 12,
+        fontWeight: '400',
+      },
       axisLabel: {
         formatter: function (p) {
           return addNumberUnit(p)
@@ -155,9 +163,13 @@ const option = {
       data: getData(3),
       barWidth: 15,
       label: {
-        show: false,
+        show: true,
         position: 'top',
         fontWeight: 'bold',
+        color: '#fff',
+        formatter: function (p) {
+          return p.data.value2
+        },
       },
       itemStyle: getLinearGradientItem('#A581FF', '#CBB7FF'),
     },

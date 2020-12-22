@@ -127,6 +127,9 @@ const option = {
         position: 'top',
         fontWeight: 'bold',
         color: '#fff',
+        formatter: function (p) {
+          return p.value + '%'
+        },
       },
       itemStyle: oneBaritem1,
     },
@@ -141,7 +144,8 @@ const option = {
         fontWeight: 'bold',
         color: '#fff',
         formatter: function (p) {
-          return addNumberUnit(p.value)
+          //   return addNumberUnit(p.value)
+          return p.value + '%'
         },
       },
       itemStyle: oneBaritem2,

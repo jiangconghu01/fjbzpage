@@ -1,5 +1,5 @@
 <template>
-  <!-- <div class="chn">
+  <div class="chn">
     <div class="top chart bg_boder_box">
       <Title>非账单收入结构分析</Title>
       <Button-group size="small" class="btn-switch">
@@ -16,31 +16,8 @@
         <div id="chn_bottom_left_chart" class="chart_container"></div>
       </div>
       <div class="right chart bg_boder_box">
-        <Title>全省-月度非账单收入时序分析</Title>
+        <Title :title="bottomRightTitle">全省-月度非账单收入时序分析</Title>
         <div class="bg_boder_inner_box"></div>
-        <div id="chn_bottom_right_chart" class="chart_container"></div>
-      </div>
-    </div>
-  </div> -->
-  <div class="chn">
-    <div class="top chart bg_boder_box">
-      <Title>非账单收入结构分析</Title>
-      <Button-group size="small" class="btn-switch">
-        <i-button type="primary" :class="[topChartStatus === 'current_month' ? 'current' : '']" @click="switchView('current_month')"> 当月 </i-button>
-        <i-button type="primary" :class="[topChartStatus === 'accmulate_num' ? 'current' : '']" @click="switchView('accmulate_num')"> 累计 </i-button>
-      </Button-group>
-      <div class="bg_boder_inner_box"><span></span></div>
-      <div id="chn_top_chart" class="chart_container"></div>
-    </div>
-    <div class="bottom">
-      <div class="left chart bg_boder_box">
-        <Title>累计非账单收入结构分析</Title>
-        <div class="bg_boder_inner_box"><span></span></div>
-        <div id="chn_bottom_left_chart" class="chart_container"></div>
-      </div>
-      <div class="right chart bg_boder_box">
-        <Title>全省-月度非账单收入时序分析</Title>
-        <div class="bg_boder_inner_box"><span></span></div>
         <div id="chn_bottom_right_chart" class="chart_container"></div>
       </div>
     </div>
@@ -59,6 +36,7 @@ export default {
     return {
       encodes: [],
       topChartStatus: 'current_month',
+      bottomRightTitle: '全省-月度非账单收入时序分析',
     }
   },
   computed: {
@@ -252,6 +230,7 @@ export default {
         box.on('click', function (params) {
           if (params.componentSubType === 'bar') {
             _this.bottomRight(month, params.data.accountCode, type)
+            _this.bottomRightTitle = params.name + '-月度非账单收入时序分析'
           }
         })
       })
