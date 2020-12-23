@@ -43,7 +43,7 @@ export default {
   //   line-height: 32px;
   font-size: 16px;
   text-align: center;
-  font-weight: bold;
+  //   font-weight: bold;
   padding: 0 20px 2px 20px;
   color: #fff;
   text-shadow: 2px 3px 3px rgba(0, 0, 0, 0.15), 3px 4px 3px rgba(0, 0, 0, 0.305);

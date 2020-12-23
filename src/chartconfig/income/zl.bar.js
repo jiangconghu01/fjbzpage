@@ -143,7 +143,7 @@ const option = {
       label: {
         show: true,
         position: [0, -15],
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         color: '#fff',
         formatter: function (p) {
           //   return addNumberUnit(p.value)

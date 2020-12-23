@@ -244,7 +244,7 @@ export default {
         background-size: contain;
         span {
           position: absolute;
-          font-weight: bold;
+          //   font-weight: bold;
         }
         .text {
           left: 9px;

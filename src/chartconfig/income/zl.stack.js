@@ -159,7 +159,7 @@ const option = {
       label: {
         show: true,
         position: 'top',
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         color: '#fff',
         formatter: function (p) {
           return p.data.value2

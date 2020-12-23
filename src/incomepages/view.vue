@@ -453,6 +453,7 @@ export default {
         display: flex;
         align-items: center;
         cursor: pointer;
+        padding-left: 5px;
         img {
           height: 80%;
           height: 10px;

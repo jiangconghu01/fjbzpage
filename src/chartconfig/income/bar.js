@@ -90,7 +90,7 @@ const option = {
       label: {
         show: true,
         position: 'top',
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         color: '#fff',
       },
     },
