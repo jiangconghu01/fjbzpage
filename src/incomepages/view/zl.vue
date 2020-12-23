@@ -80,7 +80,7 @@
               <li v-show="levelCurrent === 'zd'" class="zd_item calc">
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[7] ? leftViewData[7] : 0 }}</i> <i class="unit">万元</i>
+                    <i class="num">{{ leftViewData[7] ? leftViewData[7] : 0 }}</i> <i class="unit">元</i>
                   </p>
                   <p class="name">折后ARPU</p>
                 </div>
@@ -249,6 +249,7 @@
       </div>
       <div class="bottom chart bg_boder_box">
         <Title>月度四轮收入时序分析</Title>
+        <div class="unit">单位（亿）</div>
         <div class="bg_boder_inner_box"></div>
         <div id="zl_right_bottom_chart" class="chart_container"></div>
       </div>
@@ -510,8 +511,8 @@ export default {
       height: 60%;
       position: relative;
       .item {
-        width: 121px;
-        height: 132px;
+        width: 125px;
+        height: 136px;
         background: url('../../static/income/index/item.png') no-repeat;
         background-size: cover;
         position: absolute;
@@ -573,7 +574,7 @@ export default {
             line-height: 60px;
             font-size: 50px;
             font-weight: bold;
-            text-shadow: 2px 3px 26px rgba(255, 255, 255, 1);
+            text-shadow: 1px -1px 10px rgba(255, 255, 255, 1);
           }
           .unit {
             margin-left: 5px;
@@ -587,7 +588,9 @@ export default {
         height: 124px;
         background: url('../../static/income/index/item2.png') no-repeat;
         background-size: cover;
-
+        .circle-text-content {
+          padding-top: 58px;
+        }
         &.current {
           background: url('../../static/income/index/item2_current.png') no-repeat;
           background-size: cover;
@@ -676,7 +679,7 @@ export default {
         height: 200%;
         transform: scale(0.5);
         transform-origin: left top;
-        padding-top: 55px;
+        padding-top: 67px;
         p {
           text-align: center;
           font-size: 22px;
@@ -692,7 +695,7 @@ export default {
           line-height: 40px;
           font-size: 38px;
           font-weight: bold;
-          transform: scale(0.9, 1);
+          transform: scale(0.85, 1);
         }
         .unit {
           margin-left: 5px;
@@ -861,7 +864,7 @@ export default {
           font-weight: bold;
           height: 30px;
           line-height: 30px;
-          text-shadow: 2px 3px 3px rgba(0, 0, 0, 0.05), 3px 4px 3px rgba(0, 0, 0, 0.205);
+          text-shadow: 2px 3px 3px rgba(3, 2, 2, 0.05), 3px 4px 3px rgba(0, 0, 0, 0.205);
         }
         .name {
           color: rgba(255, 255, 255, 0.805);
@@ -882,6 +885,13 @@ export default {
   .right {
     flex: 7;
     margin: 0 20px 0 8px;
+    .bottom .unit {
+      padding: 5px;
+      position: absolute;
+      right: 8px;
+      top: 10px;
+      color: #c7ebf9;
+    }
   }
   .chart_container {
     position: absolute;

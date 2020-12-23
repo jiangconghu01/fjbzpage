@@ -56,7 +56,7 @@ export default {
     width: 50%;
     height: 100%;
     background: url('../static/income/bt.png') no-repeat;
-    // z-index: -1;
+    z-index: -1;
   }
   &::after {
     content: '';
@@ -68,7 +68,7 @@ export default {
     height: 100%;
     background: url('../static/income/bt.png') no-repeat;
     background-position-x: right;
-    // z-index: -1;
+    z-index: -1;
   }
   &::before,
   &::after {

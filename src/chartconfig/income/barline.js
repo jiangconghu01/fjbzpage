@@ -90,9 +90,9 @@ const option = {
     {
       //   name: '收入',
       axisLabel: {
-        formatter: function (p) {
-          return addNumberUnit(p)
-        },
+        // formatter: function (p) {
+        //   return addNumberUnit(p)
+        // },
         color: 'rgba(81, 203, 255, 0.753)',
       },
       splitLine: {

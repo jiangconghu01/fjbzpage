@@ -1,5 +1,5 @@
 import citys from '../citycode'
-import { addNumberUnit } from '../../incomepages/page.util'
+import { addNumberUnit, formatNumberRgx } from '../../incomepages/page.util'
 const fontColor = '#fff'
 const colors_light = ['#4EDBDF', '#FEBD60', '#51CCFF', '#C28DF5']
 const colors = ['#1AA4B9', '#BE8751', '#0798E2', '#8A5AD5']
@@ -34,6 +34,36 @@ const option = {
     trigger: 'axis',
     axisPointer: {
       type: 'shadow',
+    },
+    formatter: function (p) {
+      return (
+        '<p>' +
+        p[0].axisValue +
+        '</p><p>' +
+        p[0].marker +
+        p[0].seriesName +
+        ':' +
+        formatNumberRgx((p[0].data.idxValue / 10000).toFixed(2)) +
+        '</p>' +
+        '<p>' +
+        p[1].marker +
+        p[1].seriesName +
+        ':' +
+        formatNumberRgx((p[1].data.idxValue / 10000).toFixed(2)) +
+        '</p>' +
+        '<p>' +
+        p[2].marker +
+        p[2].seriesName +
+        ':' +
+        formatNumberRgx((p[2].data.idxValue / 10000).toFixed(2)) +
+        '</p>' +
+        '<p>' +
+        p[3].marker +
+        p[3].seriesName +
+        ':' +
+        formatNumberRgx((p[3].data.idxValue / 10000).toFixed(2)) +
+        '</p>'
+      )
     },
   },
   grid: {
@@ -84,9 +114,6 @@ const option = {
       },
       max: 100,
       axisLabel: {
-        formatter: function (p) {
-          return addNumberUnit(p)
-        },
         color: 'rgba(81, 203, 255, 0.753)',
       },
       axisLine: {

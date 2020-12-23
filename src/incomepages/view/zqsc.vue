@@ -44,7 +44,7 @@
 import Title from '@/components/income.title.vue'
 import bar from '@/chartconfig/income/bar.js'
 import { mapGetters, mapMutations } from 'vuex'
-import { insertStr, addNumberUnit } from '../page.util'
+import { insertStr, addNumberUnit, formatNumberRgx } from '../page.util'
 const colors = ['#3E36DD', '#2E59D6', '#3769E7', '#0B87D8', '#0F9BD7', '#0F9BD7', '#1CCAD2', '#23E3D0', '#25EDCF', '#5EF6DF']
 const TypeMap = {
   current_month: '1',
@@ -110,7 +110,7 @@ export default {
 
       const config = JSON.parse(JSON.stringify(bar))
       config.series[0].label.formatter = function (p) {
-        return addNumberUnit(p.value)
+        return formatNumberRgx(p.value)
       }
       this.$http.post('/bigScreen/groupProductIncome/top10', { viewCode: this.viewCode, homeCity: code, sumMonth: month, amtType: type, dimensionType: status }).then((res) => {
         const list = res.data.data
@@ -125,7 +125,7 @@ export default {
         const data = t_list.map((val, index) => {
           sum += Number(val.resultValue)
           label.push({ value: val.productName, id: val.productId })
-          val.value = Number(val.resultValue).toFixed(0)
+          val.value = (val.resultValue / 10000).toFixed(2)
           val.name = val.productName
           val.itemStyle = {
             color: colors[index],
@@ -139,8 +139,8 @@ export default {
           }
           return t
         })
-        type === '1' && (this.leftTopSum = addNumberUnit(sum))
-        type === '2' && (this.leftBottomSum = addNumberUnit(sum))
+        type === '1' && (this.leftTopSum = formatNumberRgx((sum / 10000).toFixed(2)))
+        type === '2' && (this.leftBottomSum = formatNumberRgx((sum / 10000).toFixed(2)))
         config.series[0].data = data
         config.xAxis[0].data = formaterLabel
         box.setOption(config)
@@ -148,6 +148,10 @@ export default {
         box.off('click')
         box.on('click', function (params) {
           console.log(params)
+          if (params.dataIndex === 9) {
+            _this.$Message.info('该项无具体数据！')
+            return
+          }
           type === '1' && _this.rightTop(month, code, params.data, params.color)
           type === '2' && _this.rightBottom(month, code, params.data, params.color)
         })
@@ -171,14 +175,14 @@ export default {
       const status = TypeMap[this.leftTopStatus]
       const config = JSON.parse(JSON.stringify(bar))
       config.series[0].label.formatter = function (p) {
-        return addNumberUnit(p.value)
+        return formatNumberRgx(p.value)
       }
       ;(this.rightTopTitle = '产品出账时序分析-' + item.productName),
         this.$http
           .post('/bigScreen/groupProductIncome/periodData13', { viewCode: this.viewCode, homeCity: code, sumMonth: month, amtType: '1', productId: item.productId, dimensionType: status })
           .then((res) => {
             const data = res.data.data.map((val) => {
-              val.value = val.resultValue ? Number(val.resultValue).toFixed(0) : 0
+              val.value = val.resultValue ? Number(val.resultValue / 10000).toFixed(2) : 0
               return val
             })
             const xarr = data.map((val) => {
@@ -196,14 +200,14 @@ export default {
       const status = TypeMap[this.leftBottomStatus]
       const config = JSON.parse(JSON.stringify(bar))
       config.series[0].label.formatter = function (p) {
-        return addNumberUnit(p.value)
+        return formatNumberRgx(p.value)
       }
       ;(this.rightBottomTitle = '产品折扣时序分析-' + item.productName),
         this.$http
           .post('/bigScreen/groupProductIncome/periodData13', { viewCode: this.viewCode, homeCity: code, sumMonth: month, amtType: '2', productId: item.productId, dimensionType: status })
           .then((res) => {
             const data = res.data.data.map((val) => {
-              val.value = val.resultValue ? Number(val.resultValue).toFixed(0) : 0
+              val.value = val.resultValue ? Number(val.resultValue / 10000).toFixed(2) : 0
               return val
             })
             const xarr = data.map((val) => {
@@ -233,7 +237,7 @@ export default {
       .sum {
         position: absolute;
         left: 20px;
-        top: 10px;
+        top: 8px;
         width: 120px;
         height: 50px;
         background: url('../../static/income/hj.png') no-repeat;
@@ -244,12 +248,14 @@ export default {
         }
         .text {
           left: 9px;
-          top: 15px;
+          top: 14px;
         }
         .number {
-          left: 49px;
+          left: 50px;
           top: 10px;
           font-size: 16px;
+          transform: scale(0.8, 1);
+          transform-origin: left top;
         }
       }
     }

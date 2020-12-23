@@ -29,7 +29,7 @@ import stack from '@/chartconfig/income/stack.js'
 import barLine from '@/chartconfig/income/barline.js'
 import line from '@/chartconfig/income/line.js'
 import { mapGetters, mapMutations } from 'vuex'
-import { getDatesParams, getMonthsArr, sumAarrays } from '../page.util'
+import { getDatesParams, getMonthsArr, sumAarrays, formatNumberRgx } from '../page.util'
 export default {
   components: { Title },
   data() {
@@ -207,7 +207,7 @@ export default {
           return val.periodDate == dateArr[0]
         })
         barLine.series[0].data = curr_d.map((val) => {
-          val.value = val.idxValue
+          val.value = formatNumberRgx((val.idxValue / 10000).toFixed(2))
           return val
         })
         barLine.xAxis[0].data = xArr
@@ -265,7 +265,7 @@ export default {
           res.data.data.forEach((val) => {
             if (val.idxCde == ele) {
               s.name = val.idxName
-              val.value = val.idxValue
+              val.value = (val.idxValue / 10000).toFixed(2)
               s.data.push(val)
             }
           })

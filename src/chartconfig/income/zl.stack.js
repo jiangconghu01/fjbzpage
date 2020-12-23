@@ -85,17 +85,11 @@ const option = {
   ],
   yAxis: [
     {
-      name: '单位（亿）',
-
-      nameTextStyle: {
-        color: '#fff',
-        fontSize: 12,
-        fontWeight: '400',
-      },
       axisLabel: {
-        formatter: function (p) {
-          return addNumberUnit(p)
-        },
+        show: false,
+        // formatter: function (p) {
+        //   return addNumberUnit(p)
+        // },
         color: 'rgba(81, 203, 255, 0.753)',
       },
       axisLine: {
@@ -105,7 +99,7 @@ const option = {
         },
       },
       splitLine: {
-        show: true,
+        show: false,
         lineStyle: {
           color: 'rgba(81, 203, 255, 0.22)',
         },

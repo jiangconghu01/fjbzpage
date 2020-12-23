@@ -3,10 +3,10 @@ import { addNumberUnit } from '../../incomepages/page.util'
 const fontColor = '#fff'
 const colors = ['#3E36DD', '#2E59D6', '#3769E7', '#0B87D8', '#0F9BD7', '#0F9BD7', '#1CCAD2', '#23E3D0', '#25EDCF', '#5EF6DF']
 let chartData = [
-  { name: 'CHN市场\n折后账单收入', value: 300 },
-  { name: 'CHN市场\n非账单收入', value: 400 },
-  { name: 'B市场收入\n(扣减商品销售和其他收入)', value: 452 },
-  { name: '网间结算\n及其他收入', value: 770 },
+  { name: 'CHN市场\n折后账单收入', value: 30 },
+  { name: 'CHN市场\n非账单收入', value: 40 },
+  { name: 'B市场收入\n(扣减商品销售和其他收入)', value: 42 },
+  { name: '网间结算\n及其他收入', value: 27 },
 ]
 
 let xData = chartData.map((v) => v.name)
@@ -121,10 +121,11 @@ const option = {
       name: '去年同期',
       type: 'bar',
       data: sData,
-      barWidth: '15px',
+      barWidth: '18px',
+      barGap: '50%',
       label: {
         show: true,
-        position: 'top',
+        position: [-20, -15],
         fontWeight: 'bold',
         color: '#fff',
         formatter: function (p) {
@@ -137,10 +138,11 @@ const option = {
       name: '2020年截止X月',
       type: 'bar',
       data: sData,
-      barWidth: '15px',
+      barWidth: '18px',
+      barGap: '50%',
       label: {
         show: true,
-        position: 'top',
+        position: [0, -15],
         fontWeight: 'bold',
         color: '#fff',
         formatter: function (p) {
