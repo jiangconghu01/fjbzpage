@@ -1,7 +1,7 @@
 <template>
   <div ref="zlBox" class="zl">
     <div class="left chart bg_boder_box">
-      <Title>当月通信服收入结构分析</Title>
+      <Title>当月通信服务收入结构分析</Title>
       <div class="bg_boder_inner_box"></div>
       <img class="bg_img" src="../../static/income/index/chartbg.png" />
       <div id="zl_left_box" class="chart_container">
@@ -11,8 +11,8 @@
               <p class="num">{{ leftViewData[2] ? leftViewData[2] : 0 }}</p>
               <p class="unit">万元</p>
               <div class="name">
-                <p>CHN市场非</p>
-                <p>账单收入</p>
+                <p>CHN市场折后</p>
+                <p>非账单收入</p>
               </div>
             </div>
             <i class="light"></i>
@@ -32,7 +32,7 @@
               <p class="num">{{ leftViewData[0] ? leftViewData[0] : 0 }}</p>
               <p class="unit">万元</p>
               <div class="name">
-                <p>通信服收入</p>
+                <p>通信服务收入</p>
               </div>
             </div>
           </div>
@@ -41,7 +41,7 @@
               <p class="num">{{ leftViewData[1] ? leftViewData[1] : 0 }}</p>
               <p class="unit">万元</p>
               <div class="name">
-                <p>CHN市场</p>
+                <p>CHN市场折后</p>
                 <p>账单收入</p>
               </div>
             </div>
@@ -126,7 +126,7 @@
                   <p>
                     <i class="num">{{ leftViewData[9] ? leftViewData[9] : 0 }}</i> <i class="unit">元</i>
                   </p>
-                  <p class="name">新增客户数折后ARPU</p>
+                  <p class="name">新增客户折后ARPU</p>
                 </div>
               </li>
               <li class="l3-3">
@@ -142,7 +142,7 @@
                   <p>
                     <i class="num">{{ leftViewData[11] ? leftViewData[11] : 0 }}</i> <i class="unit">元</i>
                   </p>
-                  <p class="name">存量客户数折后ARPU</p>
+                  <p class="name">存量客户折后ARPU</p>
                 </div>
               </li>
             </ul>
@@ -168,7 +168,7 @@
                   <p>
                     <i class="num">{{ leftViewData[14] ? leftViewData[14] : 0 }}</i> <i class="unit">万元</i>
                   </p>
-                  <p class="name">套外语言/流量收入</p>
+                  <p class="name">套外语音/流量收入</p>
                 </div>
               </li>
               <li>
@@ -455,7 +455,7 @@ export default {
       const box_h = this.$refs['zlBox'].offsetHeight
       const mu_h = 610
       const scale = box_h / mu_h
-      if (scale < 1 || scale > 1.1) {
+      if (scale < 1) {
         const dom = document.getElementById('zl_left_box')
         dom.style.transform = `scale(${scale})`
       }
@@ -564,6 +564,7 @@ export default {
             p {
               font-size: 30px;
               color: rgba(255, 255, 255, 0.805);
+              transform: scale(0.85, 1);
             }
             text-shadow: 2px 3px 3px rgba(0, 0, 0, 0.05), 3px 4px 3px rgba(0, 0, 0, 0.205);
           }

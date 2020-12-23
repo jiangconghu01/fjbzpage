@@ -207,7 +207,7 @@ export default {
           return val.periodDate == dateArr[0]
         })
         barLine.series[0].data = curr_d.map((val) => {
-          val.value = formatNumberRgx((val.idxValue / 10000).toFixed(2))
+          val.value = (val.idxValue / 10000).toFixed(2)
           return val
         })
         barLine.xAxis[0].data = xArr

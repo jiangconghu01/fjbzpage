@@ -5,7 +5,7 @@ const colors = ['#3E36DD', '#2E59D6', '#3769E7', '#0B87D8', '#0F9BD7', '#0F9BD7'
 let chartData = [
   { name: 'CHN市场\n折后账单收入', value: 30 },
   { name: 'CHN市场\n非账单收入', value: 40 },
-  { name: 'B市场收入\n(扣减商品销售和其他收入)', value: 42 },
+  { name: 'B市场收入\n(扣减商品销售及其他收入)', value: 42 },
   { name: '网间结算\n及其他收入', value: 27 },
 ]
 

@@ -150,6 +150,9 @@ export default {
     typeValue(newval, oldval) {
       this.setType(newval)
     },
+    $route(to, from) {
+      this.currentPage = to.name
+    },
     // currentPage: {
     //   handler(newval) {
     //     this.setCurrentMuStatus()
@@ -443,7 +446,7 @@ export default {
     .left {
       height: 100%;
       .logo-img {
-        margin-top: 20px;
+        margin-top: 25px;
         width: 70%;
       }
       .back {
@@ -456,7 +459,7 @@ export default {
         }
         span {
           font-size: 12px;
-          transform: scale(0.9);
+          //   transform: scale(0.9);
         }
       }
     }
@@ -570,7 +573,7 @@ export default {
       }
     }
     .big-title {
-      font-size: 26px;
+      font-size: 28px;
       font-weight: bold;
       left: 50%;
       bottom: 20%;
