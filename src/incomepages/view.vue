@@ -462,7 +462,7 @@ export default {
         cursor: pointer;
         padding-left: 5px;
         .img {
-          height: 15px;
+          width: 15px;
           height: 15px;
         }
         span {
@@ -611,7 +611,7 @@ export default {
         .back {
           padding-left: 5px;
           .img {
-            height: 15px;
+            width: 15px;
             height: 15px;
           }
           span {
