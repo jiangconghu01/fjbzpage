@@ -6,7 +6,14 @@
       <div class="left">
         <img class="logo-img" src="../static/income/logo.png" alt="" />
         <div v-if="currentPage !== 'zl'" class="back" @click="indexPage">
-          <img src="../static/income/fh.png" alt="" />
+          <!-- <img src="../static/income/fh.png" alt="" /> -->
+          <svg t="1608777839839" class="icon img" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="19102">
+            <path
+              d="M298.934857 347.794286V220.16L0.731429 518.217143l298.130285 298.057143V688.493714L128.585143 518.217143l170.349714-170.422857z m255.488 42.642285v-170.422857L256.292571 518.290286 554.422857 816.274286V641.682286c212.845714 0 361.984 68.169143 468.333714 217.088-42.496-212.845714-170.276571-425.691429-468.333714-468.333715z"
+              fill="#fff"
+              p-id="19103"
+            ></path>
+          </svg>
           <span>返回首页</span>
         </div>
       </div>
@@ -63,13 +70,13 @@
       </svg>
       <div class="mu-layer mu" v-on="{ mouseenter: hoverMu, mouseleave: hoverMu }">
         <div class="mu1 mu-item zl">
-          <p class="mu-1 current">通信服务收入总览</p>
+          <p class="mu-1 current">通信服务收入</p>
           <ul class="mu-2">
-            <li class="current" muid="1-1" @click="handleMuClick('mu1,1-1', 'zl')">通信服务收入(当月/累计)</li>
+            <li class="current" muid="1-1" @click="handleMuClick('mu1,1-1', 'zl')">通信服务收入总览</li>
           </ul>
         </div>
         <div class="mu2 mu-item xx">
-          <p class="mu-1">CHN市场账单收入</p>
+          <p class="mu-1">CHN市场折后账单收入</p>
           <ul class="mu-2">
             <li muid="2-1" @click="handleMuClick('mu2,2-1', 'xx')">当月收入总览</li>
             <li muid="2-2" @click="handleMuClick('mu2,2-2', 'xx')">收入变动历史趋势分析</li>
@@ -81,13 +88,13 @@
         <div class="mu3 mu-item chn">
           <p class="mu-1">CHN市场非账单收入</p>
           <ul class="mu-2">
-            <li muid="3-1" class="" @click="handleMuClick('mu3,3-1', 'chn')">CHN市场非账单收入(当月/累计)</li>
+            <li muid="3-1" class="" @click="handleMuClick('mu3,3-1', 'chn')">CHN市场非账单收入</li>
           </ul>
         </div>
         <div class="mu4 mu-item zqsc">
-          <p class="mu-1">政企市场收入</p>
+          <p class="mu-1">B市场收入</p>
           <ul class="mu-2">
-            <li muid="4-1" @click="handleMuClick('mu4,4-1', 'zqsc')">政企市场(B)收入(当月/累计)</li>
+            <li muid="4-1" @click="handleMuClick('mu4,4-1', 'zqsc')">政企市场(B)收入情况</li>
           </ul>
         </div>
       </div>
@@ -203,10 +210,10 @@ export default {
       const box_h = this.$refs['viewBox'].offsetHeight
       const mu_h = box_h * 0.4
       const scale = (mu_h - 30) / 253
-      if (scale < 1 || scale > 1.2) {
-        const dom = document.getElementById('top-mu-box')
-        dom.style.transform = `scale(${scale})`
-      }
+      const dom = document.getElementById('top-mu-box')
+
+      scale < 1 && (dom.style.transform = `scale(${scale})`)
+      scale > 1.2 && (dom.style.transform = `scale(${scale - 0.2})`)
     },
     hlayer() {
       timer && clearTimeout(timer)
@@ -437,7 +444,7 @@ export default {
     position: absolute;
     width: 100%;
     height: 7.5%;
-    color: rgb(0, 224, 255);
+    // color: rgb(0, 224, 255);
     font-size: 1em;
     & > div {
       position: absolute;
@@ -446,7 +453,7 @@ export default {
     .left {
       height: 100%;
       .logo-img {
-        margin-top: 25px;
+        margin-top: 20px;
         width: 70%;
       }
       .back {
@@ -454,13 +461,13 @@ export default {
         align-items: center;
         cursor: pointer;
         padding-left: 5px;
-        img {
-          height: 80%;
-          height: 10px;
+        .img {
+          height: 15px;
+          height: 15px;
         }
         span {
           font-size: 12px;
-          //   transform: scale(0.9);
+          transform: scale(0.9);
         }
       }
     }
@@ -577,14 +584,41 @@ export default {
       font-size: 28px;
       font-weight: bold;
       left: 50%;
-      bottom: 20%;
+      bottom: 16%;
       transform: translateX(-50%);
+      color: rgb(15, 202, 235);
+      text-shadow: 2px 3px 3px rgba(0, 0, 0, 0.05), 3px 4px 3px rgba(0, 0, 0, 0.205);
     }
     .pre {
       left: 33%;
     }
     .next {
       right: 33%;
+    }
+  }
+}
+@media only screen and (min-width: 1500px) {
+  .view {
+    .header {
+      .big-title {
+        font-size: 32px;
+      }
+      .left {
+        .logo-img {
+          margin-top: 32px;
+          width: 60%;
+        }
+        .back {
+          padding-left: 5px;
+          .img {
+            height: 15px;
+            height: 15px;
+          }
+          span {
+            font-size: 14px;
+          }
+        }
+      }
     }
   }
 }

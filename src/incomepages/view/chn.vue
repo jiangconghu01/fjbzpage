@@ -156,7 +156,7 @@ export default {
           chart_legend.push(s.name)
         })
         stack.xAxis[0].data = xArr
-        stack.series = chart_s
+        stack.series = chart_s.reverse()
         stack.legend.data = chart_legend
         box.setOption(stack)
       })

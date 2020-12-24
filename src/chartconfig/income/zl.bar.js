@@ -64,7 +64,7 @@ const option = {
   },
   legend: {
     textStyle: {
-      color: '#C7EBF9',
+      color: '#fff',
       fontSize: 12,
     },
     right: 10,

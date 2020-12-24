@@ -33,7 +33,7 @@ const option = {
   },
   legend: {
     textStyle: {
-      color: '#C7EBF9',
+      color: fontColor,
       fontSize: 12,
     },
     right: 10,
@@ -71,7 +71,7 @@ const option = {
         formatter: function (p) {
           return addNumberUnit(p)
         },
-        color: 'rgba(81, 203, 255, 0.753)',
+        color: fontColor,
       },
       splitLine: {
         show: true,

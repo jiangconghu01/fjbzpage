@@ -14,7 +14,11 @@ function getData() {
   return chartData
 }
 // const labelData = ['CHN市场\n折后账单当月收入', 'CHN市场\n非账单当月收入', 'B市场当月收入(扣减\n商品销售和其他收入)', '网间结算\n及其他当月收入']
-const labelData = ['CHN市场折后账单收入', 'CHN市场非账单收入', 'B市场收入(扣减商品销售和其他收入)', '网间结算及其他收入']
+const labelData = ['CHN市场非账单收入', 'CHN市场折后账单收入', '网间结算及其他收入', 'B市场收入(扣减商品销售及其他收入)']
+//CHN市场折后账单当月收入 1
+// CHN市场非账单当月收入 0
+// B市场当月收入（扣减商品销售、其他收入）3
+// 网间结算及其他当月收入 2
 function getLinearGradientItem(color1, color2) {
   return {
     color: new echarts.graphic.LinearGradient(
@@ -53,12 +57,13 @@ const option = {
   },
   legend: {
     textStyle: {
-      color: '#C7EBF9',
+      color: '#fff',
       fontSize: 12,
     },
     left: 10,
     itemWidth: 15,
     itemHeight: 10,
+    width: 380,
     data: labelData,
   },
   xAxis: [
@@ -115,7 +120,7 @@ const option = {
       type: 'bar',
       stack: '总量',
       data: getData(),
-      barWidth: 15,
+      barWidth: 18,
       label: {
         show: false,
         position: 'top',
@@ -128,7 +133,7 @@ const option = {
       type: 'bar',
       stack: '总量',
       data: getData(1),
-      barWidth: 15,
+      barWidth: 18,
       label: {
         show: false,
         position: 'top',
@@ -142,7 +147,7 @@ const option = {
       type: 'bar',
       stack: '总量',
       data: getData(2),
-      barWidth: 15,
+      barWidth: 18,
       label: {
         show: false,
         position: 'top',
@@ -155,7 +160,7 @@ const option = {
       type: 'bar',
       stack: '总量',
       data: getData(3),
-      barWidth: 15,
+      barWidth: 18,
       label: {
         show: true,
         position: 'top',

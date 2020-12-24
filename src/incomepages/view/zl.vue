@@ -5,19 +5,19 @@
       <div class="bg_boder_inner_box"></div>
       <img class="bg_img" src="../../static/income/index/chartbg.png" />
       <div id="zl_left_box" class="chart_container">
-        <div class="top">
-          <div class="item fzd" :class="[levelCurrent === 'fzd' ? 'current' : '', positionList[0]]" @click="topHandleClick(positionList[0], 'fzd')">
+        <div id="zl_left_box_t" class="top">
+          <div :style="itemScale" class="item fzd" :class="[levelCurrent === 'fzd' ? 'current' : '', positionList[0]]" @click="topHandleClick(positionList[0], 'fzd')">
             <div class="circle-text-content">
               <p class="num">{{ leftViewData[2] ? leftViewData[2] : 0 }}</p>
               <p class="unit">万元</p>
               <div class="name">
-                <p>CHN市场折后</p>
-                <p>非账单收入</p>
+                <p>CHN市场非</p>
+                <p>账单收入</p>
               </div>
             </div>
             <i class="light"></i>
           </div>
-          <div class="item wj" :class="[levelCurrent === 'wj' ? 'current' : '', positionList[1]]" @click="topHandleClick(positionList[1], 'wj')">
+          <div :style="itemScale" class="item wj" :class="[levelCurrent === 'wj' ? 'current' : '', positionList[1]]" @click="topHandleClick(positionList[1], 'wj')">
             <div class="circle-text-content">
               <p class="num">{{ leftViewData[5] ? leftViewData[5] : 0 }}</p>
               <p class="unit">万元</p>
@@ -27,7 +27,7 @@
               </div>
             </div>
           </div>
-          <div class="item all">
+          <div :style="itemScale" class="item all">
             <div class="circle-text-content">
               <p class="num">{{ leftViewData[0] ? leftViewData[0] : 0 }}</p>
               <p class="unit">万元</p>
@@ -36,7 +36,7 @@
               </div>
             </div>
           </div>
-          <div class="item zd" :class="[levelCurrent === 'zd' ? 'current' : '', positionList[2]]" @click="topHandleClick(positionList[2], 'zd')">
+          <div :style="itemScale" class="item zd" :class="[levelCurrent === 'zd' ? 'current' : '', positionList[2]]" @click="topHandleClick(positionList[2], 'zd')">
             <div class="circle-text-content">
               <p class="num">{{ leftViewData[1] ? leftViewData[1] : 0 }}</p>
               <p class="unit">万元</p>
@@ -46,7 +46,7 @@
               </div>
             </div>
           </div>
-          <div class="item bsc" :class="[levelCurrent === 'bsc' ? 'current' : '', positionList[3]]" @click="topHandleClick(positionList[3], 'bsc')">
+          <div :style="itemScale" class="item bsc" :class="[levelCurrent === 'bsc' ? 'current' : '', positionList[3]]" @click="topHandleClick(positionList[3], 'bsc')">
             <div class="subtraction"></div>
             <div class="circle-text-content t1">
               <p class="num">{{ leftViewData[3] ? leftViewData[3] : 0 }}</p>
@@ -66,7 +66,7 @@
           </div>
           <img v-show="levelCurrent === 'zd' || levelCurrent === 'fzd'" class="row_img" src="../../static/income/index/row_down.png" />
         </div>
-        <div class="bottom">
+        <div id="zl_left_box_b" class="bottom">
           <div class="layer">
             <ul class="level2" :class="[levelCurrent]">
               <li v-show="levelCurrent === 'zd'" class="zd_item">
@@ -272,6 +272,9 @@ export default {
       leftViewData: [],
       itemList: ['fzd', 'wj', 'zd', 'bsc'],
       positionList: ['sw1', 'sw2', 'sw3', 'sw4'],
+      itemScale: {
+        transform: 'translateX(-50%) scale(1)',
+      },
     }
   },
   computed: {
@@ -431,16 +434,16 @@ export default {
         const data4 = res.data.data.filter((val) => val.idxCde == encode[3]).map((val) => Number(val.idxValue).toFixed(2))
         const sum = sumAarrays(data1, data2, data3, data4)
 
-        zLstack.series[0].data = data1.map((val) => {
+        zLstack.series[1].data = data1.map((val) => {
           return (val / 100000000).toFixed(2)
         })
-        zLstack.series[1].data = data2.map((val) => {
+        zLstack.series[0].data = data2.map((val) => {
           return (val / 100000000).toFixed(2)
         })
-        zLstack.series[2].data = data3.map((val) => {
+        zLstack.series[3].data = data3.map((val) => {
           return (val / 100000000).toFixed(2)
         })
-        zLstack.series[3].data = data4.map((val, index) => {
+        zLstack.series[2].data = data4.map((val, index) => {
           return {
             name: '',
             value: (val / 100000000).toFixed(2),
@@ -458,6 +461,15 @@ export default {
       if (scale < 1) {
         const dom = document.getElementById('zl_left_box')
         dom.style.transform = `scale(${scale})`
+      }
+      if (scale > 1.2) {
+        const dom = document.getElementById('zl_left_box_b')
+        dom.style.transform = `scale(${scale - 0.2})`
+      }
+      if (scale > 1.3) {
+        this.itemScale = {
+          transform: 'translateX(-50%) scale(' + (scale - 0.25) + ')',
+        }
       }
     },
   },
@@ -517,9 +529,10 @@ export default {
         background-size: cover;
         position: absolute;
         cursor: pointer;
-        transform-style: preserve-3d;
+        // transform-style: preserve-3d;
         transition: all 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;
         transform: translateX(-50%);
+        transform-origin: center bottom;
         overflow: hidden;
         &.current {
           background: url('../../static/income/index/item_current.png') no-repeat;
@@ -563,7 +576,7 @@ export default {
           .name {
             p {
               font-size: 30px;
-              color: rgba(255, 255, 255, 0.805);
+              //   color: rgba(255, 255, 255, 0.805);
               transform: scale(0.85, 1);
             }
             text-shadow: 2px 3px 3px rgba(0, 0, 0, 0.05), 3px 4px 3px rgba(0, 0, 0, 0.205);
@@ -649,25 +662,46 @@ export default {
       .sw2 {
         left: 30%;
         bottom: 40%;
-        transform: perspective(600px) translateX(-50%) translateZ(-120px);
+        width: 113px;
+        height: 123px;
+        .circle-text-content {
+          padding-top: 62px;
+          p {
+            font-size: 20px;
+          }
+          .num {
+            height: 36px;
+            line-height: 36px;
+            font-size: 34px;
+          }
+          .unit {
+            margin-left: 5px;
+            font-size: 16px;
+          }
+        }
+        &.bsc {
+          width: 159px;
+          height: 115px;
+        }
+        // transform: perspective(600px) translateX(-50%) translateZ(-120px);
         // animation: bounce-in-top2 2.3s infinite 0s;
       }
       .sw3 {
         left: 50%;
         bottom: 2%;
-        transform: perspective(600px) translateX(-50%) translateZ(10px);
+        // transform: perspective(600px) translateX(-50%) translateZ(10px);
       }
       .sw4 {
         left: 75%;
         bottom: 32%;
-        transform: perspective(600px) translateX(-50%) translateZ(-20px);
+        // transform: perspective(600px) translateX(-50%) translateZ(-20px);
         // animation: bounce-in-top4 2.6s infinite 0s;
       }
       .row_img {
         width: 16px;
         position: absolute;
-        left: calc(50% - 1px);
-        // left: 50%;
+        // left: calc(50% - 1px);
+        left: 50%;
         bottom: -16px;
         animation: bounce-in-top 1.5s infinite 0s;
         transition: display 0.9s;
@@ -708,6 +742,7 @@ export default {
     .bottom {
       height: 40%;
       position: relative;
+      transform-origin: top center;
       .svg-frame,
       .svg-layer {
         width: 532px;
@@ -862,7 +897,7 @@ export default {
         p {
           text-align: center;
           font-size: 20px;
-          font-weight: bold;
+          //   font-weight: bold;
           height: 30px;
           line-height: 30px;
           text-shadow: 2px 3px 3px rgba(3, 2, 2, 0.05), 3px 4px 3px rgba(0, 0, 0, 0.205);
@@ -873,12 +908,12 @@ export default {
         }
         .num {
           font-size: 28px;
-          font-weight: bold;
+          //   font-weight: bold;
         }
         .unit {
           margin-left: 5px;
           font-size: 18px;
-          font-weight: bold;
+          //   font-weight: bold;
         }
       }
     }
@@ -891,7 +926,7 @@ export default {
       position: absolute;
       right: 8px;
       top: 10px;
-      color: #c7ebf9;
+      color: #fff;
     }
   }
   .chart_container {

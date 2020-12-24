@@ -56,7 +56,7 @@ const option = {
   },
   legend: {
     textStyle: {
-      color: '#C7EBF9',
+      color: '#fff',
       fontSize: 12,
     },
     right: 10,
@@ -93,7 +93,7 @@ const option = {
         // formatter: function (p) {
         //   return addNumberUnit(p)
         // },
-        color: 'rgba(81, 203, 255, 0.753)',
+        color: fontColor,
       },
       splitLine: {
         show: false,
@@ -114,7 +114,7 @@ const option = {
         formatter: function (p) {
           return (p * 100).toFixed(0) + '%'
         },
-        color: 'rgba(81, 203, 255, 0.753)',
+        color: fontColor,
       },
       axisLine: {
         show: false,

@@ -40,16 +40,10 @@ const option = {
         '<p>' +
         p[0].axisValue +
         '</p><p>' +
-        p[0].marker +
-        p[0].seriesName +
+        p[3].marker +
+        p[3].seriesName +
         ':' +
-        formatNumberRgx((p[0].data.idxValue / 10000).toFixed(2)) +
-        '</p>' +
-        '<p>' +
-        p[1].marker +
-        p[1].seriesName +
-        ':' +
-        formatNumberRgx((p[1].data.idxValue / 10000).toFixed(2)) +
+        formatNumberRgx((p[3].data.idxValue / 10000).toFixed(2)) +
         '</p>' +
         '<p>' +
         p[2].marker +
@@ -58,10 +52,16 @@ const option = {
         formatNumberRgx((p[2].data.idxValue / 10000).toFixed(2)) +
         '</p>' +
         '<p>' +
-        p[3].marker +
-        p[3].seriesName +
+        p[1].marker +
+        p[1].seriesName +
         ':' +
-        formatNumberRgx((p[3].data.idxValue / 10000).toFixed(2)) +
+        formatNumberRgx((p[1].data.idxValue / 10000).toFixed(2)) +
+        '</p>' +
+        '<p>' +
+        p[0].marker +
+        p[0].seriesName +
+        ':' +
+        formatNumberRgx((p[0].data.idxValue / 10000).toFixed(2)) +
         '</p>'
       )
     },
@@ -74,7 +74,7 @@ const option = {
   },
   legend: {
     textStyle: {
-      color: '#C7EBF9',
+      color: '#fff',
       fontSize: 12,
     },
     right: 10,
@@ -110,11 +110,11 @@ const option = {
 
       nameTextStyle: {
         color: '#fff',
-        fontWeight: '600',
+        // fontWeight: '600',
       },
       max: 100,
       axisLabel: {
-        color: 'rgba(81, 203, 255, 0.753)',
+        color: '#fff',
       },
       axisLine: {
         show: false,
