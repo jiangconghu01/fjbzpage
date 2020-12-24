@@ -116,7 +116,7 @@ const option = {
   ],
   series: [
     {
-      name: labelData[0],
+      name: labelData[1],
       type: 'bar',
       stack: '总量',
       data: getData(),
@@ -129,7 +129,7 @@ const option = {
       itemStyle: getLinearGradientItem('#36E2E7', '#8FFCFF'),
     },
     {
-      name: labelData[1],
+      name: labelData[0],
       type: 'bar',
       stack: '总量',
       data: getData(1),
@@ -143,7 +143,7 @@ const option = {
       itemStyle: getLinearGradientItem('#FBC551', '#FFE7B4'),
     },
     {
-      name: labelData[2],
+      name: labelData[3],
       type: 'bar',
       stack: '总量',
       data: getData(2),
@@ -156,7 +156,7 @@ const option = {
       itemStyle: getLinearGradientItem('#3AABFF', '#6BD7FF'),
     },
     {
-      name: labelData[3],
+      name: labelData[2],
       type: 'bar',
       stack: '总量',
       data: getData(3),

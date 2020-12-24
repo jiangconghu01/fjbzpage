@@ -434,16 +434,16 @@ export default {
         const data4 = res.data.data.filter((val) => val.idxCde == encode[3]).map((val) => Number(val.idxValue).toFixed(2))
         const sum = sumAarrays(data1, data2, data3, data4)
 
-        zLstack.series[1].data = data1.map((val) => {
+        zLstack.series[0].data = data1.map((val) => {
           return (val / 100000000).toFixed(2)
         })
-        zLstack.series[0].data = data2.map((val) => {
+        zLstack.series[1].data = data2.map((val) => {
           return (val / 100000000).toFixed(2)
         })
-        zLstack.series[3].data = data3.map((val) => {
+        zLstack.series[2].data = data3.map((val) => {
           return (val / 100000000).toFixed(2)
         })
-        zLstack.series[2].data = data4.map((val, index) => {
+        zLstack.series[3].data = data4.map((val, index) => {
           return {
             name: '',
             value: (val / 100000000).toFixed(2),
