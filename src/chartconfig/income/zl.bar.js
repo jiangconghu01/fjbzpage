@@ -1,11 +1,11 @@
 import echarts from 'echarts'
-import { addNumberUnit } from '../../incomepages/page.util'
+import { formatNumberRgx } from '../../incomepages/page.util'
 const fontColor = '#fff'
-const colors = ['#3E36DD', '#2E59D6', '#3769E7', '#0B87D8', '#0F9BD7', '#0F9BD7', '#1CCAD2', '#23E3D0', '#25EDCF', '#5EF6DF']
+const colors = ['#32BEFF', '#E581E2']
 let chartData = [
   { name: 'CHN市场\n折后账单收入', value: 30 },
   { name: 'CHN市场\n非账单收入', value: 40 },
-  { name: 'B市场收入\n(扣减商品销售及其他收入)', value: 42 },
+  { name: 'B市场收入\n(扣减其他收入)', value: 42 },
   { name: '网间结算\n及其他收入', value: 27 },
 ]
 
@@ -55,9 +55,30 @@ const option = {
     axisPointer: {
       type: 'shadow',
     },
+
+    formatter: function (p) {
+      return (
+        '<p>' +
+        p[0].data.idxName.replace(/[\s*#]/g, '') +
+        '</p><p>' +
+        // p[0].marker +
+        '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:#32BEFF;"></span>' +
+        p[0].seriesName +
+        ':' +
+        // formatNumberRgx((p[0].data.idxValue / 10000).toFixed(2)) +
+        p[0].data.value +
+        '%</p>' +
+        '<p>' +
+        '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:#E581E2;"></span>' +
+        p[1].seriesName +
+        ':' +
+        p[1].data.value +
+        '%</p>'
+      )
+    },
   },
   grid: {
-    top: '40',
+    top: '45',
     right: '2%',
     left: '2%',
     bottom: '50',
@@ -68,6 +89,7 @@ const option = {
       fontSize: 12,
     },
     right: 10,
+    top: 10,
     itemWidth: 15,
     itemHeight: 10,
     data: ['去年同期', '2020年截止X月'],
@@ -126,10 +148,10 @@ const option = {
       label: {
         show: true,
         position: [-20, -15],
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         color: '#fff',
         formatter: function (p) {
-          return p.value + '%'
+          return formatNumberRgx((p.data.idxValue / 100000000).toFixed(2))
         },
       },
       itemStyle: oneBaritem1,
@@ -147,7 +169,7 @@ const option = {
         color: '#fff',
         formatter: function (p) {
           //   return addNumberUnit(p.value)
-          return p.value + '%'
+          return formatNumberRgx((p.data.idxValue / 100000000).toFixed(2))
         },
       },
       itemStyle: oneBaritem2,

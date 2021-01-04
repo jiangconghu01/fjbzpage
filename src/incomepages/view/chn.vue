@@ -11,7 +11,7 @@
     </div>
     <div class="bottom">
       <div class="left chart bg_boder_box">
-        <Title>累计非账单收入结构分析</Title>
+        <Title>累计非账单收入分析</Title>
         <div class="bg_boder_inner_box"></div>
         <div id="chn_bottom_left_chart" class="chart_container"></div>
       </div>
@@ -30,6 +30,7 @@ import barLine from '@/chartconfig/income/barline.js'
 import line from '@/chartconfig/income/line.js'
 import { mapGetters, mapMutations } from 'vuex'
 import { getDatesParams, getMonthsArr, sumAarrays, formatNumberRgx } from '../page.util'
+import md from './mc.data'
 export default {
   components: { Title },
   data() {
@@ -105,8 +106,8 @@ export default {
       const cityArr = [code, ...c_code]
       const xArr = ['全省', ...c_Name]
       const param = JSON.parse(getDatesParams([month], cityArr, encode, chartCode, type))
-      const colors_light = ['#4EDBDF', '#FEBD60', '#51CCFF', '#C28DF5']
-      const colors = ['#1AA4B9', '#BE8751', '#0798E2', '#8A5AD5']
+      const colors_light = ['#7BC84D', '#F48924', '#ED42A3', '#A352FF', '#FF6666', '#CF66FF', '#35D372', '#E0B45A', '#F85A40', '#DA4AF7', '#4C8BFF', '#FA5CBB', '#8878FF']
+      const colors = ['#7BC84D', '#F48924', '#ED42A3', '#A352FF', '#FF6666', '#CF66FF', '#35D372', '#E0B45A', '#F85A40', '#DA4AF7', '#4C8BFF', '#FA5CBB', '#8878FF']
       this.$http.post('/channelBigScreen/modIdxVOList', param).then((res) => {
         const chart_s = []
         const chart_legend = []
@@ -127,36 +128,68 @@ export default {
             type: 'bar',
             stack: '总量',
             data: [],
+            sumDdata: array_sum,
             barWidth: '30',
             label: {
-              show: false,
+              show: true,
               position: 'top',
-              fontWeight: 'bold',
+              color: '#fff',
+              //   fontWeight: 'bold',
             },
           }
+
           res.data.data.forEach((val, index) => {
             if (val.idxCde == ele) {
               s.name = val.idxName
-              val.value = val.idxValue
-              ;(val.itemStyle = {
-                color: index === 0 ? colors_light[i] : colors[i],
-              }),
-                s.data.push(val)
+              val.value = Number(val.idxValue) ? (val.idxValue / 10000).toFixed(2) : 0
+              s.data.push(val)
             }
           })
-          s.data = s.data.map((v, ind) => {
-            if (array_sum[ind]) {
-              v.value = ((v.value / array_sum[ind]) * 100).toFixed(2)
-            } else {
-              v.value = 0
+          //每个serise的data里添加样式和同列叠加的其他数据
+          s.data.map((v, ind) => {
+            v.list = []
+            v.sum = array_sum[ind]
+            array_arr.forEach((e) => {
+              v.list.push(e[ind])
+            })
+            v.itemStyle = {
+              color: ind === 0 ? colors_light[i] : colors[i],
             }
             return v
           })
+
+          s.label.formatter = function (p) {
+            const len = p.data.list.length
+            const s_index = p.seriesIndex
+            const sum_num = (p.data.sum / 10000).toFixed(2)
+            let label = ''
+            let t = 0
+            for (let k = len - 1; k >= 0; k--) {
+              if (p.data.list[k] >= 0) {
+                t = k
+                break
+              }
+            }
+            if (t === s_index) {
+              label = sum_num
+            }
+            return label
+          }
+
+          //转化为百分比图
+          //   s.data = s.data.map((v, ind) => {
+          //     if (array_sum[ind]) {
+          //       v.value = ((Math.abs(v.value) / array_sum[ind]) * 100).toFixed(2)
+          //     } else {
+          //       v.value = 25
+          //     }
+          //     return v
+          //   })
           chart_s.push(s)
           chart_legend.push(s.name)
         })
         stack.xAxis[0].data = xArr
-        stack.series = chart_s.reverse()
+        stack.series = chart_s
         stack.legend.data = chart_legend
         box.setOption(stack)
       })
@@ -225,17 +258,19 @@ export default {
         })
         box.setOption(barLine)
         const _this = this
+
         // const orgcode = this.orgCode.value
         box.off('click')
         box.on('click', function (params) {
           if (params.componentSubType === 'bar') {
             _this.bottomRight(month, params.data.accountCode, type)
-            _this.bottomRightTitle = params.name + '-月度非账单收入时序分析'
           }
         })
       })
     },
     bottomRight(month, code, type) {
+      const name = this.$cityLevel.cityOrgMap[code] ? this.$cityLevel.cityOrgMap[code].replace('市', '') : '全省'
+      this.bottomRightTitle = name + '-月度非账单收入时序分析'
       const box = this.$echarts.init(document.getElementById('chn_bottom_right_chart'))
       this.setChartArr({ name: 'chart3', val: box })
       let encode = []
@@ -348,5 +383,6 @@ export default {
     background-color: rgba(16, 100, 204, 0.78);
     border-color: #29bde3;
   }
+  color: #65cf28;
 }
 </style>

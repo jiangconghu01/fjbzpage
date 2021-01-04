@@ -45,7 +45,8 @@ import Title from '@/components/income.title.vue'
 import bar from '@/chartconfig/income/bar.js'
 import { mapGetters, mapMutations } from 'vuex'
 import { insertStr, addNumberUnit, formatNumberRgx } from '../page.util'
-const colors = ['#3E36DD', '#2E59D6', '#3769E7', '#0B87D8', '#0F9BD7', '#0F9BD7', '#1CCAD2', '#23E3D0', '#25EDCF', '#5EF6DF']
+// const colors = ['#3E36DD', '#2E59D6', '#3769E7', '#0B87D8', '#0F9BD7', '#0F9BD7', '#1CCAD2', '#23E3D0', '#25EDCF', '#5EF6DF']
+const colors = ['#DD6B4F', '#E47544', '#E8934D', '#F3A057', '#F2B158', '#F2BE66', '#F0C954', '#F0CE62', '#F1D477', '#F4E67A']
 const TypeMap = {
   current_month: '1',
   accmulate_num: '2',
@@ -190,7 +191,7 @@ export default {
             })
             config.xAxis[0].data = xarr
             config.series[0].data = data
-            config.color = [itemcolor ? itemcolor : '#3E36DD']
+            config.color = [itemcolor ? itemcolor : '#DD6B4F']
             box.setOption(config)
           })
     },
@@ -215,7 +216,7 @@ export default {
             })
             config.xAxis[0].data = xarr
             config.series[0].data = data
-            config.color = [itemcolor ? itemcolor : '#3E36DD']
+            config.color = [itemcolor ? itemcolor : '#DD6B4F']
             box.setOption(config)
           })
     },

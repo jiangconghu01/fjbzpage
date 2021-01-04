@@ -8,59 +8,55 @@
         <div id="zl_left_box_t" class="top">
           <div :style="itemScale" class="item fzd" :class="[levelCurrent === 'fzd' ? 'current' : '', positionList[0]]" @click="topHandleClick(positionList[0], 'fzd')">
             <div class="circle-text-content">
-              <p class="num">{{ leftViewData[2] ? leftViewData[2] : 0 }}</p>
+              <p class="num">{{ leftViewData[2] ? leftViewData[2].value : 0 }}</p>
               <p class="unit">万元</p>
               <div class="name">
-                <p>CHN市场非</p>
-                <p>账单收入</p>
+                <p v-for="item in leftViewData[2].name" :key="item">{{ item }}</p>
               </div>
             </div>
             <i class="light"></i>
           </div>
           <div :style="itemScale" class="item wj" :class="[levelCurrent === 'wj' ? 'current' : '', positionList[1]]" @click="topHandleClick(positionList[1], 'wj')">
             <div class="circle-text-content">
-              <p class="num">{{ leftViewData[5] ? leftViewData[5] : 0 }}</p>
+              <p class="num">{{ leftViewData[5] ? leftViewData[5].value : 0 }}</p>
               <p class="unit">万元</p>
               <div class="name">
-                <p>网间结算及</p>
-                <p>其他收入</p>
+                <p v-for="item in leftViewData[5].name" :key="item">{{ item }}</p>
               </div>
             </div>
           </div>
           <div :style="itemScale" class="item all">
             <div class="circle-text-content">
-              <p class="num">{{ leftViewData[0] ? leftViewData[0] : 0 }}</p>
+              <p class="num">{{ leftViewData[0] ? leftViewData[0].value : 0 }}</p>
               <p class="unit">万元</p>
               <div class="name">
-                <p>通信服务收入</p>
+                <p v-for="item in leftViewData[0].name" :key="item">{{ item }}</p>
               </div>
             </div>
           </div>
           <div :style="itemScale" class="item zd" :class="[levelCurrent === 'zd' ? 'current' : '', positionList[2]]" @click="topHandleClick(positionList[2], 'zd')">
             <div class="circle-text-content">
-              <p class="num">{{ leftViewData[1] ? leftViewData[1] : 0 }}</p>
+              <p class="num">{{ leftViewData[1] ? leftViewData[1].value : 0 }}</p>
               <p class="unit">万元</p>
               <div class="name">
-                <p>CHN市场折后</p>
-                <p>账单收入</p>
+                <p v-for="item in leftViewData[1].name" :key="item">{{ item }}</p>
               </div>
             </div>
           </div>
           <div :style="itemScale" class="item bsc" :class="[levelCurrent === 'bsc' ? 'current' : '', positionList[3]]" @click="topHandleClick(positionList[3], 'bsc')">
             <div class="subtraction"></div>
             <div class="circle-text-content t1">
-              <p class="num">{{ leftViewData[3] ? leftViewData[3] : 0 }}</p>
+              <p class="num">{{ leftViewData[3] ? leftViewData[3].value : 0 }}</p>
               <p class="unit">万元</p>
               <div class="name">
-                <p>B市场收入</p>
+                <p v-for="item in leftViewData[3].name" :key="item">{{ item }}</p>
               </div>
             </div>
             <div class="circle-text-content t2">
-              <p class="num">{{ leftViewData[4] ? leftViewData[4] : 0 }}</p>
+              <p class="num">{{ leftViewData[4] ? leftViewData[4].value : 0 }}</p>
               <p class="unit">万元</p>
               <div class="name">
-                <p>B市场商品销售</p>
-                <p>及其他收入</p>
+                <p v-for="item in leftViewData[4].name" :key="item">{{ item }}</p>
               </div>
             </div>
           </div>
@@ -72,41 +68,41 @@
               <li v-show="levelCurrent === 'zd'" class="zd_item">
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[6] ? leftViewData[6] : 0 }}</i> <i class="unit">万</i>
+                    <i class="num">{{ leftViewData[6] ? leftViewData[6].value : 0 }}</i> <i class="unit">万</i>
                   </p>
-                  <p class="name">客户数</p>
+                  <p v-for="item in leftViewData[6].name" :key="item" class="name">{{ item }}</p>
                 </div>
               </li>
               <li v-show="levelCurrent === 'zd'" class="zd_item calc">
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[7] ? leftViewData[7] : 0 }}</i> <i class="unit">元</i>
+                    <i class="num">{{ leftViewData[7] ? leftViewData[7].value : 0 }}</i> <i class="unit">元</i>
                   </p>
-                  <p class="name">折后ARPU</p>
+                  <p v-for="item in leftViewData[7].name" :key="item" class="name">{{ item }}</p>
                 </div>
               </li>
               <li v-show="levelCurrent === 'fzd'" class="zd_item">
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[20] ? leftViewData[20] : 0 }}</i> <i class="unit">元</i>
+                    <i class="num">{{ leftViewData[20] ? leftViewData[20].value : 0 }}</i> <i class="unit">万元</i>
                   </p>
-                  <p class="name">网内结算</p>
+                  <p v-for="item in leftViewData[20].name" :key="item" class="name">{{ item }}</p>
                 </div>
               </li>
               <li v-show="levelCurrent === 'fzd'" class="zd_item calc add">
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[21] ? leftViewData[21] : 0 }}</i> <i class="unit">万元</i>
+                    <i class="num">{{ leftViewData[21] ? leftViewData[21].value : 0 }}</i> <i class="unit">万元</i>
                   </p>
-                  <p class="name">跨期包摊销</p>
+                  <p v-for="item in leftViewData[21].name" :key="item" class="name">{{ item }}</p>
                 </div>
               </li>
               <li v-show="levelCurrent === 'fzd'" class="zd_item calc add">
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[22] ? leftViewData[22] : 0 }}</i> <i class="unit">万元</i>
+                    <i class="num">{{ leftViewData[22] ? leftViewData[22].value : 0 }}</i> <i class="unit">万元</i>
                   </p>
-                  <p class="name">其他</p>
+                  <p v-for="item in leftViewData[22].name" :key="item" class="name">{{ item }}</p>
                 </div>
               </li>
             </ul>
@@ -116,33 +112,33 @@
               <li class="l3-1">
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[8] ? leftViewData[8] : 0 }}</i> <i class="unit">万</i>
+                    <i class="num">{{ leftViewData[8] ? leftViewData[8].value : 0 }}</i> <i class="unit">万</i>
                   </p>
-                  <p class="name">新增客户数</p>
+                  <p v-for="item in leftViewData[8].name" :key="item" class="name">{{ item }}</p>
                 </div>
               </li>
               <li class="l3-2 calc" :class="[level4Status === 'left' ? 'current' : '']" @click="level3Clidk('left')">
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[9] ? leftViewData[9] : 0 }}</i> <i class="unit">元</i>
+                    <i class="num">{{ leftViewData[9] ? leftViewData[9].value : 0 }}</i> <i class="unit">元</i>
                   </p>
-                  <p class="name">新增客户折后ARPU</p>
+                  <p v-for="item in leftViewData[9].name" :key="item" class="name">{{ item }}</p>
                 </div>
               </li>
               <li class="l3-3">
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[10] ? leftViewData[10] : 0 }}</i> <i class="unit">万</i>
+                    <i class="num">{{ leftViewData[10] ? leftViewData[10].value : 0 }}</i> <i class="unit">万</i>
                   </p>
-                  <p class="name">存量客户数</p>
+                  <p v-for="item in leftViewData[10].name" :key="item" class="name">{{ item }}</p>
                 </div>
               </li>
               <li class="l3-4 calc" :class="[level4Status === 'right' ? 'current' : '']" @click="level3Clidk('right')">
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[11] ? leftViewData[11] : 0 }}</i> <i class="unit">元</i>
+                    <i class="num">{{ leftViewData[11] ? leftViewData[11].value : 0 }}</i> <i class="unit">元</i>
                   </p>
-                  <p class="name">存量客户折后ARPU</p>
+                  <p v-for="item in leftViewData[11].name" :key="item" class="name">{{ item }}</p>
                 </div>
               </li>
             </ul>
@@ -150,33 +146,33 @@
               <li>
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[12] ? leftViewData[12] : 0 }}</i> <i class="unit">万元</i>
+                    <i class="num">{{ leftViewData[12] ? leftViewData[12].value : 0 }}</i> <i class="unit">元</i>
                   </p>
-                  <p class="name">基础套餐折后收入</p>
+                  <p v-for="item in leftViewData[12].name" :key="item" class="name">{{ item }}</p>
                 </div>
               </li>
               <li>
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[13] ? leftViewData[13] : 0 }}</i> <i class="unit">万元</i>
+                    <i class="num">{{ leftViewData[13] ? leftViewData[13].value : 0 }}</i> <i class="unit">元</i>
                   </p>
-                  <p class="name">可选包折后收入</p>
+                  <p v-for="item in leftViewData[13].name" :key="item" class="name">{{ item }}</p>
                 </div>
               </li>
               <li>
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[14] ? leftViewData[14] : 0 }}</i> <i class="unit">万元</i>
+                    <i class="num">{{ leftViewData[14] ? leftViewData[14].value : 0 }}</i> <i class="unit">元</i>
                   </p>
-                  <p class="name">套外语音/流量收入</p>
+                  <p v-for="item in leftViewData[14].name" :key="item" class="name">{{ item }}</p>
                 </div>
               </li>
               <li>
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[15] ? leftViewData[15] : 0 }}</i> <i class="unit">万元</i>
+                    <i class="num">{{ leftViewData[15] ? leftViewData[15].value : 0 }}</i> <i class="unit">元</i>
                   </p>
-                  <p class="name">其他类型收入</p>
+                  <p v-for="item in leftViewData[15].name" :key="item" class="name">{{ item }}</p>
                 </div>
               </li>
             </ul>
@@ -184,53 +180,53 @@
               <li>
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[16] ? leftViewData[16] : 0 }}</i> <i class="unit">万元</i>
+                    <i class="num">{{ leftViewData[16] ? leftViewData[16].value : 0 }}</i> <i class="unit">元</i>
                   </p>
-                  <p class="name">基础套餐折后收入</p>
+                  <p v-for="item in leftViewData[16].name" :key="item" class="name">{{ item }}</p>
                 </div>
               </li>
               <li>
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[17] ? leftViewData[17] : 0 }}</i> <i class="unit">万元</i>
+                    <i class="num">{{ leftViewData[17] ? leftViewData[17].value : 0 }}</i> <i class="unit">元</i>
                   </p>
-                  <p class="name">可选包折后收入</p>
+                  <p v-for="item in leftViewData[17].name" :key="item" class="name">{{ item }}</p>
                 </div>
               </li>
               <li>
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[18] ? leftViewData[18] : 0 }}</i> <i class="unit">万元</i>
+                    <i class="num">{{ leftViewData[18] ? leftViewData[18].value : 0 }}</i> <i class="unit">元</i>
                   </p>
-                  <p class="name">套外语言/流量收入</p>
+                  <p v-for="item in leftViewData[18].name" :key="item" class="name">{{ item }}</p>
                 </div>
               </li>
               <li>
                 <div class="text-content">
                   <p>
-                    <i class="num">{{ leftViewData[19] ? leftViewData[19] : 0 }}</i> <i class="unit">万元</i>
+                    <i class="num">{{ leftViewData[19] ? leftViewData[19].value : 0 }}</i> <i class="unit">元</i>
                   </p>
-                  <p class="name">其他类型收入</p>
+                  <p v-for="item in leftViewData[19].name" :key="item" class="name">{{ item }}</p>
                 </div>
               </li>
             </ul>
           </div>
           <svg v-if="levelCurrent === 'zd'" class="svg-frame" viewBox="0 0 532 89" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-            <g id="all-frame" transform="translate(-429.000000, -504.000000)" fill="none" stroke-width="1">
-              <g id="top" transform="translate(429.755126, 504.450880)" stroke="rgba(88, 160, 251, 0.7)" stroke-width="1">
+            <g id="all-frame" transform="translate(-429.000000, -504.000000)" fill="none" stroke-width="0.7">
+              <g id="top" transform="translate(429.755126, 504.450880)" stroke="#fff">
                 <polyline id="path" points="137.935044 2.84217094e-14 137.935044 11.2271588 298.086128 11.2271588 298.086128 2.84217094e-14"></polyline>
                 <polyline id="path-2" points="218.010586 11.2271588 218.010586 16.8908734 -4.84080744e-14 16.8908734 -5.68434189e-14 27.1650751"></polyline>
                 <polyline id="path-3" points="218.010586 16.8908734 437.937163 16.8908734 437.937163 27.1650751"></polyline>
                 <line id="path-4" x1="140.284452" y1="16.8908734" x2="140.284452" y2="27.1650751"></line>
                 <line id="path-5" x1="298.086128" y1="16.8908734" x2="298.086128" y2="27.1650751"></line>
               </g>
-              <g v-if="level4Status === 'left'" id="b_left" transform="translate(479.551612, 568.610820)" stroke="rgba(88, 190, 251, 0.5)">
+              <g v-if="level4Status === 'left'" id="b_left" transform="translate(479.551612, 568.610820)" stroke="#fff">
                 <polyline id="path-6" points="90.4879662 5.68434189e-14 90.4879662 11.8828824 324.874308 11.8828824 324.874308 23.8274033"></polyline>
                 <line id="path-7" x1="217.110408" y1="11.9137016" x2="217.110408" y2="23.8274033"></line>
                 <line id="path-8" x1="108.675149" y1="11.9137016" x2="108.675149" y2="23.8274033"></line>
                 <polyline id="path-9" points="90.4879662 11.9137016 -2.84217094e-14 11.9137016 -2.84217094e-14 23.8274033"></polyline>
               </g>
-              <g v-if="level4Status === 'right'" id="b_right" transform="translate(588.226761, 568.610820)" stroke="rgba(88, 190, 251, 0.8)">
+              <g v-if="level4Status === 'right'" id="b_right" transform="translate(588.226761, 568.610820)" stroke="#fff">
                 <polyline id="path-10" points="279.528365 0 279.528365 11.9137016 2.84217094e-14 11.9137016 2.84217094e-14 23.8274033"></polyline>
                 <line id="path-11" x1="108.435259" y1="12" x2="108.435259" y2="23.8274033"></line>
                 <line id="path-12" x1="216.324851" y1="12" x2="216.324851" y2="23.8274033"></line>
@@ -244,12 +240,13 @@
     <div class="right">
       <div class="top chart bg_boder_box">
         <Title>累计通信服务收入分析</Title>
+        <div class="chart_unit">单位（亿）</div>
         <div class="bg_boder_inner_box"></div>
         <div id="zl_right_top_chart" class="chart_container"></div>
       </div>
       <div class="bottom chart bg_boder_box">
         <Title>月度四轮收入时序分析</Title>
-        <div class="unit">单位（亿）</div>
+        <div class="chart_unit">单位（亿）</div>
         <div class="bg_boder_inner_box"></div>
         <div id="zl_right_bottom_chart" class="chart_container"></div>
       </div>
@@ -269,7 +266,9 @@ export default {
       encodes: [],
       levelCurrent: 'zd',
       level4Status: 'left',
-      leftViewData: [],
+      leftViewData: Array.from({ length: 23 }, (v, k) => {
+        return { value: 0, name: '' }
+      }),
       itemList: ['fzd', 'wj', 'zd', 'bsc'],
       positionList: ['sw1', 'sw2', 'sw3', 'sw4'],
       itemScale: {
@@ -291,6 +290,7 @@ export default {
   created() {},
   mounted() {
     this.initpage()
+    this.$refs['zlBox']
     this.risezeFrame()
   },
   methods: {
@@ -345,17 +345,33 @@ export default {
       }
       this.$http.post('/channelBigScreen/modIdxVOList', p).then((res) => {
         const resdata = res.data.data
+        const data_orgin = [
+          'TFSR_0000_2_4',
+          'TFSR_0000_2_6',
+          'TFSR_0000_2_2',
+          'TFSR_0000_3_4',
+          'TFSR_0000_3_3',
+          'TFSR_0000_3_2',
+          'TFSR_0000_3_1',
+          'TFSR_0000_4_4',
+          'TFSR_0000_4_3',
+          'TFSR_0000_4_2',
+          'TFSR_0000_4_1',
+        ]
         if (resdata) {
           this.leftViewData = resdata.map((val) => {
             let value = '0.00'
             if (Number(val.idxValue)) {
-              if (val.idxCde === 'TFSR_0000_2_4' || val.idxCde === 'TFSR_0000_2_6' || val.idxCde === 'TFSR_0000_2_2') {
+              if (data_orgin.indexOf(val.idxCde) > -1) {
                 value = Number(val.idxValue).toFixed(2)
               } else {
                 value = (val.idxValue / 10000).toFixed(2)
               }
             }
-            return value
+            return {
+              name: val.idxName.split(/[\s*#]/),
+              value: value,
+            }
           })
         }
       })
@@ -381,18 +397,21 @@ export default {
         const before_d = []
         let sum_curr = 0
         let sum_before = 0
+        const xData = []
         res.data.data.forEach((ele) => {
           ele.value = ele.idxValue
           if (ele.periodDate == dateArr[12]) {
             sum_curr += Number(ele.idxValue) ? Number(ele.idxValue) : 0
             curr_d.push(ele)
+            //空格和#替换为换行符
+            xData.push(ele.idxName.replace(/[\s*#]/g, '\n'))
           }
           if (ele.periodDate == dateArr[0]) {
             sum_before += Number(ele.idxValue) ? Number(ele.idxValue) : 0
             before_d.push(ele)
           }
         })
-
+        zLbar.xAxis[0].data = xData
         zLbar.series[0].data = before_d.map((val) => {
           if (sum_before) {
             val.value = ((val.value / sum_before) * 100).toFixed(2)
@@ -428,25 +447,52 @@ export default {
       }
       const param = JSON.parse(getDatesParams(dateArr, [code], encode, chartCode, type))
       this.$http.post('/channelBigScreen/modIdxVOList', param).then((res) => {
+        const legendData = []
+        //    legendData.push(val.idxName.replace(/[\s*#]/g, '\n'))
+        res.data.data.forEach((val) => {
+          if (val.periodDate === month) {
+            legendData.push(val.idxName)
+          }
+        })
         const data1 = res.data.data.filter((val) => val.idxCde == encode[0]).map((val) => Number(val.idxValue).toFixed(2))
         const data2 = res.data.data.filter((val) => val.idxCde == encode[1]).map((val) => Number(val.idxValue).toFixed(2))
         const data3 = res.data.data.filter((val) => val.idxCde == encode[2]).map((val) => Number(val.idxValue).toFixed(2))
         const data4 = res.data.data.filter((val) => val.idxCde == encode[3]).map((val) => Number(val.idxValue).toFixed(2))
         const sum = sumAarrays(data1, data2, data3, data4)
-
-        zLstack.series[0].data = data1.map((val) => {
-          return (val / 100000000).toFixed(2)
+        zLstack.legend.data = legendData
+        zLstack.series[0].name = legendData[0]
+        zLstack.series[0].data = data1.map((val, index) => {
+          return {
+            name: '',
+            value: (val / 100000000).toFixed(2),
+            valuelist: [data1[index], data2[index], data3[index], data4[index]],
+            value2: (sum[index] / 100000000).toFixed(2),
+          }
         })
-        zLstack.series[1].data = data2.map((val) => {
-          return (val / 100000000).toFixed(2)
+        zLstack.series[1].name = legendData[1]
+        zLstack.series[1].data = data2.map((val, index) => {
+          return {
+            name: '',
+            value: (val / 100000000).toFixed(2),
+            valuelist: [data1[index], data2[index], data3[index], data4[index]],
+            value2: (sum[index] / 100000000).toFixed(2),
+          }
         })
-        zLstack.series[2].data = data3.map((val) => {
-          return (val / 100000000).toFixed(2)
+        zLstack.series[2].name = legendData[2]
+        zLstack.series[2].data = data3.map((val, index) => {
+          return {
+            name: '',
+            value: (val / 100000000).toFixed(2),
+            valuelist: [data1[index], data2[index], data3[index], data4[index]],
+            value2: (sum[index] / 100000000).toFixed(2),
+          }
         })
+        zLstack.series[3].name = legendData[3]
         zLstack.series[3].data = data4.map((val, index) => {
           return {
             name: '',
             value: (val / 100000000).toFixed(2),
+            valuelist: [data1[index], data2[index], data3[index], data4[index]],
             value2: (sum[index] / 100000000).toFixed(2),
           }
         })
@@ -520,7 +566,7 @@ export default {
       height: 100%;
     }
     .top {
-      height: 60%;
+      height: 64%;
       position: relative;
       .item {
         width: 125px;
@@ -560,7 +606,7 @@ export default {
       }
       .all {
         left: 50%;
-        bottom: 45%;
+        bottom: 50%;
         width: 175px;
         height: 190px;
         background: url('../../static/income/index/center.jpg') no-repeat;
@@ -586,7 +632,7 @@ export default {
             transform: scale(0.68, 1);
             height: 60px;
             line-height: 60px;
-            font-size: 50px;
+            font-size: 52px;
             font-weight: bold;
             text-shadow: 1px -1px 10px rgba(255, 255, 255, 1);
           }
@@ -655,13 +701,13 @@ export default {
         }
       }
       .sw1 {
-        left: 18%;
-        bottom: 19%;
+        left: 15%;
+        bottom: 22%;
         // animation: bounce-in-top 2s infinite 0s;
       }
       .sw2 {
         left: 30%;
-        bottom: 40%;
+        bottom: 13%;
         width: 113px;
         height: 123px;
         .circle-text-content {
@@ -688,12 +734,12 @@ export default {
       }
       .sw3 {
         left: 50%;
-        bottom: 2%;
+        bottom: 4%;
         // transform: perspective(600px) translateX(-50%) translateZ(10px);
       }
       .sw4 {
         left: 75%;
-        bottom: 32%;
+        bottom: 13%;
         // transform: perspective(600px) translateX(-50%) translateZ(-20px);
         // animation: bounce-in-top4 2.6s infinite 0s;
       }
@@ -724,11 +770,12 @@ export default {
         .name {
           //   color: rgba(255, 255, 255, 0.805);
           text-shadow: 2px 3px 3px rgba(0, 0, 0, 0.05), 3px 4px 3px rgba(0, 0, 0, 0.205);
+          white-space: nowrap;
         }
         .num {
           height: 40px;
           line-height: 40px;
-          font-size: 38px;
+          font-size: 40px;
           font-weight: bold;
           transform: scale(0.85, 1);
         }
@@ -740,7 +787,7 @@ export default {
       }
     }
     .bottom {
-      height: 40%;
+      height: 36%;
       position: relative;
       transform-origin: top center;
       .svg-frame,
@@ -821,6 +868,7 @@ export default {
               }
               .name {
                 color: rgba(255, 255, 255, 0.905);
+                white-space: nowrap;
               }
             }
           }
@@ -851,17 +899,20 @@ export default {
               p {
                 height: 48px;
                 line-height: 48px;
-                font-size: 26px;
+                font-size: 22px;
               }
               .num {
-                font-size: 42px;
+                font-size: 36px;
+                transform: scale(0.85, 1);
+                display: inline-block;
               }
               .name {
                 color: rgba(255, 255, 255, 0.855);
+                white-space: nowrap;
               }
               .unit {
                 margin-left: 5px;
-                font-size: 20px;
+                font-size: 18px;
               }
             }
           }
@@ -905,9 +956,10 @@ export default {
         .name {
           color: rgba(255, 255, 255, 0.805);
           text-shadow: 2px 3px 3px rgba(0, 0, 0, 0.05), 3px 4px 3px rgba(0, 0, 0, 0.205);
+          white-space: nowrap;
         }
         .num {
-          font-size: 28px;
+          font-size: 26px;
           //   font-weight: bold;
         }
         .unit {
@@ -921,11 +973,11 @@ export default {
   .right {
     flex: 7;
     margin: 0 20px 0 8px;
-    .bottom .unit {
+    .chart_unit {
       padding: 5px;
       position: absolute;
       right: 8px;
-      top: 10px;
+      top: 8px;
       color: #fff;
     }
   }

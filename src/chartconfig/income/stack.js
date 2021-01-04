@@ -1,33 +1,34 @@
 import citys from '../citycode'
 import { addNumberUnit, formatNumberRgx } from '../../incomepages/page.util'
 const fontColor = '#fff'
-const colors_light = ['#4EDBDF', '#FEBD60', '#51CCFF', '#C28DF5']
-const colors = ['#1AA4B9', '#BE8751', '#0798E2', '#8A5AD5']
-let chartData = Object.keys(citys.cityCodeMap).map((val) => {
-  return {
-    name: val,
-    value: (Math.random() * 1000).toFixed(0),
-  }
-})
-chartData.unshift({ name: '全省', value: (Math.random() * 1000).toFixed(0) })
-let xData = chartData.map((v) => v.name)
-function getTdata(colornum) {
-  const sdata = Object.keys(citys.cityCodeMap).map((val) => {
-    return {
-      name: val,
-      value: (Math.random() * 1000).toFixed(0),
-    }
-  })
-  sdata.unshift({ name: '全省', value: (Math.random() * 1000).toFixed(0) })
-  return sdata.map((v, index) => {
-    return {
-      value: v.value,
-      itemStyle: {
-        color: index === 0 ? colors_light[colornum] : colors[colornum],
-      },
-    }
-  })
-}
+// const colors_light = ['#65cf28', '#FEBD60', '#51CCFF', '#C28DF5']
+// const colors = ['#1AA4B9', '#BE8751', '#0798E2', '#8A5AD5']
+const color_n = ['#7BC84D', '#F48924', '#ED42A3', '#A352FF', '#FF6666', '#CF66FF', '#35D372', '#E0B45A', '#F85A40', '#DA4AF7', '#4C8BFF', '#FA5CBB', '#8878FF']
+// let chartData = Object.keys(citys.cityCodeMap).map((val) => {
+//   return {
+//     name: val,
+//     value: (Math.random() * 1000).toFixed(0),
+//   }
+// })
+// chartData.unshift({ name: '全省', value: (Math.random() * 1000).toFixed(0) })
+// let xData = chartData.map((v) => v.name)
+// function getTdata(colornum) {
+//   const sdata = Object.keys(citys.cityCodeMap).map((val) => {
+//     return {
+//       name: val,
+//       value: (Math.random() * 1000).toFixed(0),
+//     }
+//   })
+//   sdata.unshift({ name: '全省', value: (Math.random() * 1000).toFixed(0) })
+//   return sdata.map((v, index) => {
+//     return {
+//       value: v.value,
+//       itemStyle: {
+//         color: index === 0 ? colors_light[colornum] : colors[colornum],
+//       },
+//     }
+//   })
+// }
 
 const option = {
   tooltip: {
@@ -36,34 +37,12 @@ const option = {
       type: 'shadow',
     },
     formatter: function (p) {
-      return (
-        '<p>' +
-        p[0].axisValue +
-        '</p><p>' +
-        p[3].marker +
-        p[3].seriesName +
-        ':' +
-        formatNumberRgx((p[3].data.idxValue / 10000).toFixed(2)) +
-        '</p>' +
-        '<p>' +
-        p[2].marker +
-        p[2].seriesName +
-        ':' +
-        formatNumberRgx((p[2].data.idxValue / 10000).toFixed(2)) +
-        '</p>' +
-        '<p>' +
-        p[1].marker +
-        p[1].seriesName +
-        ':' +
-        formatNumberRgx((p[1].data.idxValue / 10000).toFixed(2)) +
-        '</p>' +
-        '<p>' +
-        p[0].marker +
-        p[0].seriesName +
-        ':' +
-        formatNumberRgx((p[0].data.idxValue / 10000).toFixed(2)) +
-        '</p>'
-      )
+      let tooltip = '<p>' + p[0].axisValue + '</p>'
+      for (let index = p.length - 1; index >= 0; index--) {
+        const ele = p[index]
+        tooltip += '<p>' + ele.marker + ele.seriesName + ':' + formatNumberRgx(ele.data.value) + '</p>'
+      }
+      return tooltip
     },
   },
   grid: {
@@ -85,7 +64,7 @@ const option = {
   xAxis: [
     {
       type: 'category',
-      data: xData,
+      data: [],
       axisLine: {
         lineStyle: {
           color: 'rgba(63, 105, 230, 0.6)',
@@ -106,13 +85,13 @@ const option = {
   ],
   yAxis: [
     {
-      name: '单位（%）',
+      //   name: '单位（%）',
 
-      nameTextStyle: {
-        color: '#fff',
-        // fontWeight: '600',
-      },
-      max: 100,
+      //   nameTextStyle: {
+      //     color: '#fff',
+      //     // fontWeight: '600',
+      //   },
+      //   max: 100,
       axisLabel: {
         color: '#fff',
       },
@@ -133,14 +112,14 @@ const option = {
       },
     },
   ],
-  color: colors,
+  color: color_n,
   series: [
     {
       name: '网内结算收入',
       type: 'bar',
       stack: '总量',
-      data: getTdata(0),
-      barWidth: '30',
+      data: [],
+      barWidth: 40,
       label: {
         show: false,
         position: 'top',
@@ -151,8 +130,8 @@ const option = {
       name: '流量递延收入',
       type: 'bar',
       stack: '总量',
-      data: getTdata(1),
-      barWidth: '30',
+      data: [],
+      barWidth: 40,
       label: {
         show: false,
         position: 'top',
@@ -163,8 +142,8 @@ const option = {
       name: '积分递延收入',
       type: 'bar',
       stack: '总量',
-      data: getTdata(2),
-      barWidth: '30',
+      data: [],
+      barWidth: 40,
       label: {
         show: false,
         position: 'top',
@@ -175,8 +154,8 @@ const option = {
       name: '其他',
       type: 'bar',
       stack: '总量',
-      data: getTdata(3),
-      barWidth: '30',
+      data: [],
+      barWidth: 40,
       label: {
         show: false,
         position: 'top',

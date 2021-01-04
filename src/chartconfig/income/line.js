@@ -1,8 +1,9 @@
 import echarts from 'echarts'
 import { addNumberUnit } from '../../incomepages/page.util'
 const fontColor = '#fff'
-const colors = ['#20C5CA', '#EDA148', '#09B6FD', '#AC69EC']
-const linecolor = '#ECD867'
+// const colors = ['#8DBB25', '#EDA148', '#09B6FD', '#AC69EC']
+const colors = ['#7BC84D', '#F48924', '#ED42A3', '#A352FF', '#FF6666', '#CF66FF', '#35D372', '#E0B45A', '#F85A40', '#DA4AF7', '#4C8BFF', '#FA5CBB', '#8878FF']
+// const linecolor = '#ECD867'
 
 const xarr = Array.from({ length: 13 }, (v, k) => {
   return k < 10 ? '0' + k + '月' : k + '月'
@@ -68,9 +69,6 @@ const option = {
     {
       //   name: '收入',
       axisLabel: {
-        formatter: function (p) {
-          return addNumberUnit(p)
-        },
         color: fontColor,
       },
       splitLine: {

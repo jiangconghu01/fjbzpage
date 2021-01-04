@@ -1,6 +1,7 @@
 import echarts from 'echarts'
 const fontColor = '#fff'
-const colors = ['#3E36DD', '#2E59D6', '#3769E7', '#0B87D8', '#0F9BD7', '#0F9BD7', '#1CCAD2', '#23E3D0', '#25EDCF', '#5EF6DF']
+// const colors = ['#3E36DD', '#2E59D6', '#3769E7', '#0B87D8', '#0F9BD7', '#0F9BD7', '#1CCAD2', '#23E3D0', '#25EDCF', '#5EF6DF']
+const colors = ['#DD6B4F', '#E47544', '#E8934D', '#F3A057', '#F2B158', '#F2BE66', '#F0C954', '#F0CE62', '#F1D477', '#F4E67A']
 let chartData = [
   { name: '企信通', value: 300 },
   { name: '本地数据\n专线', value: 400 },
