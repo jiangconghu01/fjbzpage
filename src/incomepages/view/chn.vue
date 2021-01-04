@@ -30,7 +30,6 @@ import barLine from '@/chartconfig/income/barline.js'
 import line from '@/chartconfig/income/line.js'
 import { mapGetters, mapMutations } from 'vuex'
 import { getDatesParams, getMonthsArr, sumAarrays, formatNumberRgx } from '../page.util'
-import md from './mc.data'
 export default {
   components: { Title },
   data() {
