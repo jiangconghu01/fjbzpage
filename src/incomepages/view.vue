@@ -5,8 +5,7 @@
     <div class="header">
       <div class="left">
         <img class="logo-img" src="../static/income/logo.png" alt="" />
-        <div v-if="currentPage !== 'zl'" class="back" @click="indexPage">
-          <!-- <img src="../static/income/fh.png" alt="" /> -->
+        <!-- <div v-if="currentPage !== 'zl'" class="back" @click="indexPage">
           <svg t="1608777839839" class="icon img" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="19102">
             <path
               d="M298.934857 347.794286V220.16L0.731429 518.217143l298.130285 298.057143V688.493714L128.585143 518.217143l170.349714-170.422857z m255.488 42.642285v-170.422857L256.292571 518.290286 554.422857 816.274286V641.682286c212.845714 0 361.984 68.169143 468.333714 217.088-42.496-212.845714-170.276571-425.691429-468.333714-468.333715z"
@@ -15,11 +14,12 @@
             ></path>
           </svg>
           <span>返回首页</span>
-        </div>
+        </div> -->
       </div>
-      <div class="pre btn center" @click="prePage">上一页</div>
-      <div class="big-title center" v-on="{ mouseenter: hoverTitle, mouseleave: hoverTitle }">{{ titleText }}</div>
-      <div class="next btn center" @click="nextPage">下一页</div>
+      <!-- <div class="pre btn center" @click="prePage">上一页</div> -->
+      <!-- <div class="big-title center" v-on="{ mouseenter: hoverTitle, mouseleave: hoverTitle }">{{ titleText }}</div> -->
+      <div class="big-title center">{{ titleText }}</div>
+      <!-- <div class="next btn center" @click="nextPage">下一页</div> -->
       <div class="right">
         <div class="date">
           <img class="bk" src="../static/income/index/select.png" alt="" />
@@ -27,7 +27,8 @@
         </div>
         <div class="city-box">
           <img class="bk" src="../static/income/index/select.png" alt="" />
-          <el-cascader ref="refHandle" v-model="value" :options="authCityLevel" :props="{ expandTrigger: 'hover', checkStrictly: true }" @change="handleChange"></el-cascader>
+          <!-- <el-cascader ref="refHandle" v-model="value" :options="authCityLevel" :props="{ expandTrigger: 'hover', checkStrictly: true }" @change="handleChange"></el-cascader> -->
+          <el-cascader ref="refHandle" v-model="value" :options="$cityLevel.level" :props="{ expandTrigger: 'hover', checkStrictly: true }" @change="handleChange"></el-cascader>
         </div>
         <div class="text-box">
           <p>金　额：万元</p>
@@ -47,6 +48,56 @@
             </svg>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="left-mu">
+      <div ref="mubtn" class="frame" @click="showMuList">
+        <img class="bk" src="../static/income/index/select.png" alt="" />
+        <span class="ph">点击选择菜单</span>
+      </div>
+      <div v-if="isShowMuList" ref="mudom">
+        <el-menu :default-active="dfmu" class="el-menu-left" @open="handleOpen" @close="handleClose" @select="selectMu">
+          <el-submenu index="1">
+            <template slot="title">
+              <i class="el-icon-menu"></i>
+              <span>通信服务收入</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="1-1"><i class="el-icon-tickets"></i>通信服务收入总览</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-submenu index="2">
+            <template slot="title">
+              <i class="el-icon-menu"></i>
+              <span>CHN市场折后账单收入</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="2-1"><i class="el-icon-tickets"></i>当月收入总览</el-menu-item>
+              <el-menu-item index="2-2"><i class="el-icon-tickets"></i>收入变动历史趋势分析</el-menu-item>
+              <el-menu-item index="2-3"><i class="el-icon-tickets"></i>新增/离网分析</el-menu-item>
+              <el-menu-item index="2-4"><i class="el-icon-tickets"></i>存量客户升档/降档分析</el-menu-item>
+              <el-menu-item index="2-5"><i class="el-icon-tickets"></i>当月折后收入总览</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-submenu index="3">
+            <template slot="title">
+              <i class="el-icon-menu"></i>
+              <span>CHN市场非账单收入</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="3-1"><i class="el-icon-tickets"></i>CHN市场非账单收入</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-submenu index="4">
+            <template slot="title">
+              <i class="el-icon-menu"></i>
+              <span>B市场收入</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="4-1"><i class="el-icon-tickets"></i>政企市场(B)收入情况</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+        </el-menu>
       </div>
     </div>
     <div id="top-mu-box" class="top-mu" :class="!isShowMu ? '' : 'open_mu'">
@@ -111,7 +162,7 @@
 const routerArr = ['zl', 'chn', 'zqsc']
 import SmSelect from '@/components/sm.select.vue'
 import SmCascader from '@/components/sm.cascader.vue'
-import { beforeMonth } from './page.util'
+import { beforeMonth, getQueryVariable } from './page.util'
 import { mapGetters, mapMutations } from 'vuex'
 let timer = null
 export default {
@@ -122,6 +173,8 @@ export default {
       currentMuNode: '1-1',
       dateVal: beforeMonth(),
       isShowMu: false,
+      isShowMuList: false,
+      dfmu: '1-1',
       leaveTimeOut: false,
       stypeList: [],
       cityList: [],
@@ -178,9 +231,12 @@ export default {
   },
   created() {},
   mounted() {
+    this.setUrlParam()
     this.setOrgCode(this.authCityLevel[0])
-    this.setCurrentMuStatus()
-    this.risezeMu()
+
+    // this.setCurrentMuStatus()
+    // this.risezeMu()
+    document.addEventListener('click', this.outsideClick)
     document.getElementsByClassName('el-input__inner')[0].setAttribute('readonly', 'readonly')
     setInterval(function () {
       ;[...document.querySelectorAll('.el-cascader-node__label')].forEach((el) => {
@@ -189,6 +245,9 @@ export default {
         }
       })
     }, 500)
+  },
+  destroyed() {
+    document.removeEventListener('click', this.outsideClick)
   },
   methods: {
     ...mapMutations(['setMonth', 'setOrgCode']),
@@ -206,6 +265,81 @@ export default {
     //   }
     //   this.value = cityLevelArr
     // },
+    setUrlParam() {
+      const orgCode = getQueryVariable('orgCode')
+      const month = getQueryVariable('date')
+      if (month) {
+        this.dateVal = month
+      }
+      if (orgCode) {
+        let codes = []
+        if (orgCode === '59') {
+          codes = [orgCode]
+        } else {
+          codes = ['59', orgCode]
+        }
+        this.value = codes
+        this.$nextTick(() => {
+          this.handleChange()
+        })
+      }
+    },
+    showMuList() {
+      this.setDefaultMu()
+      this.isShowMuList = true
+    },
+    outsideClick(e) {
+      const isInnerBox = this.$refs['mudom'].contains(e.target)
+      const isInnerBtn = this.$refs['mubtn'].contains(e.target)
+      if (isInnerBox || isInnerBtn) {
+        return
+      }
+      this.isShowMuList = false
+    },
+    handleOpen(key, keyPath) {
+      //   console.log(key, keyPath)
+    },
+    handleClose(key, keyPath) {
+      //   console.log(key, keyPath)
+    },
+    selectMu(key, keyPath) {
+      const p_mu = key.split('-')[0]
+      const level2_id = key.split('-')[1]
+
+      if (p_mu === '2') {
+        const month = this.month
+        const code = this.orgCode.value
+        const viewCode = '10' + level2_id
+        this.isShowMuList = false
+        const host = this.getRootPath_dc()
+        window.location.href = host + `/bigScreen/income/gotoScheme?viewCode=${viewCode}&date=${month}&orgCode=${code}`
+        // window.open(`/bigScreen/income/gotoScheme?viewCode=${viewCode}&date=${month}&orgCode=${code}`)
+        return
+      }
+      let page = 'zl'
+      if (key === '1-1') {
+        page = 'zl'
+      } else if (key === '3-1') {
+        page = 'chn'
+      } else if (key === '4-1') {
+        page = 'zqsc'
+      }
+      this.currentPage = page
+      this.$router.push({ name: page })
+      this.isShowMuList = false
+    },
+    setDefaultMu() {
+      const name = this.$route.name
+      let page = '1-1'
+      if (name === 'zl') {
+        page = '1-1'
+      } else if (name === 'chn') {
+        page = '3-1'
+      } else if (name === 'zqsc') {
+        page = '4-1'
+      }
+      this.dfmu = page
+    },
     risezeMu() {
       const box_h = this.$refs['viewBox'].offsetHeight
       const mu_h = box_h * 0.4
@@ -242,22 +376,33 @@ export default {
       }
     },
     handleMuClick(mu, page) {
-      this.isShowMu = false
+      //   this.isShowMu = false
       const p_mu = mu.split(',')[0]
       const line_id = mu.split(',')[1]
       if (p_mu === 'mu2') {
         // this.$Message.warning('暂时不能跳转！')
-        console.log(this.orgCode)
+
         const month = this.month
         const code = this.orgCode.value
         const viewCode = '10' + line_id.split('-')[1]
-        window.open(`/bigScreen/income/gotoScheme?viewCode=${viewCode}&date=${month}&orgCode=${code}`)
+        //   window.open(`/bigScreen/income/gotoScheme?viewCode=${viewCode}&date=${month}&orgCode=${code}`)
+        const host = this.getRootPath_dc()
+        window.location.href = host + `/bigScreen/income/gotoScheme?viewCode=${viewCode}&date=${month}&orgCode=${code}`
         return
       }
 
       this.currentMuNode = line_id
       this.currentPage = page
       this.$router.push({ name: page })
+    },
+    getRootPath_dc() {
+      //   var pathName = window.location.pathname.substring(1)
+      //   var webName = pathName == '' ? '' : pathName.substring(0, pathName.indexOf('/'))
+      //   if (webName == '') {
+      return window.location.protocol + '//' + window.location.host
+      //   } else {
+      //     return window.location.protocol + '//' + window.location.host + '/' + webName
+      //   }
     },
     setCurrentMuStatus() {
       const name = this.$route.name
@@ -282,30 +427,31 @@ export default {
     },
     handleChange() {
       const node = this.$refs.refHandle.getCheckedNodes()
+      console.log('node', node)
       const currentNode = node[0].data
       this.setOrgCode(currentNode)
     },
-    indexPage() {
-      this.$router.push({ name: 'zl' })
-      this.currentPage = 'zl'
-    },
+    // indexPage() {
+    //   this.$router.push({ name: 'zl' })
+    //   this.currentPage = 'zl'
+    // },
     setTime(newval) {
       this.setMonth(newval)
     },
-    prePage() {
-      const name = this.$route.name
-      const index = routerArr.indexOf(name) - 1
-      const t_name = index > -1 ? routerArr[index] : routerArr[routerArr.length - 1]
-      this.currentPage = t_name
-      this.$router.push({ name: t_name })
-    },
-    nextPage() {
-      const name = this.$route.name
-      const index = routerArr.indexOf(name) + 1
-      const t_name = index < routerArr.length ? routerArr[index] : routerArr[0]
-      this.currentPage = t_name
-      this.$router.push({ name: t_name })
-    },
+    // prePage() {
+    //   const name = this.$route.name
+    //   const index = routerArr.indexOf(name) - 1
+    //   const t_name = index > -1 ? routerArr[index] : routerArr[routerArr.length - 1]
+    //   this.currentPage = t_name
+    //   this.$router.push({ name: t_name })
+    // },
+    // nextPage() {
+    //   const name = this.$route.name
+    //   const index = routerArr.indexOf(name) + 1
+    //   const t_name = index < routerArr.length ? routerArr[index] : routerArr[0]
+    //   this.currentPage = t_name
+    //   this.$router.push({ name: t_name })
+    // },
     //获取效能对标页面外链跳转ID
     getOutLinkId() {
       this.$http.post('/bigScreen/common/getCustomReportId', { viewCode: '9' }).then((res) => {
@@ -321,6 +467,63 @@ export default {
   height: 100%;
   position: relative;
   overflow: hidden;
+  .left-mu {
+    position: absolute;
+    left: 20px;
+    // top: 7.5%;
+    top: calc(10% - 32px);
+    z-index: 10;
+    .frame {
+      cursor: pointer;
+      width: 130px;
+      height: 32px;
+      position: relative;
+      img {
+        width: 130px;
+        height: 30px;
+      }
+      .ph {
+        width: 100%;
+        height: 32px;
+        line-height: 32px;
+        text-align: center;
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    }
+    .el-menu-left {
+      border-radius: 3px;
+      margin-top: 8px;
+      position: relative;
+      &::before {
+        content: '';
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border: 10px solid;
+        border-color: transparent transparent #fff;
+        position: absolute;
+        left: 20px;
+        top: -15px;
+        z-index: -1;
+      }
+      .el-menu-item-group__title {
+        padding: 0;
+      }
+      //   .el-menu-item.is-active {
+      //     font-weight: bold;
+      //   }
+      .el-submenu.is-active .el-submenu__title {
+        .el-icon-menu,
+        span {
+          font-weight: bold;
+          color: #409eff;
+        }
+      }
+    }
+  }
   .top-mu {
     position: absolute;
     width: 100%;

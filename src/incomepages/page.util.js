@@ -245,6 +245,21 @@ function addNumberUnit(number) {
   }
   return number
 }
+//获取url参数
+function getQueryVariable(variable) {
+  var query = window.location.href.split('?')[1]
+  if (!query) {
+    return false
+  }
+  var vars = query.split('&')
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split('=')
+    if (pair[0] == variable) {
+      return pair[1]
+    }
+  }
+  return false
+}
 export {
   sumAarrays,
   getMonthsArr,
@@ -260,4 +275,5 @@ export {
   beforeMonth,
   insertStr,
   addNumberUnit,
+  getQueryVariable,
 }

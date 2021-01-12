@@ -306,7 +306,9 @@ export default {
         const month = this.month
         const code = this.orgCode.value
         if (item === 'zd') {
-          window.open(`/bigScreen/income/gotoScheme?viewCode=101&date=${month}&orgCode=${code}`)
+          const host = window.location.protocol + '//' + window.location.host
+          window.location.href = host + `/bigScreen/income/gotoScheme?viewCode=101&date=${month}&orgCode=${code}`
+          //   window.open(`/bigScreen/income/gotoScheme?viewCode=101&date=${month}&orgCode=${code}`)
         } else if (item === 'fzd') {
           this.$router.push({ name: 'chn' })
         } else if (item === 'bsc') {
