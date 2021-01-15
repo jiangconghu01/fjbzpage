@@ -27,8 +27,8 @@
         </div>
         <div class="city-box">
           <img class="bk" src="../static/income/index/select.png" alt="" />
-          <!-- <el-cascader ref="refHandle" v-model="value" :options="authCityLevel" :props="{ expandTrigger: 'hover', checkStrictly: true }" @change="handleChange"></el-cascader> -->
-          <el-cascader ref="refHandle" v-model="value" :options="$cityLevel.level" :props="{ expandTrigger: 'hover', checkStrictly: true }" @change="handleChange"></el-cascader>
+          <el-cascader ref="refHandle" v-model="value" :options="authCityLevel" :props="{ expandTrigger: 'hover', checkStrictly: true }" @change="handleChange"></el-cascader>
+          <!-- <el-cascader ref="refHandle" v-model="value" :options="$cityLevel.level" :props="{ expandTrigger: 'hover', checkStrictly: true }" @change="handleChange"></el-cascader> -->
         </div>
         <div class="text-box">
           <p>金　额：万元</p>
@@ -270,6 +270,7 @@ export default {
       const month = getQueryVariable('date')
       if (month) {
         this.dateVal = month
+        this.setMonth(month)
       }
       if (orgCode) {
         let codes = []
