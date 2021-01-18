@@ -16,6 +16,7 @@ const state = {
   isloading: false,
   chartArr: JSON.parse(JSON.stringify(chartArr)),
   authCityLevel: [],
+  listAuth: [],
   updateTime: '',
 }
 const getters = {
@@ -46,6 +47,9 @@ const getters = {
   authCityLevel(state) {
     return state.authCityLevel
   },
+  listAuth(state) {
+    return state.listAuth
+  },
 }
 const mutations = {
   setMonth(state, param) {
@@ -74,6 +78,9 @@ const mutations = {
   },
   setAuthCityLevel(state, param) {
     state.authCityLevel = param
+  },
+  setListAuth(state, param) {
+    state.listAuth = param
   },
 }
 const actions = {

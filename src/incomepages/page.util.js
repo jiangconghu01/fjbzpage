@@ -200,7 +200,13 @@ function findMapCode(array, orgCode) {
 }
 //获取前三级地市
 function getOrgLevel(array) {
-  const l1 = []
+  if (!array) {
+    return {
+      level: [],
+      allArr: [],
+    }
+  }
+  let l1 = []
   const l2 = []
   const l3 = []
   const data = array.map((val) => {
@@ -208,16 +214,23 @@ function getOrgLevel(array) {
     val.label = val.orgName
     val.orgLevel == '1' && l1.push(val)
     val.orgLevel == '2' && l2.push(val)
-    // val.orgLevel == '3' && l3.push(val)
+    val.orgLevel == '3' && l3.push(val)
     return val
   })
-  //   l2.length > 0 &&
-  //     l2.forEach((val, index) => {
-  //       l2[index].children = l3.filter((ele) => {
-  //         return ele.orgCity == val.orgCode
-  //       })
-  //     })
-  l1[0].children = l2
+  l2.length > 0 &&
+    l2.forEach((val, index) => {
+      if (l3.length > 0) {
+        l2[index].children = l3.filter((ele) => {
+          return ele.orgCity == val.orgCode
+        })
+      }
+    })
+  if (l1.length > 0) {
+    l1[0].children = l2
+  } else {
+    l1 = l2
+  }
+
   return {
     level: l1,
     allArr: data,

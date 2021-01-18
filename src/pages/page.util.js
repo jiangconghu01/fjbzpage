@@ -215,9 +215,11 @@ function getOrgLevel(array) {
   })
   l2.length > 0 &&
     l2.forEach((val, index) => {
-      l2[index].children = l3.filter((ele) => {
-        return ele.orgCity == val.orgCode
-      })
+      if (l3.length > 0) {
+        l2[index].children = l3.filter((ele) => {
+          return ele.orgCity == val.orgCode
+        })
+      }
     })
   l1[0].children = l2
   return {

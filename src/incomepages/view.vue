@@ -178,12 +178,12 @@ export default {
       leaveTimeOut: false,
       stypeList: [],
       cityList: [],
-      value: ['59'],
+      value: [],
       //   options: [],
     }
   },
   computed: {
-    ...mapGetters(['month', 'orgCode', 'isloading', 'muLabel', 'authCityLevel']),
+    ...mapGetters(['month', 'orgCode', 'isloading', 'muLabel', 'authCityLevel', 'listAuth']),
     options() {
       const level = JSON.parse(JSON.stringify(this.$cityLevel))
       level.label = level.name
@@ -212,6 +212,13 @@ export default {
     },
     $route(to, from) {
       this.currentPage = to.name
+      const orgCode = this.orgCode.value
+      const t = this.listAuth.find((val) => val.orgCode === orgCode)
+      if (!t) {
+        const defaultCode = this.authCityLevel[0]
+        this.setOrgCode(defaultCode)
+        this.value = defaultCode.orgCode
+      }
     },
     // currentPage: {
     //   handler(newval) {
@@ -232,7 +239,6 @@ export default {
   created() {},
   mounted() {
     this.setUrlParam()
-    this.setOrgCode(this.authCityLevel[0])
 
     // this.setCurrentMuStatus()
     // this.risezeMu()
@@ -273,16 +279,21 @@ export default {
         this.setMonth(month)
       }
       if (orgCode) {
-        let codes = []
-        if (orgCode === '59') {
-          codes = [orgCode]
+        const t = this.listAuth.find((val) => val.orgCode === orgCode)
+        if (t) {
+          this.value = orgCode
         } else {
-          codes = ['59', orgCode]
+          const defaultCode = this.authCityLevel[0]
+          this.setOrgCode(defaultCode)
+          this.value = defaultCode.orgCode
         }
-        this.value = codes
         this.$nextTick(() => {
           this.handleChange()
         })
+      } else {
+        const defaultCode = this.authCityLevel[0]
+        this.setOrgCode(defaultCode)
+        this.value = defaultCode.orgCode
       }
     },
     showMuList() {
@@ -290,8 +301,8 @@ export default {
       this.isShowMuList = true
     },
     outsideClick(e) {
-      const isInnerBox = this.$refs['mudom'].contains(e.target)
-      const isInnerBtn = this.$refs['mubtn'].contains(e.target)
+      const isInnerBox = this.$refs['mudom'] && this.$refs['mudom'].contains(e.target)
+      const isInnerBtn = this.$refs['mubtn'] && this.$refs['mubtn'].contains(e.target)
       if (isInnerBox || isInnerBtn) {
         return
       }
@@ -306,10 +317,16 @@ export default {
     selectMu(key, keyPath) {
       const p_mu = key.split('-')[0]
       const level2_id = key.split('-')[1]
-
+      const orgCodeUrl = getQueryVariable('orgCode')
+      const monthUrl = getQueryVariable('date')
       if (p_mu === '2') {
-        const month = this.month
-        const code = this.orgCode.value
+        let month = this.month
+        let code = ''
+        if (this.orgCode && this.orgCode.value) {
+          code = this.orgCode.value
+        } else {
+          code = orgCodeUrl
+        }
         const viewCode = '10' + level2_id
         this.isShowMuList = false
         const host = this.getRootPath_dc()
