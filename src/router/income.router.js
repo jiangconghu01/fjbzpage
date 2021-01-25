@@ -56,9 +56,8 @@ router.beforeEach(async (to, from, next) => {
   let orgLevelObj = []
   let flag = false
   try {
-    // const res = await Vue.prototype.$http.post('/channelBigScreen/common/orgInfoAuthorizedAll', { viewCode: viewMap[to.name], orgCode: '59' })
-    const res = { data: { data: a } }
-    debugger
+    const res = await Vue.prototype.$http.post('/channelBigScreen/common/orgInfoAuthorizedAll', { viewCode: viewMap[to.name] })
+    // const res = { data: { data: a } }
     const level = getOrgLevel(res.data.data)
     console.log(level)
     store.commit('setAuthCityLevel', level.level)

@@ -212,12 +212,27 @@ export default {
     },
     $route(to, from) {
       this.currentPage = to.name
-      const orgCode = this.orgCode.value
-      const t = this.listAuth.find((val) => val.orgCode === orgCode)
+      let orgCode = ''
+      let t = ''
+      const up = this.listAuth.find((val) => val.orgCode === '59')
+      if (this.orgCode && this.orgCode.value) {
+        orgCode = this.orgCode.value
+        if (up && this.orgCode.value !== '59') {
+          this.value = ['59', this.orgCode.value]
+        } else {
+          this.value = [this.orgCode.value]
+        }
+      }
+
+      t = this.listAuth.find((val) => val.orgCode === orgCode)
       if (!t) {
         const defaultCode = this.authCityLevel[0]
         this.setOrgCode(defaultCode)
-        this.value = defaultCode.orgCode
+        if (up && defaultCode.orgCode !== '59') {
+          this.value = ['59', defaultCode.orgCode]
+        } else {
+          this.value = [defaultCode.orgCode]
+        }
       }
     },
     // currentPage: {

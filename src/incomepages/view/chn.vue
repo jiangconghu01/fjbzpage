@@ -67,6 +67,9 @@ export default {
       const month = this.month
       const code = this.orgCode.value
       const type = '0000'
+      if (!code) {
+        return
+      }
       const encodes = await this.$http.post('/channelBigScreen/modInfoList', {
         viewCode: '107',
         chnlType: type,

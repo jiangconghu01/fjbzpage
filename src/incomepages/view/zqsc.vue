@@ -98,6 +98,9 @@ export default {
       const month = this.month.replace('-', '')
       //   const month = '202010'
       const code = this.orgCode.value
+      if (!code) {
+        return
+      }
       this.leftTop(month, code)
       this.leftBottom(month, code)
     },

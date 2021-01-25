@@ -326,6 +326,10 @@ export default {
     async initpage() {
       const month = this.month
       const code = this.orgCode.value
+
+      if (!code) {
+        return
+      }
       const type = '0000'
       const encodes = await this.$http.post('/channelBigScreen/modInfoList', {
         viewCode: '106',
