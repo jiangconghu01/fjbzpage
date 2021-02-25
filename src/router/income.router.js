@@ -28,6 +28,11 @@ const router = new VueRouter({
           component: () => import('@/incomepages/view/chn.vue'),
         },
         {
+          path: '/view/bscf',
+          name: 'bscf',
+          component: () => import('@/incomepages/view/bscf.vue'),
+        },
+        {
           path: '/view/zqsc',
           name: 'zqsc',
           component: () => import('@/incomepages/view/zqsc.vue'),
@@ -52,6 +57,7 @@ router.beforeEach(async (to, from, next) => {
     zl: '106',
     chn: '107',
     zqsc: '108',
+    bscf: '109',
   }
   let orgLevelObj = []
   let flag = false

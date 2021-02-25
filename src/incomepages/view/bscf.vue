@@ -1,5 +1,5 @@
 <template>
-  <div class="chn">
+  <div class="bscf">
     <div class="top chart bg_boder_box">
       <Title>非账单收入结构分析</Title>
       <Button-group size="small" class="btn-switch">
@@ -7,18 +7,18 @@
         <i-button type="primary" :class="[topChartStatus === 'accmulate_num' ? 'current' : '']" @click="switchView('accmulate_num')"> 累计 </i-button>
       </Button-group>
       <div class="bg_boder_inner_box"></div>
-      <div id="chn_top_chart" class="chart_container"></div>
+      <div id="bscf_top_chart" class="chart_container"></div>
     </div>
     <div class="bottom">
       <div class="left chart bg_boder_box">
         <Title>累计非账单收入分析</Title>
         <div class="bg_boder_inner_box"></div>
-        <div id="chn_bottom_left_chart" class="chart_container"></div>
+        <div id="bscf_bottom_left_chart" class="chart_container"></div>
       </div>
       <div class="right chart bg_boder_box">
         <Title :title="bottomRightTitle">全省-月度非账单收入时序分析</Title>
         <div class="bg_boder_inner_box"></div>
-        <div id="chn_bottom_right_chart" class="chart_container"></div>
+        <div id="bscf_bottom_right_chart" class="chart_container"></div>
       </div>
     </div>
   </div>
@@ -71,8 +71,8 @@ export default {
         return
       }
       const encodes = await this.$http.post('/channelBigScreen/modInfoList', {
-        viewCode: '107',
-        chnlType: type,
+        viewCode: '109',
+        bscflType: type,
       })
       this.encodes = encodes.data.data
       this.top(month, '59', type)
@@ -80,9 +80,9 @@ export default {
       this.bottomRight(month, code, type)
     },
     top(month, code, type) {
-      const box = this.$echarts.init(document.getElementById('chn_top_chart'))
+      const box = this.$echarts.init(document.getElementById('bscf_top_chart'))
       this.setChartArr({ name: 'chart1', val: box })
-
+      const stack_config = JSON.parse(JSON.stringify(stack))
       let encode = []
       let chartCode = ''
       if (this.topChartStatus === 'current_month') {
@@ -90,16 +90,16 @@ export default {
           encode = this.encodes[0].idxs.map((ele) => ele.idxCde)
           chartCode = this.encodes[0].chartCode
         } else {
-          encode = ['FZDSR_0000_1_1', 'FZDSR_0000_1_2', 'FZDSR_0000_1_3', 'FZDSR_0000_1_4']
-          chartCode = 'FZDSR_0000_1'
+          encode = ['BFZDSR_0000_1_1', 'BFZDSR_0000_1_2', 'BFZDSR_0000_1_3', 'BFZDSR_0000_1_4']
+          chartCode = 'BFZDSR_0000_1'
         }
       } else {
         if (this.encodes[1] && this.encodes[1].idxs.length) {
           encode = this.encodes[1].idxs.map((ele) => ele.idxCde)
           chartCode = this.encodes[1].chartCode
         } else {
-          encode = ['FZDSR_0000_2_1', 'FZDSR_0000_2_2', 'FZDSR_0000_2_3', 'FZDSR_0000_2_4']
-          chartCode = 'FZDSR_0000_2'
+          encode = ['BFZDSR_0000_2_1', 'BFZDSR_0000_2_2', 'BFZDSR_0000_2_3', 'BFZDSR_0000_2_4']
+          chartCode = 'BFZDSR_0000_2'
         }
       }
       //   const cityArr = [code, ...this.$cityLevel.cityCodeArr]
@@ -198,10 +198,10 @@ export default {
           chart_s.push(s)
           chart_legend.push(s.name)
         })
-        stack.xAxis[0].data = xArr
-        stack.series = chart_s
-        stack.legend.data = chart_legend
-        box.setOption(stack)
+        stack_config.xAxis[0].data = xArr
+        stack_config.series = chart_s
+        stack_config.legend.data = chart_legend
+        box.setOption(stack_config)
       })
     },
     bottomLeft(month, code, type) {
@@ -224,7 +224,7 @@ export default {
           false
         ),
       }
-      const box = this.$echarts.init(document.getElementById('chn_bottom_left_chart'))
+      const box = this.$echarts.init(document.getElementById('bscf_bottom_left_chart'))
       this.setChartArr({ name: 'chart2', val: box })
       let encode = []
       let chartCode = ''
@@ -232,8 +232,8 @@ export default {
         encode = this.encodes[2].idxs.map((ele) => ele.idxCde)
         chartCode = this.encodes[2].chartCode
       } else {
-        encode = ['FZDSR_0000_3_1']
-        chartCode = 'FZDSR_0000_3'
+        encode = ['BFZDSR_0000_3_1']
+        chartCode = 'BFZDSR_0000_3'
       }
       //   const c_code = this.authCityLevel[0].children.map((val) => val.value)
       //   const c_Name = this.authCityLevel[0].children.map((val) => val.orgName)
@@ -257,15 +257,16 @@ export default {
         const before_d = res.data.data.filter((val) => {
           return val.periodDate == dateArr[0]
         })
-        barLine.series[0].data = curr_d.map((val) => {
+        const config_barLine = JSON.parse(JSON.stringify(barLine))
+        config_barLine.series[0].data = curr_d.map((val) => {
           val.value = (val.idxValue / 10000).toFixed(2)
           return val
         })
-        barLine.xAxis[0].data = xArr
-        barLine.series[0].data[0].itemStyle = oneBaritem
-        barLine.series[1].name = '截止' + month.split('-')[1] + '月同比%'
-        barLine.legend.data[1] = '截止' + month.split('-')[1] + '月同比%'
-        barLine.series[1].data = before_d.map((val, index) => {
+        config_barLine.xAxis[0].data = xArr
+        config_barLine.series[0].data[0].itemStyle = oneBaritem
+        config_barLine.series[1].name = '截止' + month.split('-')[1] + '月同比%'
+        config_barLine.legend.data[1] = '截止' + month.split('-')[1] + '月同比%'
+        config_barLine.series[1].data = before_d.map((val, index) => {
           let v = 0
           if (Number(val.idxValue)) {
             v = (((curr_d[index].idxValue - val.idxValue) / val.idxValue) * 100).toFixed(2)
@@ -274,7 +275,7 @@ export default {
           }
           return v
         })
-        box.setOption(barLine)
+        box.setOption(config_barLine)
         const _this = this
 
         // const orgcode = this.orgCode.value
@@ -289,7 +290,7 @@ export default {
     bottomRight(month, code, type) {
       const name = this.$cityLevel.cityOrgMap[code] ? this.$cityLevel.cityOrgMap[code].replace('市', '') : '全省'
       this.bottomRightTitle = name + '-月度非账单收入时序分析'
-      const box = this.$echarts.init(document.getElementById('chn_bottom_right_chart'))
+      const box = this.$echarts.init(document.getElementById('bscf_bottom_right_chart'))
       this.setChartArr({ name: 'chart3', val: box })
       let encode = []
       let chartCode = ''
@@ -297,8 +298,8 @@ export default {
         encode = this.encodes[3].idxs.map((ele) => ele.idxCde)
         chartCode = this.encodes[3].chartCode
       } else {
-        encode = ['FZDSR_0000_4_1', 'FZDSR_0000_4_2', 'FZDSR_0000_4_3', 'FZDSR_0000_4_4']
-        chartCode = 'FZDSR_0000_4'
+        encode = ['BFZDSR_0000_4_1', 'BFZDSR_0000_4_2', 'BFZDSR_0000_4_3', 'BFZDSR_0000_4_4']
+        chartCode = 'BFZDSR_0000_4'
       }
       const dateArr = getMonthsArr(month.split('-')[0], month.split('-')[1], 13, '-')
       const xAxis_d = getMonthsArr(month.split('-')[0], month.split('-')[1], 13, '/')
@@ -325,17 +326,18 @@ export default {
           chart_s.push(s)
           chart_legend.push(s.name)
         })
-        line.series = chart_s
-        line.legend.data = chart_legend
-        line.xAxis[0].data = xAxis_d
-        box.setOption(line)
+        const confit_line = JSON.parse(JSON.stringify(line))
+        confit_line.series = chart_s
+        confit_line.legend.data = chart_legend
+        confit_line.xAxis[0].data = xAxis_d
+        box.setOption(confit_line)
       })
     },
   },
 }
 </script>
 <style lang="scss" scoped>
-.chn {
+.bscf {
   width: 100%;
   display: flex;
   flex-direction: column;

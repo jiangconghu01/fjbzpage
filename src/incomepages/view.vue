@@ -69,7 +69,7 @@
           <el-submenu index="2">
             <template slot="title">
               <i class="el-icon-menu"></i>
-              <span>CHN市场折后账单收入</span>
+              <span>CHN市场账单收入</span>
             </template>
             <el-menu-item-group>
               <el-menu-item index="2-1"><i class="el-icon-tickets"></i>当月收入总览</el-menu-item>
@@ -95,6 +95,7 @@
             </template>
             <el-menu-item-group>
               <el-menu-item index="4-1"><i class="el-icon-tickets"></i>政企市场(B)收入情况</el-menu-item>
+              <el-menu-item index="5-1"><i class="el-icon-tickets"></i>B市场非账单收入</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
@@ -200,6 +201,7 @@ export default {
     titleText() {
       const pageMap = {
         chn: 'CHN市场非账单收入',
+        bscf: 'B市场非账单收入',
         zqsc: '政企市场(B)收入情况',
         zl: '通信服务收入总览',
       }
@@ -356,6 +358,8 @@ export default {
         page = 'chn'
       } else if (key === '4-1') {
         page = 'zqsc'
+      } else if (key === '5-1') {
+        page = 'bscf'
       }
       this.currentPage = page
       this.$router.push({ name: page })

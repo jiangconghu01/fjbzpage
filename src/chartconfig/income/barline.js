@@ -112,7 +112,7 @@ const option = {
       //   name: '同比',
       axisLabel: {
         formatter: function (p) {
-          return (p * 100).toFixed(0) + '%'
+          return p + '%'
         },
         color: fontColor,
       },

@@ -420,13 +420,13 @@ export default {
         zLbar.xAxis[0].data = xData
         zLbar.series[0].data = before_d.map((val) => {
           if (sum_before) {
-            val.value = ((val.value / sum_before) * 100).toFixed(2)
+            val.value1 = ((val.value / sum_before) * 100).toFixed(2)
           }
           return val
         })
         zLbar.series[1].data = curr_d.map((val) => {
           if (sum_curr) {
-            val.value = ((val.value / sum_curr) * 100).toFixed(2)
+            val.value1 = ((val.value / sum_curr) * 100).toFixed(2)
           }
           return val
         })
