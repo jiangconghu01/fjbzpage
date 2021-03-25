@@ -57,6 +57,7 @@ function getDatesParams(dates, cityCodeArr, encodeArray, chartCode, type) {
       for (let i = 0, len2 = encodeArray.length; i < len2; i++) {
         const ele = encodeArray[i]
         paramStr += '{"chartCode":"' + chartCode + '","idxCde":"' + ele + '","chnlType":"' + type + '","accountCode":"' + element + '","periodDate":"' + date + '","rptType":"1' + '"},'
+        // paramStr += '{"chartCode":"' + chartCode + '","idxCde":"' + ele + '","chnlType":"' + type + '","accountCode":"' + element + '","periodDate":"' + date + '"},'
       }
     }
   }
@@ -108,15 +109,12 @@ function handleMapdata(arr, cityarr, fix = 0) {
     const val = {
       name: ele.orgDefName,
       orgCode: ele.orgCode,
+      orgName: ele.orgDefName,
     }
     for (let index = 0; index < arr.length; index++) {
       const element = arr[index]
       if (element.accountCode == ele.orgCode) {
-        if (val.value2 === undefined) {
-          val.value2 = Number(element.idxValue).toFixed(fix)
-        } else {
-          val.value = Number(element.idxValue).toFixed(fix)
-        }
+        val.value = Number(element.idxValue).toFixed(fix)
       }
     }
     return val

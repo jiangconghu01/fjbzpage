@@ -50,12 +50,16 @@
         </div>
       </div>
     </div>
-    <div class="left-mu">
+    <div v-show="showIcomeType" class="income-switch-btn" :style="currentPage === 'clkh' || currentPage === 'xzlw' ? { top: 'calc(11% - 9px)' } : {}">
+      <div class="zq" :class="[incomeType === 'zq' ? 'current' : '']" @click="toDataSwitch('zq')"><i>折前</i></div>
+      <div class="zh" :class="[incomeType === 'zh' ? 'current' : '']" @click="toDataSwitch('zh')"><i>折后</i></div>
+    </div>
+    <div class="left-mu" :style="currentPage === 'clkh' || currentPage === 'xzlw' ? { top: 'calc(11% - 9px)' } : {}">
       <div ref="mubtn" class="frame" @click="showMuList">
         <img class="bk" src="../static/income/index/select.png" alt="" />
         <span class="ph">点击选择菜单</span>
       </div>
-      <div v-if="isShowMuList" ref="mudom">
+      <div v-if="isShowMuList" ref="mudom" class="mu-scroll">
         <el-menu :default-active="dfmu" class="el-menu-left" @open="handleOpen" @close="handleClose" @select="selectMu">
           <el-submenu index="1">
             <template slot="title">
@@ -76,7 +80,7 @@
               <el-menu-item index="2-2"><i class="el-icon-tickets"></i>收入变动历史趋势分析</el-menu-item>
               <el-menu-item index="2-3"><i class="el-icon-tickets"></i>新增/离网分析</el-menu-item>
               <el-menu-item index="2-4"><i class="el-icon-tickets"></i>存量客户升档/降档分析</el-menu-item>
-              <el-menu-item index="2-5"><i class="el-icon-tickets"></i>当月折后收入总览</el-menu-item>
+              <!-- <el-menu-item index="2-5"><i class="el-icon-tickets"></i>当月折后收入总览</el-menu-item> -->
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="3">
@@ -101,7 +105,7 @@
         </el-menu>
       </div>
     </div>
-    <div id="top-mu-box" class="top-mu" :class="!isShowMu ? '' : 'open_mu'">
+    <!-- <div id="top-mu-box" class="top-mu" :class="!isShowMu ? '' : 'open_mu'">
       <svg class="mu-svg mu" viewBox="0 0 928 253" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <g id="桌面端" transform="translate(-201.000000, -137.000000)" stroke="rgba(55, 178, 255, 0.7)">
           <g id="svg-lines" transform="translate(202.013952, 138.146694)" fill="none">
@@ -150,7 +154,7 @@
           </ul>
         </div>
       </div>
-    </div>
+    </div> -->
     <router-view :class="['child-page', isShowMu ? 'is_open_mu' : '']" />
     <!-- <Spin v-show="isloading" fix @mouseenter.native="hlayer"> -->
     <Spin v-show="isloading" fix>
@@ -163,7 +167,7 @@
 const routerArr = ['zl', 'chn', 'zqsc']
 import SmSelect from '@/components/sm.select.vue'
 import SmCascader from '@/components/sm.cascader.vue'
-import { beforeMonth, getQueryVariable } from './page.util'
+import { beforeMonth, getQueryVariable, findeUpCityObj } from './page.util'
 import { mapGetters, mapMutations } from 'vuex'
 let timer = null
 export default {
@@ -180,11 +184,12 @@ export default {
       stypeList: [],
       cityList: [],
       value: [],
+      dataType: 'zq',
       //   options: [],
     }
   },
   computed: {
-    ...mapGetters(['month', 'orgCode', 'isloading', 'muLabel', 'authCityLevel', 'listAuth']),
+    ...mapGetters(['month', 'orgCode', 'isloading', 'muLabel', 'authCityLevel', 'listAuth', 'incomeType']),
     options() {
       const level = JSON.parse(JSON.stringify(this.$cityLevel))
       level.label = level.name
@@ -198,12 +203,24 @@ export default {
       this.setOrgCode(level)
       return [level]
     },
+    showIcomeType() {
+      const showTagList = ['chnzl', 'clkh', 'srfx', 'xzlw']
+      if (showTagList.indexOf(this.currentPage) > -1) {
+        return true
+      } else {
+        return false
+      }
+    },
     titleText() {
       const pageMap = {
         chn: 'CHN市场非账单收入',
         bscf: 'B市场非账单收入',
         zqsc: '政企市场(B)收入情况',
         zl: '通信服务收入总览',
+        chnzl: '当月收入总览',
+        srfx: '收入变动历史趋势分析',
+        xzlw: '新增/离网分析',
+        clkh: '存量客户升档/降档分析',
       }
       return pageMap[this.currentPage]
     },
@@ -243,9 +260,9 @@ export default {
     //   },
     //   //   immediate: true,
     // },
-    // orgCode(newval) {
-    //   this.asyncCascaderValue(newval)
-    // },
+    orgCode(newval) {
+      this.asyncCascaderValue(newval)
+    },
     value(nv) {
       console.log(nv)
       if (this.$refs.refHandle) {
@@ -273,21 +290,24 @@ export default {
     document.removeEventListener('click', this.outsideClick)
   },
   methods: {
-    ...mapMutations(['setMonth', 'setOrgCode']),
-    // asyncCascaderValue(newval) {
-    //   const t = findeUpCityObj(this.authCityLevel, newval.orgCode)
-    //   let cityLevelArr = []
-    //   if (t.self.orgLevel == '1') {
-    //     cityLevelArr = [t.self.orgCode]
-    //   }
-    //   if (t.self.orgLevel == '2') {
-    //     cityLevelArr = [t.parent.orgCode, t.self.orgCode]
-    //   }
-    //   if (t.self.orgLevel == '3') {
-    //     cityLevelArr = ['59', t.parent.orgCode, t.self.orgCode]
-    //   }
-    //   this.value = cityLevelArr
-    // },
+    ...mapMutations(['setMonth', 'setOrgCode', 'setIncomeType']),
+    asyncCascaderValue(newval) {
+      const t = findeUpCityObj(this.authCityLevel, newval.value)
+      let cityLevelArr = []
+      if (t.self.orgLevel == '1') {
+        cityLevelArr = [t.self.orgCode]
+      }
+      if (t.self.orgLevel == '2') {
+        cityLevelArr = [t.parent.orgCode, t.self.orgCode]
+      }
+      if (t.self.orgLevel == '3') {
+        cityLevelArr = ['59', t.parent.orgCode, t.self.orgCode]
+      }
+      this.value = cityLevelArr
+    },
+    toDataSwitch(param) {
+      this.setIncomeType(param)
+    },
     setUrlParam() {
       const orgCode = getQueryVariable('orgCode')
       const month = getQueryVariable('date')
@@ -332,30 +352,40 @@ export default {
       //   console.log(key, keyPath)
     },
     selectMu(key, keyPath) {
-      const p_mu = key.split('-')[0]
-      const level2_id = key.split('-')[1]
-      const orgCodeUrl = getQueryVariable('orgCode')
-      const monthUrl = getQueryVariable('date')
-      if (p_mu === '2') {
-        let month = this.month
-        let code = ''
-        if (this.orgCode && this.orgCode.value) {
-          code = this.orgCode.value
-        } else {
-          code = orgCodeUrl
-        }
-        const viewCode = '10' + level2_id
-        this.isShowMuList = false
-        const host = this.getRootPath_dc()
-        window.location.href = host + `/bigScreen/income/gotoScheme?viewCode=${viewCode}&date=${month}&orgCode=${code}`
-        // window.open(`/bigScreen/income/gotoScheme?viewCode=${viewCode}&date=${month}&orgCode=${code}`)
-        return
-      }
+      //原来老页面跳转
+      //   const p_mu = key.split('-')[0]
+      //   const level2_id = key.split('-')[1]
+      //   const orgCodeUrl = getQueryVariable('orgCode')
+      //   const monthUrl = getQueryVariable('date')
+      //   if (p_mu === '2') {
+      //     let month = this.month
+      //     let code = ''
+      //     if (this.orgCode && this.orgCode.value) {
+      //       code = this.orgCode.value
+      //     } else {
+      //       code = orgCodeUrl
+      //     }
+      //     const viewCode = '10' + level2_id
+      //     this.isShowMuList = false
+      //     const host = this.getRootPath_dc()
+      //     window.location.href = host + `/bigScreen/income/gotoScheme?viewCode=${viewCode}&date=${month}&orgCode=${code}`
+      //     return
+      //   }
       let page = 'zl'
       if (key === '1-1') {
         page = 'zl'
       } else if (key === '3-1') {
         page = 'chn'
+      } else if (key === '2-1') {
+        page = 'chnzl'
+      } else if (key === '2-2') {
+        page = 'srfx'
+      } else if (key === '2-3') {
+        page = 'xzlw'
+      } else if (key === '2-4') {
+        page = 'clkh'
+      } else if (key === '2-5') {
+        page = 'zhsr'
       } else if (key === '4-1') {
         page = 'zqsc'
       } else if (key === '5-1') {
@@ -508,21 +538,26 @@ export default {
     position: absolute;
     left: 20px;
     // top: 7.5%;
-    top: calc(10% - 32px);
+    top: calc(11% - 28px);
+    height: 89%;
     z-index: 10;
+    .mu-scroll {
+      height: calc(100% - 20px);
+      overflow-y: auto;
+    }
     .frame {
       cursor: pointer;
-      width: 130px;
-      height: 32px;
+      width: 112px;
+      height: 28px;
       position: relative;
       img {
-        width: 130px;
-        height: 30px;
+        width: 112px;
+        height: 28px;
       }
       .ph {
         width: 100%;
-        height: 32px;
-        line-height: 32px;
+        height: 28px;
+        line-height: 28px;
         text-align: center;
         display: inline-block;
         position: absolute;
@@ -558,6 +593,60 @@ export default {
           font-weight: bold;
           color: #409eff;
         }
+      }
+    }
+  }
+  .income-switch-btn {
+    position: absolute;
+    left: 145px;
+    z-index: 10;
+    top: calc(11% - 28px);
+    display: flex;
+    background: url('../static/income/index/select.png') no-repeat;
+    background-size: contain;
+    & > div {
+      width: 56px;
+      height: 28px;
+      position: relative;
+      //   padding: 5px 40px;
+      //   border: 1px solid #02e8fe;
+      //   background: rgba(35, 72, 190, 0.5);
+      cursor: pointer;
+      display: flex;
+
+      align-items: center;
+
+      i {
+        display: inline-block;
+        width: 52px;
+        height: 22px;
+        line-height: 22px;
+        text-align: center;
+      }
+    }
+    .zq {
+      justify-content: flex-end;
+      i {
+        width: 53px;
+      }
+    }
+    .zh {
+      justify-content: flex-start;
+    }
+    .zh::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 1px;
+      height: 24px;
+      background: rgba(64, 233, 255, 0.836);
+      left: 0px;
+      top: 2px;
+    }
+    .current {
+      //   background: #409eff;
+      i {
+        background: rgb(58, 128, 235);
       }
     }
   }
@@ -657,8 +746,8 @@ export default {
   }
   .child-page {
     position: absolute;
-    top: 10%;
-    height: 90%;
+    top: 11%;
+    height: 89%;
     width: 100%;
     // transition: all 0.25s;
     &.is_open_mu {
@@ -694,7 +783,7 @@ export default {
       height: 100%;
       .logo-img {
         margin-top: 20px;
-        width: 70%;
+        width: 65%;
       }
       .back {
         display: flex;

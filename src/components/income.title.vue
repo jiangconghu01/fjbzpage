@@ -39,7 +39,7 @@ export default {
   position: relative;
   display: inline-block;
   min-width: 120px;
-  height: 32px;
+  height: 28px;
   //   line-height: 32px;
   font-size: 16px;
   text-align: center;

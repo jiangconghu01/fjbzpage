@@ -8,8 +8,8 @@ const webpack = require('webpack')
 // const baseTestUrl = 'http://localhost:8750/'
 // const baseTestUrl = 'http://192.168.1.118:8750/'
 // const baseTestUrl = 'http://192.168.1.167:8750/'
-// const baseTestUrl = 'http://192.168.0.134:8850/'
-const baseTestUrl = 'http://192.168.0.119:8750/'
+// const baseTestUrl = 'http://192.168.1.230:8750/'
+const baseTestUrl = 'http://192.168.0.129:8750/'
 module.exports = merge(common, {
   mode: 'development',
   devServer: {

@@ -18,6 +18,7 @@ const state = {
   authCityLevel: [],
   listAuth: [],
   updateTime: '',
+  incomeType: 'zq',
 }
 const getters = {
   month(state) {
@@ -50,6 +51,9 @@ const getters = {
   listAuth(state) {
     return state.listAuth
   },
+  incomeType(state) {
+    return state.incomeType
+  },
 }
 const mutations = {
   setMonth(state, param) {
@@ -81,6 +85,9 @@ const mutations = {
   },
   setListAuth(state, param) {
     state.listAuth = param
+  },
+  setIncomeType(state, param) {
+    state.incomeType = param
   },
 }
 const actions = {

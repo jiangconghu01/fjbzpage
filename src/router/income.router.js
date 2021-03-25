@@ -37,6 +37,26 @@ const router = new VueRouter({
           name: 'zqsc',
           component: () => import('@/incomepages/view/zqsc.vue'),
         },
+        {
+          path: '/view/chn/zl',
+          name: 'chnzl',
+          component: () => import('@/incomepages/view/chnzd/zl.vue'),
+        },
+        {
+          path: '/view/chn/clkh',
+          name: 'clkh',
+          component: () => import('@/incomepages/view/chnzd/clkh.vue'),
+        },
+        {
+          path: '/view/chn/srfx',
+          name: 'srfx',
+          component: () => import('@/incomepages/view/chnzd/srfx.vue'),
+        },
+        {
+          path: '/view/chn/xzlw',
+          name: 'xzlw',
+          component: () => import('@/incomepages/view/chnzd/xzlw.vue'),
+        },
       ],
     },
   ],
@@ -58,6 +78,10 @@ router.beforeEach(async (to, from, next) => {
     chn: '107',
     zqsc: '108',
     bscf: '109',
+    chnzl: '101',
+    clkh: '104',
+    srfx: '102',
+    xzlw: '103',
   }
   let orgLevelObj = []
   let flag = false
